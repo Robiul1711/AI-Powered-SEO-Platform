@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["DOM", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",                       // React 17+ JSX runtime
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,                    // avoid framer-motion / other lib type conflicts
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": ["vite/client"]                  // important for import.meta.env and JSX
+  },
+  "include": ["src", "src/custom.d.ts", "src/env.d.ts"],
+  "exclude": ["node_modules"]
+}
