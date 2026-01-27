@@ -7,7 +7,7 @@ import GridBackgroundView from "../components/common/GridBackgroundView";
 const Layout: React.FC = () => {
       useUserProfile();
   return (
-    <>
+    <div className="bg-[]">
           {/* Background Layer */}
       <div className="fixed inset-0 -z-10 h-full w-full">
         <GridBackgroundView
@@ -16,7 +16,7 @@ const Layout: React.FC = () => {
       <Navbar />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 };
 

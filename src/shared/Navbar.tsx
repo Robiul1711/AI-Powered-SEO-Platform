@@ -6,7 +6,16 @@ import { useState, useRef, useEffect } from "react";
 
 const Navbar = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -41,8 +50,18 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="section-padding-x w-full z-50 fixed top-8 left-0 right-0">
-      <div className="py-4 flex justify-between items-center px-8 rounded-full bg-white shadow-custom animate-fade-in-down">
+    <div
+      className={`section-padding-x w-full z-50 fixed transition-all duration-300 left-0 right-0 ${
+        isScrolled ? "top-2" : "top-8"
+      }`}
+    >
+      <div
+        className={`flex justify-between items-center px-8 rounded-full shadow-custom animate-fade-in-down transition-all duration-300 ${
+          isScrolled
+            ? "py-3 bg-white backdrop-blur-lg border border-white/20"
+            : "py-4 bg-white"
+        }`}
+      >
         {/* Logo Section */}
         <NavLink to="/" className="shrink-0">
           <img src={logo} alt="Logo" className="h-10 w-auto" />
