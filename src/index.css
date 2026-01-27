@@ -1,18 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
-
 @theme {
   /* font */
-  --font-roboto: "Roboto", sans-serif;;
-  --font-roboto:  "Geist", sans-serif;
+  --font-orbitron: "Orbitron", sans-serif;
+  --font-inter: "Inter", sans-serif;
 
   /* color */
 
-  --color-primary: green;
-  --color-bg-custom: linear-gradient(red, yellow);
+  --color-Primary: #AC6CFF;
+  --background-image-bg-custom: linear-gradient(
+    94deg,
+    #ac6cff 26.27%,
+    #6c9aff 132.28%
+  );
 
   /* breakpoint */
   --breakpoint-xxs: 390px;
@@ -28,7 +32,9 @@
 
   /* shadow */
 
-  --shadow-custom: 0px 4px 16.2px 2px rgba(0, 0, 0, 0.2);
+  --shadow-custom:
+    0 4px 20px 0 rgba(0, 0, 0, 0.25), -4px -4px 4px 0 rgba(0, 0, 0, 0.25) inset,
+    4px 4px 16px 0 rgba(0, 0, 0, 0.25) inset;
 
   /* radius */
   --radius: 0.5rem;
@@ -169,5 +175,62 @@
   }
   body {
     @apply bg-background text-foreground;
+
+    font-family: var(--font-orbitron);
   }
+}
+
+.section-padding-x {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.section-padding-y {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+@media screen and (min-width: 650px) {
+  .section-padding-x {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .section-padding-y {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+@media screen and (min-width: 1460px) {
+  .section-padding-x {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+  .section-padding-y {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+/* Thin Neon Cyan Scrollbar */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ac6cff;
+  border-radius: 10px;
+  box-shadow: 0 0 8px #ac6cff;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ac6cff transparent;
 }

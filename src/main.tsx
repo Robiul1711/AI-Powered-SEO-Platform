@@ -23,7 +23,7 @@ createRoot(rootElement).render(
         {/* 3. PersistGate requires the 'persistor' prop and optional 'loading' */}
         <PersistGate loading={null} persistor={persistor}>
           <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </PersistGate>
       </Provider>
     </QueryClientProvider>
