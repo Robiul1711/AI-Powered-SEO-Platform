@@ -1,0 +1,100 @@
+import GlowText from "@/components/common/GlowText";
+import TagLines from "@/components/common/TagLines";
+import { Layout, MapPin, Star, CheckCircle2 } from "lucide-react";
+
+const businessData = [
+  {
+    title: "GMB setup",
+    icon: <Layout className="w-6 h-6 text-purple-400" />,
+    features: [
+      "Complete GMB profile setup & optimization",
+      "Business hours & category optimization",
+      "Photo & video uploads",
+      "Post scheduling & management",
+      "Q&A monitoring & responses",
+      "Insights & analytics tracking",
+    ],
+  },
+  {
+    title: "Citation Building",
+    icon: <MapPin className="w-6 h-6 text-purple-400" />,
+    features: [
+      "Top 50 local directory submissions",
+      "NAP consistency verification",
+      "Duplicate listing clean-up",
+      "Industry-specific directories",
+      "Monthly citation monitoring",
+      "New citation opportunities",
+    ],
+  },
+  {
+    title: "Review Management",
+    icon: <Star className="w-6 h-6 text-purple-400" />,
+    features: [
+      "Review monitoring across platforms",
+      "Review response templates",
+      "Reputation score tracking",
+      "Review generation campaigns",
+      "Negative review management",
+      "Monthly performance reports",
+    ],
+  },
+];
+
+export default function CommonBusiness() {
+  return (
+    <div className="min-h-screen bg-[#0a0a0c] text-white py-16 px-4 font-sans">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-16">
+          <TagLines>Business</TagLines>
+          <h1 className="text-4xl md:text-5xl mb-4 tracking-tight font-medium">
+            Google <GlowText>Business</GlowText>
+            Optimization
+          </h1>
+          <p className="text-zinc-500 text-sm md:text-base">
+            Everything You Need To Dominate Local Search
+          </p>
+        </div>
+
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {businessData.map((item, index) => (
+            <div
+              key={index}
+              className="bg-[#18181b] rounded-3xl p-8 border border-zinc-800 shadow-2xl transition-transform hover:scale-[1.02]"
+            >
+              {/* Icon Header */}
+              <div className="bg-zinc-900/50 border border-zinc-700 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+                {item.icon}
+              </div>
+
+              <h3 className="text-xl font-semibold mb-6 tracking-wide">
+                {item.title}
+              </h3>
+
+              {/* Feature List */}
+              <div className="bg-[#202023] rounded-2xl p-6 space-y-4 border border-zinc-800/50">
+                {item.features.map((feature, fIdx) => (
+                  <div key={fIdx} className="flex items-start gap-3 group">
+                    <div className="mt-1 shrink-0">
+                      <div className="bg-purple-600 rounded-full p-0.5">
+                        <CheckCircle2
+                          className="w-3.5 h-3.5 text-white"
+                          strokeWidth={3}
+                        />
+                      </div>
+                    </div>
+                    <p className="text-sm text-zinc-300 group-hover:text-white transition-colors">
+                      {feature}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
