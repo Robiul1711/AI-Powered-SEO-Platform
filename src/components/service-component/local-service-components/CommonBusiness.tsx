@@ -1,3 +1,5 @@
+import GlowText from "@/components/common/GlowText";
+import TagLines from "@/components/common/TagLines";
 import { Layout, MapPin, Star, CheckCircle2 } from "lucide-react";
 
 const businessData = [
@@ -45,11 +47,9 @@ export default function CommonBusiness() {
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">
-          <div className="inline-block px-4 py-1 mb-4 rounded-full bg-zinc-800 border border-zinc-700 text-xs font-medium uppercase tracking-widest text-zinc-400">
-            Business
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-            Google <span className="text-purple-500">Business</span>{" "}
+          <TagLines>Business</TagLines>
+          <h1 className="text-4xl md:text-5xl mb-4 tracking-tight font-medium">
+            Google <GlowText>Business</GlowText>
             Optimization
           </h1>
           <p className="text-zinc-500 text-sm md:text-base">
