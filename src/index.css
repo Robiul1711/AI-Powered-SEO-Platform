@@ -11,7 +11,7 @@
 
   /* color */
 
-  --color-Primary: #AC6CFF;
+  --color-Primary: #ac6cff;
   --background-image-bg-custom: linear-gradient(
     94deg,
     #ac6cff 26.27%,
@@ -102,8 +102,8 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: #050505;
+  --foreground: #ffffff;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -175,7 +175,6 @@
   }
   body {
     @apply bg-background text-foreground;
-
     font-family: var(--font-orbitron);
   }
 }
@@ -214,6 +213,45 @@
 button {
   cursor: pointer;
 }
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes waves {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.waves {
+  width: 150px;
+  height: 150px;
+  animation: waves 3s ease-in-out infinite;
+  opacity: 0;
+}
+
+.wave-1 {
+  animation-delay: 0s;
+}
+.wave-2 {
+  animation-delay: 1s;
+}
+.wave-3 {
+  animation-delay: 2s;
+}
+
+
 /* Thin Neon Cyan Scrollbar */
 ::-webkit-scrollbar {
   width: 2px;
