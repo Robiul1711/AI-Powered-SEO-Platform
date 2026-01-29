@@ -36,10 +36,10 @@ const FAQ = () => {
     },
   ];
 
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
 
-  const handleToggle = (index) =>
+  const handleToggle = (index: number) =>
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
 
   return (

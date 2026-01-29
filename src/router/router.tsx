@@ -7,6 +7,18 @@ import MonthlyService from "@/components/service-component/MonthlyService";
 import LocalService from "@/components/service-component/LocalService";
 import PpcService from "@/components/service-component/PpcService";
 import ContentWriting from "@/components/service-component/ContentWriting";
+import SEOAudit from "@/pages/aiSeoAuditPage/SEOAudit";
+import Contact from "@/pages/contactPage/Contact";
+import CaseStudies from "@/pages/caseStudiesPage/CaseStudies";
+import Pricing from "@/pages/pricingPage/Pricing";
+
+import AuthLayout from "../layout/AuthLayout";
+import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
+import ForgotPassword from "../pages/auth/ForgotPassword";
+import VerifyOtp from "../pages/auth/VerifyOtp";
+import ResetPassword from "../pages/auth/ResetPassword";
+import SimpleCheckout from "@/pages/simpleCheckoutPage/SimpleCheckout";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +26,11 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "ai-seo-audit", element: <SEOAudit /> },
+      { path: "contact", element: <Contact /> },
+      { path: "case-studies", element: <CaseStudies /> },
+      { path: "pricing", element: <Pricing /> },
+      { path: "simple-checkout", element: <SimpleCheckout /> },
       {
         path: "services",
         element: <Service />,
@@ -24,6 +41,17 @@ const router = createBrowserRouter([
           { path: "content-writing", element: <ContentWriting /> },
         ],
       },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "forgot-password", element: <ForgotPassword /> },
+      { path: "verify-otp", element: <VerifyOtp /> },
+      { path: "reset-password", element: <ResetPassword /> },
     ],
   },
   {

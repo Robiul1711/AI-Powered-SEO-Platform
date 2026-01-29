@@ -50,7 +50,15 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative w-full bg-[#050505]  ">
+   <footer
+  className="relative w-full 
+  rounded-t-[24px]
+  border-[1.5px] border-white/15
+  bg-[rgba(12,12,12,0.70)]
+  shadow-[inset_2px_4px_16px_0_rgba(172,108,255,0.27)]
+  backdrop-blur-[50px]"
+>
+
       <div className="section-padding-x py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-12 gap-12 lg:gap-8">
           {/* Brand Column */}

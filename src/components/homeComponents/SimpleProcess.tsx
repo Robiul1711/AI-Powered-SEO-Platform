@@ -1,6 +1,7 @@
 import React from "react";
 import TagLines from "../common/TagLines";
 import Title from "../common/Title";
+import bannerShadow from "@/assets/images/bannerShadow.png";
 import {
   Website,
   Proposal,
@@ -51,7 +52,11 @@ const SimpleProcess = () => {
   ];
 
   return (
-    <div className="section-padding-x section-padding-y">
+    <section className="relative">
+      <div className="absolute -top-28 -z-30">
+  <img src={bannerShadow} alt="" className="w-full h-auto " />
+</div>
+    <div className="section-padding-x section-padding-y ">
       <div className="flex flex-col items-center gap-4 font-inter">
         <TagLines>Simple Process</TagLines>
         <Title level="title48" className="text-white">
@@ -98,6 +103,8 @@ const SimpleProcess = () => {
         ))}
       </div>
     </div>
+
+    </section>
   );
 };
 
