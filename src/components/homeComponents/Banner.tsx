@@ -1,5 +1,6 @@
 import bannerBg from "@/assets/images/bannerBg.png";
 import bannerBg2 from "@/assets/images/bannerBg2.png";
+
 import CommonButton from "../common/CommonButton";
 import TagLines from "../common/TagLines";
 import GlowText from "../common/GlowText";
@@ -12,7 +13,7 @@ const Banner = () => {
         <img
           src={bannerBg}
           alt=""
-          className="w-full h-full object-cover "
+          className="w-full h-full object-cover rounded-b-[50px] "
         />
       </div>
 
@@ -21,23 +22,26 @@ const Banner = () => {
         <TagLines> AI-Powered SEO Automation</TagLines>
 
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-medium text-white mb-6 leading-tight font-orbitron">
-       AI-Powered SEO Platform That <GlowText className="">Automates Growth</GlowText>
+          AI-Powered SEO Platform That 
+          <GlowText className="">Automates Growth</GlowText>
         </h1>
 
         <p className="text-base sm:text-lg text-white/60 mb-10 max-w-3xl font-inter">
-          Transform your website's visibility with intelligent automation. Our AI analyzes, optimizes, and delivers measurable results while you focus on growing your business
+          Transform your website's visibility with intelligent automation. Our
+          AI analyzes, optimizes, and delivers measurable results while you
+          focus on growing your business
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <CommonButton className="bg-bg-custom text-white! px-10! py-4! text-lg! shadow-[0_0_30px_rgba(172,108,255,0.4)]">
-      Run Free AI SEO Audit
+            Run Free AI SEO Audit
           </CommonButton>
           <CommonButton
             as="link"
             to="/services"
             className="bg-[#FFFFFF]/35 border border-white/20 text-white! px-10! py-4! text-lg! hover:border-[#AC6CFF] hover:text-[#AC6CFF]!"
           >
-           Access Client Dashbord
+            Access Client Dashbord
           </CommonButton>
         </div>
       </div>

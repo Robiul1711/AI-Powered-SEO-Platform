@@ -46,8 +46,8 @@ export default function GridBackgroundView() {
   return (
     // UPDATED: Added dark:bg-slate-950 to switch background to dark in dark mode
     <div className="relative w-full h-screen ">
-      <div className="w-[871px] h-[871px] bg-[#C371EF] rounded-[871px] opacity-[0.37] blur-[403px] absolute top-[-40%] left-[-30%] "></div>
-      <div className="w-[871px] h-[871px] bg-[#C371EF] rounded-[871px] opacity-[0.37] blur-[403px] absolute top-[-40%] right-[-30%] "></div>
+      <div className="w-[871px] h-screen bg-[rgba(181,_124,_255,_0.45)] rounded-[871px] opacity-[1] blur-[403px] absolute top-[-20%] left-[-20%] "></div>
+      <div className="w-[871px] h-screen bg-[rgba(181,_124,_255,_0.45)] rounded-[871px] opacity-[1] blur-[403px] absolute top-[-20%] right-[-20%] "></div>
       <GridBackground />
     </div>
   );

@@ -143,7 +143,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3 sm:gap-5">
           <CommonButton
             as="link"
-            to="/auth/signup"
+            to="/auth/register"
             className="bg-transparent! text-black! border border-[#CDCDCD] hover:border-[#AC6CFF] hover:text-[#AC6CFF]! px-4! sm:px-8!"
           >
             Sign Up

@@ -72,22 +72,20 @@ const PowerfulFeatures = () => {
         {steps.map((step) => (
           <div
             key={step.id}
-            className="
-    group relative p-6
-    rounded-[24px]
-    border border-[rgba(255,255,255,0.21)]
-
-  "
+            className="group relative p-8 rounded-[24px] border border-white/10 transition-all duration-500 hover:border-[#AC6CFF]/50 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(172,108,255,0.15)] cursor-pointer overflow-hidden backdrop-blur-sm"
             style={{
               backgroundImage: `url(${featureCardBg})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            <div className="flex flex-col  gap-3">
+            {/* Subtle Hover Gradient Glow */}
+            <div className="absolute -inset-1 bg-linear-to-r from-[#AC6CFF]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+
+            <div className="flex flex-col gap-6 relative z-10 h-full">
               {/* Icon Container */}
               <div
-                className="p-4 "
+                className="p-5 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-[0_0_25px_rgba(172,108,255,0.3)] rounded-2xl flex items-center justify-center"
                 style={{
                   backgroundImage: `url(${iconBg})`,
                   backgroundSize: "cover",
@@ -95,28 +93,36 @@ const PowerfulFeatures = () => {
                   width: "fit-content",
                 }}
               >
-                {step.icon}
+                <div className="transition-transform duration-500 group-hover:scale-110">
+                  {step.icon}
+                </div>
               </div>
 
-              <Title level="title20" className="text-white font-semibold">
-                {step.title}
-              </Title>
-              <p className="text-white/50 text-sm leading-relaxed">
-                {step.desc}
-              </p>
+              <div className="space-y-3">
+                <Title
+                  level="title20"
+                  className="text-white font-semibold transition-colors duration-300 group-hover:text-[#AC6CFF]"
+                >
+                  {step.title}
+                </Title>
+                <p className="text-white/60 text-sm leading-relaxed transition-colors duration-300 group-hover:text-white/90">
+                  {step.desc}
+                </p>
+              </div>
+
+              {/* Decorative line on hover */}
+              <div className="w-0 h-[2px] bg-[#AC6CFF] transition-all duration-500 group-hover:w-12" />
             </div>
           </div>
         ))}
       </div>
       <div>
-
-      <div className="relative">
-        <img src={videoBg} alt="" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-
-        <VideoButton onClick={() => {}} />
+        <div className="relative">
+          <img src={videoBg} alt="" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <VideoButton onClick={() => {}} />
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
