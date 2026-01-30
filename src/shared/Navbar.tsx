@@ -31,6 +31,7 @@ const Navbar = () => {
     },
     { name: "AI SEO Audit", path: "/ai-seo-audit" },
     { name: "Pricing", path: "/pricing" },
+    { name: "About", path: "/about" },
     { name: "Case Studies", path: "/case-studies" },
     { name: "Contact", path: "/contact" },
   ];

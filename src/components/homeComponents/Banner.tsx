@@ -18,12 +18,12 @@ const Banner = () => {
       </div>
 
       {/* Content Container */}
-      <div className="section-padding-x flex flex-col items-center text-center  mx-auto">
+      <div className="section-padding-x flex flex-col items-center text-center max-w-[1200px]  mx-auto">
         <TagLines> AI-Powered SEO Automation</TagLines>
 
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-medium text-white mb-6 leading-tight font-orbitron">
+        <h1 className="text-4xl sm:text-6xl mt-10 font-semibold text-white mb-6 leading-tight font-orbitron">
           AI-Powered SEO Platform That 
-          <GlowText className="">Automates Growth</GlowText>
+          <GlowText className=""> Automates Growth</GlowText>
         </h1>
 
         <p className="text-base sm:text-lg text-white/60 mb-10 max-w-3xl font-inter">
@@ -47,7 +47,7 @@ const Banner = () => {
       </div>
 
       {/* Bottom Centered Image */}
-      <div className="mt-16 lg:mt-24 relative flex justify-center w-full">
+      <div className="mt-10  relative flex justify-center w-full">
         <img
           src={bannerBg2}
           alt=""

@@ -48,7 +48,7 @@ const PricingCard = ({
   
   ${
     isFeatured
-      ? "bg-[linear-gradient(162deg,_#2D2D2D_0.9%,_#060606_99.1%)] border-[4.991px]   border-[4.991px solid rgba(255,255,255,0.10)]"
+      ? "bg-[linear-gradient(162deg,_#2D2D2D_0.9%,_#060606_99.1%)] border-[4.991px]   border-[#B57CFF]"
       : "  border-[4.991px]   bg-[linear-gradient(162deg,_#2D2D2D_0.97%,_#060606_99.03%)] border-white/10 border-white/10 border-white/20 bg-white/[0.07]"
   }`}
 >
