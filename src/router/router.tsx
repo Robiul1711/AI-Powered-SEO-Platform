@@ -19,6 +19,7 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import VerifyOtp from "../pages/auth/VerifyOtp";
 import ResetPassword from "../pages/auth/ResetPassword";
 import SimpleCheckout from "@/pages/simpleCheckoutPage/SimpleCheckout";
+import AboutPage from "@/pages/aboutPage/AboutPage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: "ai-seo-audit", element: <SEOAudit /> },
       { path: "contact", element: <Contact /> },
       { path: "case-studies", element: <CaseStudies /> },
+      { path: "about", element: <AboutPage /> },
       { path: "pricing", element: <Pricing /> },
       { path: "simple-checkout", element: <SimpleCheckout /> },
       {
