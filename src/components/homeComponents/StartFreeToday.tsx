@@ -10,7 +10,7 @@ const StartFreeToday = () => {
       <img src={StartFree} alt="" />
       {/* Content Container */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center   mx-auto">
-        <TagLines>Start Free Today</TagLines>
+        <TagLines glowColor={true}>Start Free Today</TagLines>
 
         <Title level="title48" className="max-w-2xl">
           Ready <GlowText>Transform</GlowText>Your SEO
@@ -28,7 +28,7 @@ const StartFreeToday = () => {
           <CommonButton
             as="link"
             to="/services"
-            className="bg-[#FFFFFF]/35 border border-white/20 text-white! px-10! py-4! text-lg! hover:border-[#AC6CFF] hover:text-[#AC6CFF]!"
+            className="bg-[#FFFFFF]/35 border border-white/20 text-white! px-10! py-4! text-lg! hover:border-[#ffff] hover:text-[#ffff]!"
           >
             Access Client Dashboard
           </CommonButton>

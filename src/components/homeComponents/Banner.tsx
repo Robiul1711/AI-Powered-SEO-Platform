@@ -1,13 +1,48 @@
-import bannerBg from "@/assets/images/bannerBg.png";
+import bannerBg from "@/assets/images/bannerBg1.png";
+import mike from "@/assets/images/mike.png";
+import cloud from "@/assets/images/cloud.png";
 import bannerBg2 from "@/assets/images/bannerBg2.png";
 
 import CommonButton from "../common/CommonButton";
 import TagLines from "../common/TagLines";
 import GlowText from "../common/GlowText";
 
+import { motion } from "motion/react";
+
 const Banner = () => {
   return (
     <div className="relative w-full  pt-32 lg:pt-40 overflow-hidden ">
+      <div className="flex justify-between items-center section-padding-x absolute w-full top-[35%] translate-y-[-50%] pointer-events-none z-0">
+        <motion.img
+          src={mike}
+          alt="Mike"
+          className="w-20 md:w-28 lg:w-auto"
+          animate={{ y: [0, -20, 0] }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.img
+          src={cloud}
+          alt="Cloud"
+          className="w-20 md:w-28 lg:w-auto"
+          animate={{ y: [0, -25, 0], rotate: 360 }}
+          transition={{
+            y: {
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            },
+            rotate: {
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            },
+          }}
+        />
+      </div>
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
         <img
@@ -38,8 +73,8 @@ const Banner = () => {
           </CommonButton>
           <CommonButton
             as="link"
-            to="/services"
-            className="bg-[#FFFFFF]/35 border border-white/20 text-white! px-10! py-4! text-lg! hover:border-[#AC6CFF] hover:text-[#AC6CFF]!"
+            to="/dashboard"
+            className="bg-[#FFFFFF]/35 border border-white/20 text-white! px-10! py-4! text-lg! hover:border-[#fff] hover:text-[#fff]!"
           >
             Access Client Dashbord
           </CommonButton>

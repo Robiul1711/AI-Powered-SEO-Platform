@@ -16,6 +16,7 @@ const Home = () => {
       <SimpleProcess />
       <PowerfulFeatures />
       <PricingSection />
+   
       <FAQ />
       <StartFreeToday />
     </div>

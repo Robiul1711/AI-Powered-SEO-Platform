@@ -11,6 +11,7 @@ const ProposalHeader = () => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
+        className="py-5"
       >
         <TagLines> AI • Generated Proposal</TagLines>
       </motion.div>

@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ArrowLeft } from "lucide-react";
 
 const VerifyOtp = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -13,6 +14,7 @@ const VerifyOtp = () => {
     // Combine the values into a single OTP string
     const otp = Object.values(data).join("");
     console.log("OTP Data:", otp);
+    navigate("/auth/reset-password");
   };
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {

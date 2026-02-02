@@ -14,7 +14,7 @@ const GlowText = ({
   const glowStyle = {
     color: "#fff",
     textShadow: `
-      0 0 5px #fff,
+      0 0 1px #fff,
       0 0 5px ${glowColor},
       0 0 5px ${glowColor}
     `,

@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaReact } from "react-icons/fa6";
-
+import footerLogo from "@/assets/images/footerLogo.png";
 /* =======================
    Types
 ======================= */
@@ -71,18 +71,18 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed xl:static top-0 h-full w-[320px] xl:w-[350px] bg-[#F5FBEF] px-4 lg:px-8 py-6 flex flex-col transition-all duration-300 z-[220] shadow-lg
+        className={`fixed font-inter xl:static rounded-4xl top-0 h-full w-[320px] xl:w-[350px] bg-[#151515] backdrop-blur-sm px-4 lg:px-8 py-6 flex flex-col transition-all duration-300 z-[220] shadow-lg
         ${open ? "left-0" : "-left-full"}`}
       >
         {/* Logo */}
-        <Link to="/" onClick={() => setOpen(false)}>
-          <div className="flex justify-center items-center mb-6">
-            <FaReact size={40} className="text-black animate-spin-slow" />
-          </div>
+        <Link to="/" onClick={() => setOpen(false)} className="pb-4">
+         
+            <img src={footerLogo} alt="Logo" />
+      
         </Link>
 
         {/* Navigation */}
-        <nav className="flex flex-col gap-3 flex-1">
+        <nav className="flex flex-col gap-3 flex-1 py-5 border-t border-[#EBEBEB]/19">
           {sidebar.map((item, index) => {
             const parentActive =
               item.sublink?.some((sub) => isActive(sub.path)) ||
@@ -100,11 +100,11 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
                     setActiveParentIndex(null);
                     setOpen(false);
                   }}
-                  className={`flex items-center gap-3 px-4 py-2 rounded-lg text-base font-medium transition-all duration-300
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-300
                   ${
                     isActive(item.activePaths)
-                      ? "bg-[linear-gradient(129deg,#108A00_6.67%,#C8E7A6_116%)] text-white shadow-md"
-                      : "text-gray-700 hover:bg-[#E8F5E1]"
+                      ? "bg-[#F7F7F7]/13 text-[#AC6CFF] shadow-md border-l-4 border-[#AC6CFF] hover:bg-[#F7F7F7]/13"
+                      : "text-[#99A1AF] hover:bg-[#F7F7F7]/13 hover:text-[#AC6CFF] "
                   }`}
                 >
                   {item.icon && <span className="text-lg">{item.icon}</span>}
@@ -173,10 +173,10 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
         </nav>
 
         {/* Logout (Fixed & Clean) */}
-        <div className="mt-auto pt-6 border-t">
+        <div className="mt-auto pt-6 border-t border-[#EBEBEB]/19">
           <button
             className="flex items-center gap-3 w-full px-4 py-2 rounded-lg transition-all duration-300
-            text-gray-700 hover:bg-red-50 hover:text-red-600"
+            text-[#AC6CFF]   hover:bg-[#AC6CFF]/13 hover:text-[#AC6CFF]"
           >
             <IoLogOutOutline size={20} />
             <span className="font-medium">Log Out</span>

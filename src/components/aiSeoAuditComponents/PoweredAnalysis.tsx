@@ -74,12 +74,12 @@ const PoweredAnalysis = () => {
                 placeholder="Enter Your Website (E.G., Example.Com)"
                 className={`w-full bg-[#1A1A1A] border ${errors.website ? "border-red-500" : "border-white/10 hover:border-Primary/30"} focus:border-Primary/50 rounded-2xl px-14 py-5 text-white placeholder:text-gray-500 transition-all outline-none text-lg font-inter`}
               />
+            </div>
               {errors.website && (
                 <p className="text-red-500 text-xs text-left mt-1 ml-2">
                   {(errors.website as any).message}
                 </p>
               )}
-            </div>
 
             {/* Email Input */}
             <div className="relative">
@@ -98,12 +98,12 @@ const PoweredAnalysis = () => {
                 placeholder="Enter Your Email"
                 className={`w-full bg-[#1A1A1A] border ${errors.email ? "border-red-500" : "border-white/10 hover:border-Primary/30"} focus:border-Primary/50 rounded-2xl px-14 py-5 text-white placeholder:text-gray-500 transition-all outline-none text-lg font-inter`}
               />
+            </div>
               {errors.email && (
                 <p className="text-red-500 text-xs text-left mt-1 ml-2">
                   {(errors.email as any).message}
                 </p>
               )}
-            </div>
 
             {/* Submit Button */}
             <button

@@ -1,6 +1,7 @@
 import Title from "@/components/common/Title";
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import CommonButton from "./CommonButton";
 
 interface Breadcrumb {
   label: string;
@@ -55,7 +56,7 @@ export default function CommonBanner({
 
         <Title
           level="title48"
-          className="text-white leading-tight font-semibold"
+          className="text-white leading-tight font-semibold max-w-3xl"
         >
           {title}
         </Title>
@@ -67,8 +68,8 @@ export default function CommonBanner({
         {/* Action Buttons */}
         {(buttonOne || buttonTwo) && (
           <div className="flex gap-4 mt-6">
-            {buttonOne && <button className="btn-primary">{buttonOne}</button>}
-            {buttonTwo && <button className="btn-secondary">{buttonTwo}</button>}
+            {buttonOne && <CommonButton>{buttonOne}</CommonButton>}
+            {buttonTwo && <CommonButton className="bg-white/40!">{buttonTwo}</CommonButton>}
           </div>
         )}
       </div>
