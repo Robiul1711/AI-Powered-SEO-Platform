@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ArrowLeft } from "lucide-react";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -11,6 +12,7 @@ const ForgotPassword = () => {
 
   const onSubmit = (data: any) => {
     console.log("Forgot Password Data:", data);
+    navigate("/auth/verify-otp");
   };
 
   return (

@@ -14,6 +14,7 @@ import iconBg from "@/assets/images/iconBg.png";
 import featureCardBg from "@/assets/images/featureCardBg.png";
 import videoBg from "@/assets/images/videoBg.png";
 import VideoButton from "../common/VideoButton";
+import VideoBannr from "../common/VideoBannr";
 
 const PowerfulFeatures = () => {
   const steps = [
@@ -117,12 +118,7 @@ const PowerfulFeatures = () => {
         ))}
       </div>
       <div>
-        <div className="relative">
-          <img src={videoBg} alt="" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <VideoButton onClick={() => {}} />
-          </div>
-        </div>
+<VideoBannr />
       </div>
     </div>
   );

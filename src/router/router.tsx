@@ -22,6 +22,13 @@ import SimpleCheckout from "@/pages/simpleCheckoutPage/SimpleCheckout";
 import AboutPage from "@/pages/aboutPage/AboutPage";
 import CaseStudiesDetails from "@/pages/caseStudiesPage/CaseStudiesDetails";
 
+import Message from "@/pages/allDashboardPages/messagePage/Message";
+import Account from "@/pages/allDashboardPages/accountPage/Account";
+import ProgressAndTasks from "@/pages/allDashboardPages/progressTasksPage/ProgressAndTasks";
+import MyService from "@/pages/allDashboardPages/servicePage/MyService";
+import Report from "@/pages/allDashboardPages/reportPage/Report";
+import Dashboard from "@/pages/allDashboardPages/dashboardPage/Dashboard";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -62,8 +69,12 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <AdminLayout />,
     children: [
-      // /dashboard/add-admin
-      // Add more admin pages here
+      { path: "", element: <Dashboard/> },
+      { path: "account", element: <Account /> },
+      { path: "progress-and-tasks", element: <ProgressAndTasks /> },
+      { path: "messages", element: <Message /> },
+      { path: "reports", element: <Report/> },
+      { path: "my-services", element: <MyService /> },
     ],
   },
 ]);

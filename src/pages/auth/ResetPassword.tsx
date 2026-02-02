@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -15,6 +17,7 @@ const ResetPassword = () => {
 
   const onSubmit = (data: any) => {
     console.log("Reset Password Data:", data);
+    navigate("/auth/login");
   };
 
   const newPassword = watch("newPassword");

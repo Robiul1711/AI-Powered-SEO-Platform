@@ -62,7 +62,7 @@ const PricingCard = ({
     )}
 
     <div className="mb-8">
-      <h3 className="text-white/60 text-sm sm:text-base md:text-lg lg:text-xl font-orbitron font-bold uppercase tracking-[2px] mb-4">
+      <h3 className="text-white text-sm sm:text-base md:text-lg lg:text-2xl font-orbitron font-bold uppercase tracking-[2px] mb-4">
         {plan}
       </h3>
       <div className="flex items-baseline gap-1">
@@ -71,7 +71,7 @@ const PricingCard = ({
         </span>
         <span className="text-white/40 text-sm font-medium">{period}</span>
       </div>
-      <p className="text-white/50 text-sm mt-4 leading-relaxed">
+      <p className="text-white/40 text-sm mt-4 leading-relaxed">
         {description}
       </p>
     </div>
@@ -85,16 +85,16 @@ const PricingCard = ({
       Get Started Now
     </CommonButton>
     <div className="mt-8 p-4 flex-grow rounded-2xl bg-[rgba(40,40,40,0.70)]">
-      <p className="text-white/60 text-sm sm:text-base md:text-lg  font-bold uppercase tracking-[2px] mb-4">What’s Included</p>
+      <p className="text-white text-sm sm:text-base md:text-lg  font-bold uppercase tracking-[2px] mb-4">What’s Included</p>
       <ul className="space-y-4">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start gap-3">
             <div
-              className={`mt-0.5 p-0.5 rounded-full ${isFeatured ? "bg-[#AC6CFF]/20 text-[#AC6CFF]" : "bg-white/10 text-white/40"}`}
+              className={`mt-0.5 p-0.5 rounded-full ${isFeatured ? "bg-[#AC6CFF]/20 text-[#AC6CFF]" : "bg-white/10 text-white/80"}`}
             >
               <CheckIcon />
             </div>
-            <span className="text-white/70 text-sm">{feature}</span>
+            <span className="text-white/80 text-sm">{feature}</span>
           </li>
         ))}
       </ul>
