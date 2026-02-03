@@ -1,5 +1,5 @@
 import React from "react";
-import StartFree from "@/assets/images/startFreeToday.png";
+import StartFree from "@/assets/images/startFree.png";
 import TagLines from "../common/TagLines";
 import GlowText from "../common/GlowText";
 import CommonButton from "../common/CommonButton";
