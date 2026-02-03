@@ -71,11 +71,11 @@ const ProjectCard = () => {
   return (
     <>
       {projectsData.map((project) => (
-        <Link 
+        <Link
           key={project.id}
           to={`/case-studies-details/${project.id}`}
-          className="group flex flex-col rounded-2xl border border-[#AC6CFF]/20 overflow-hidden bg-gradient-to-b from-[#110d15] to-[#2b2534] 
-               transition-all duration-500 ease-in-out hover:border-[#AC6CFF]/60 hover:shadow-[0_0_20px_rgba(172,108,255,0.2)]"
+          className="group flex flex-col rounded-2xl border border-[#AC6CFF]/20 overflow-hidden    bg-[linear-gradient(90deg,rgba(14,14,14,0.02)_3.29%,rgba(172,108,255,0.08)_98.59%)]
+    backdrop-blur-[26px] hover:border-[#AC6CFF]/60 hover:shadow-[0_0_20px_rgba(172,108,255,0.2)]"
         >
           {/* Image Container with Zoom effect */}
           <div className="overflow-hidden">

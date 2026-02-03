@@ -50,36 +50,35 @@ const Footer = () => {
   ];
 
   return (
-   <footer
-  className="relative w-full 
-  rounded-t-[24px]
+    <footer
+      className="relative w-full 
+  rounded-t-[16px] sm:rounded-t-[20px] lg:rounded-t-[24px]
   border-[1.5px] border-white/15
   bg-[rgba(12,12,12,0.70)]
   shadow-[inset_2px_4px_16px_0_rgba(172,108,255,0.27)]
   backdrop-blur-[50px]"
->
-
-      <div className="section-padding-x py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-12 gap-12 lg:gap-8">
+    >
+      <div className="section-padding-x py-8 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 xl:grid-cols-12 gap-8 sm:gap-10 lg:gap-8">
           {/* Brand Column */}
-          <div className="lg:col-span-2 xl:col-span-4 flex flex-col gap-6">
+          <div className="col-span-2 lg:col-span-2 xl:col-span-4 flex flex-col gap-4 sm:gap-5 lg:gap-6">
             <NavLink to="/" className="flex items-center gap-2">
               <img
                 src={logo}
                 alt="Logo"
-                className="h-8 md:h-10 lg:h-12 xl:h-14 w-auto"
+                className="h-8 sm:h-9 md:h-10 lg:h-12 xl:h-14 w-auto"
               />
             </NavLink>
-            <p className="text-white/60 text-sm leading-relaxed max-w-xs font-inter">
+            <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-xs font-inter">
               AI-powered SEO platform that automates your growth and delivers
               measurable results.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.path}
-                  className={`w-10 h-10  rounded-full border bg-[#AC6CFF]/9 border-white/10 flex items-center justify-center text-Primary transition-all duration-300 hover:border-[#AC6CFF] hover:bg-[#AC6CFF]/10 ${social.color}`}
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border bg-[#AC6CFF]/9 border-white/10 flex items-center justify-center text-Primary transition-all duration-300 hover:border-[#AC6CFF] hover:bg-[#AC6CFF]/10 hover:scale-110 ${social.color}`}
                 >
                   {social.icon}
                 </a>
@@ -91,17 +90,17 @@ const Footer = () => {
           {footerLinks.map((section, index) => (
             <div
               key={index}
-              className="lg:col-span-1 xl:col-span-2 flex flex-col gap-6"
+              className="lg:col-span-1 xl:col-span-2 flex flex-col gap-4 sm:gap-5 lg:gap-6"
             >
-              <h4 className="text-white font-semibold text-lg font-orbitron tracking-tight">
+              <h4 className="text-white font-semibold text-base sm:text-lg font-orbitron tracking-tight">
                 {section.title}
               </h4>
-              <ul className="flex flex-col gap-4">
+              <ul className="flex flex-col gap-3 sm:gap-4">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     <NavLink
                       to={link.path}
-                      className="text-white/50 text-sm hover:text-[#AC6CFF] transition-colors duration-300 font-inter"
+                      className="text-white/50 text-sm sm:text-base hover:text-[#AC6CFF] transition-colors duration-300 font-inter inline-block"
                     >
                       {link.name}
                     </NavLink>
@@ -113,8 +112,8 @@ const Footer = () => {
         </div>
 
         {/* Divider and Copyright */}
-        <div className="mt-16 lg:mt-20 pt-8 border-t border-white/15 flex flex-col items-center gap-4">
-          <p className="text-white/40 text-sm font-inter">
+        <div className="mt-10 sm:mt-12 lg:mt-16 xl:mt-20 pt-6 sm:pt-7 lg:pt-8 border-t border-white/15 flex flex-col items-center gap-4">
+          <p className="text-white/40 text-xs sm:text-sm font-inter text-center">
             © {new Date().getFullYear()} GAJURA. All rights reserved.
           </p>
         </div>

@@ -4,19 +4,22 @@ import VideoBannr from "../common/VideoBannr";
 import PricingSection from "../homeComponents/PricingSection";
 import FAQ from "../homeComponents/FAQ";
 import StartFreeToday from "../homeComponents/StartFreeToday";
+import Business from "./content-writing-components/Business";
+import AIAssisted from "./content-writing-components/AIAssisted";
 export default function ContentWriting() {
   return (
     <div>
-              <CommonBanner
-  title="SEO Content That Converts"
-  image={ImageProvider.contentWriting}
-    buttonOne=" SEO Content That Converts"
-
-  breadcrumbs={[
-    { label: "Home", href: "/" },
-    { label: "services", href: "/services" }
-  ]}
-/>
+      <CommonBanner
+        title="SEO Content That Converts"
+        image={ImageProvider.contentWriting}
+        buttonOne=" SEO Content That Converts"
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "services", href: "/services" },
+        ]}
+      />
+      <Business />
+      <AIAssisted />
       <VideoBannr />
       <PricingSection />
       <FAQ />

@@ -58,12 +58,12 @@ const PowerfulFeatures = () => {
 
   return (
     <div className="section-padding-x ">
-      <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center ">
+      <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center">
         <TagLines>Powerful Features</TagLines>
         <Title level="title48" className="text-white">
           Everything You Need to <GlowText>Dominate Search</GlowText>
         </Title>
-        <p className="text-base sm:text-lg text-white/60 mb-10 max-w-2xl text-center font-inter">
+        <p className="text-base sm:text-lg text-white/60 mb-10 max-w-2xl text-center ">
           Our Al platform combines cutting-edge technology with proven SEO
           strategies
         </p>
@@ -118,7 +118,7 @@ const PowerfulFeatures = () => {
         ))}
       </div>
       <div>
-<VideoBannr />
+        <VideoBannr />
       </div>
     </div>
   );

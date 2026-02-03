@@ -43,8 +43,8 @@ const businessData = [
 
 export default function CommonBusiness() {
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-white py-16 px-4 font-sans">
-      <div className="max-w-7xl mx-auto">
+    <div className="section-padding-x bg-[#0a0a0c] text-white py-16 px-4 font-inter">
+      <div className="">
         {/* Header Section */}
         <div className="text-center mb-16">
           <TagLines>Business</TagLines>
@@ -62,7 +62,8 @@ export default function CommonBusiness() {
           {businessData.map((item, index) => (
             <div
               key={index}
-              className="bg-[#18181b] rounded-3xl p-8 border border-zinc-800 shadow-2xl transition-transform hover:scale-[1.02]"
+              className="   bg-[linear-gradient(90deg,rgba(14,14,14,0.02)_3.29%,rgba(172,108,255,0.08)_98.59%)]
+    backdrop-blur-[26px] rounded-3xl p-8 border border-zinc-800 shadow-2xl transition-transform hover:scale-[1.02]"
             >
               {/* Icon Header */}
               <div className="bg-zinc-900/50 border border-zinc-700 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
@@ -74,7 +75,7 @@ export default function CommonBusiness() {
               </h3>
 
               {/* Feature List */}
-              <div className="bg-[#202023] rounded-2xl p-6 space-y-4 border border-zinc-800/50">
+              <div className="bg-[#202023] rounded-2xl p-6 space-y-4 border border-gray-600">
                 {item.features.map((feature, fIdx) => (
                   <div key={fIdx} className="flex items-start gap-3 group">
                     <div className="mt-1 shrink-0">
