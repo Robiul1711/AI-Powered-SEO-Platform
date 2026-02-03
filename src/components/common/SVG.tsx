@@ -114,3 +114,11 @@ export const Values = ({ className }: { className?: string }) => {
 </svg>
     )
 }
+export const GreenTiq = ({ className }: { className?: string }) => {
+    return (
+<svg className={className} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <path d="M22.668 4.45173C20.7068 3.31726 18.4298 2.66797 16.0013 2.66797C8.6375 2.66797 2.66797 8.6375 2.66797 16.0013C2.66797 23.365 8.6375 29.3346 16.0013 29.3346C23.365 29.3346 29.3346 23.365 29.3346 16.0013C29.3346 15.0881 29.2428 14.1962 29.068 13.3346" stroke="#48A961" stroke-width="2" stroke-linecap="round"/>
+  <path d="M10.668 16.668C10.668 16.668 12.668 16.668 15.3346 21.3346C15.3346 21.3346 22.7464 9.11241 29.3346 6.66797" stroke="#48A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    )
+}

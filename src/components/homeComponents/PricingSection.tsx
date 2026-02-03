@@ -38,21 +38,20 @@ const PricingCard = ({
   features,
   isFeatured = false,
 }: PricingCardProps) => (
-<div
-  className={`relative p-8 
+  <div
+    className={`relative p-8 
   rounded-[30px] 
 
   transition-all duration-500 
   flex flex-col h-full group
 
-  
+  bg-[linear-gradient(162deg,#2D2D2D_0.9%,#060606_99.1%)] 
   ${
     isFeatured
-      ? "bg-[linear-gradient(162deg,_#2D2D2D_0.9%,_#060606_99.1%)] border-[4.991px]   border-[#B57CFF]"
-      : "  border-[4.991px]   bg-[linear-gradient(162deg,_#2D2D2D_0.97%,_#060606_99.03%)] border-white/10 border-white/10 border-white/20 bg-white/[0.07]"
+      ? "border-[4.991px]   border-[#B57CFF]"
+      : "  border-[4.991px]   border-white/20 "
   }`}
->
-
+  >
     {isFeatured && (
       <div className="absolute -top-4 left-1/2 -translate-x-1/2">
         <span className="bg-[#AC6CFF] text-white text-[12px] font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-[0_0_20px_rgba(172,108,255,0.5)]">
@@ -77,15 +76,15 @@ const PricingCard = ({
     </div>
     <CommonButton
       className={`w-full !py-4  ${
-        isFeatured
-          ? "bg-bg-custom "
-          : "!bg-white/10 "
+        isFeatured ? "bg-bg-custom " : "!bg-white/10 "
       }`}
     >
       Get Started Now
     </CommonButton>
     <div className="mt-8 p-4 flex-grow rounded-2xl bg-[rgba(40,40,40,0.70)]">
-      <p className="text-white text-sm sm:text-base md:text-lg  font-bold uppercase tracking-[2px] mb-4">What’s Included</p>
+      <p className="text-white text-sm sm:text-base md:text-lg  font-bold uppercase tracking-[2px] mb-4">
+        What’s Included
+      </p>
       <ul className="space-y-4">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start gap-3">
@@ -99,8 +98,6 @@ const PricingCard = ({
         ))}
       </ul>
     </div>
-
-
 
     {/* Decorative glow for featured card */}
     {isFeatured && (

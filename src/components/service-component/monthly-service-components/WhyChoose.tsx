@@ -1,5 +1,6 @@
 
 import whychoose from "@/assets/images/whychoose.png";
+import CommonButton from "@/components/common/CommonButton";
 import TagLines from "@/components/common/TagLines";
 import Title from "@/components/common/Title";
 
@@ -42,6 +43,7 @@ const WhyChoose = () => {
            We work to improve your content based on the
             </p>
           </div>
+          <CommonButton className="bg-bg-custom"  >Contact Us</CommonButton>
 
           {/* Optional: Add a Signature or CTA Button here for extra polish */}
         </div>

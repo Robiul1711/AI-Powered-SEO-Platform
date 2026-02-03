@@ -50,8 +50,8 @@ const Inclusions = () => {
   ];
 
   return (
-    <div className="py-20 overflow-hidden">
-      <div className="w-[60%] mx-auto mb-16">
+    <div className=" overflow-hidden">
+      <div className="w-[60%] mx-auto">
         <img
           src={monthlySeo}
           alt="Monthly SEO"
