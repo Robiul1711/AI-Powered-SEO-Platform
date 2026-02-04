@@ -60,7 +60,7 @@ const Inclusions = () => {
       </div>
 
       {/* header section */}
-      <div className="flex flex-col items-center gap-4 font-inter text-center mb-16">
+      <div className="flex flex-col items-center gap-4 font-inter text-center sm:mb-16 mb-8">
         <TagLines>Inclusions</TagLines>
         <Title level="title48" className="text-white font-orbitron">
           What's Included
@@ -76,9 +76,9 @@ const Inclusions = () => {
         {inclusionsData.map((inclusions, idx) => (
           <div
             key={idx}
-            className="group bg-[#111111] border border-white/5 rounded-[2rem] p-8 transition-all duration-300 hover:border-purple-500/30 hover:bg-[#151515] flex flex-col items-start gap-6"
+            className="group bg-[#111111] border border-white/5 rounded-[2rem] md:p-8 p-6 transition-all duration-300 hover:border-purple-500/30 hover:bg-[#151515] flex flex-col items-start gap-6"
           >
-            <div className="p-4 bg-purple-500/10 rounded-2xl">
+            <div className="p-4 bg-purple-500/10 rounded-2xl">  
               {inclusions.icon}
             </div>
 

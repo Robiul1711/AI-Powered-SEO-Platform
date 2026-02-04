@@ -43,14 +43,13 @@ const businessData = [
 
 export default function CommonBusiness() {
   return (
-    <div className="section-padding-x bg-[#0a0a0c] text-white py-16 px-4 font-inter">
+    <div className="section-padding-x  text-white section-padding-y  font-inter">
       <div className="">
         {/* Header Section */}
         <div className="text-center mb-16">
           <TagLines>Business</TagLines>
-          <h1 className="text-4xl md:text-5xl mb-4 tracking-tight font-medium">
-            Google <GlowText>Business</GlowText>
-            Optimization
+          <h1 className=" sm:text-4xl text-3xl md:text-5xl mb-4 tracking-tight font-semibold">
+            Google <GlowText>Business Optimization</GlowText> 
           </h1>
           <p className="text-zinc-500 text-sm md:text-base">
             Everything You Need To Dominate Local Search
@@ -63,7 +62,7 @@ export default function CommonBusiness() {
             <div
               key={index}
               className="   bg-[linear-gradient(90deg,rgba(14,14,14,0.02)_3.29%,rgba(172,108,255,0.08)_98.59%)]
-    backdrop-blur-[26px] rounded-3xl p-8 border border-zinc-800 shadow-2xl transition-transform hover:scale-[1.02]"
+    backdrop-blur-[26px] rounded-3xl md:p-8 sm:p-6 p-4 border border-zinc-800 shadow-2xl transition-transform hover:scale-[1.02]"
             >
               {/* Icon Header */}
               <div className="bg-zinc-900/50 border border-zinc-700 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
@@ -75,7 +74,7 @@ export default function CommonBusiness() {
               </h3>
 
               {/* Feature List */}
-              <div className="bg-[#202023] rounded-2xl p-6 space-y-4 border border-gray-600">
+              <div className="bg-[#202023] rounded-2xl sm:p-6 p-4 space-y-4 border border-gray-600">
                 {item.features.map((feature, fIdx) => (
                   <div key={fIdx} className="flex items-start gap-3 group">
                     <div className="mt-1 shrink-0">

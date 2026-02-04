@@ -199,7 +199,18 @@
   }
 }
 
-@media screen and (min-width: 1460px) {
+@media screen and (min-width: 1200px) {
+  .section-padding-x {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  .section-padding-y {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
+@media screen and (min-width: 1560px) {
   .section-padding-x {
     padding-left: 120px;
     padding-right: 120px;
@@ -250,7 +261,6 @@ button {
 .wave-3 {
   animation-delay: 2s;
 }
-
 
 /* Thin Neon Cyan Scrollbar */
 ::-webkit-scrollbar {

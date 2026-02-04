@@ -78,21 +78,23 @@ const ProgressAndTasks = () => {
   ];
 
   return (
-    <div className="font-inter">
-      <header className="mb-10">
-        <h1 className="text-4xl font-orbitron font-bold">Progress & Tasks</h1>
-        <p className="text-gray-400 mt-2 text-sm">
+    <div className="font-inter pb-10">
+      <header className="mb-8 sm:mb-10">
+        <h1 className="text-3xl xs:text-4xl font-orbitron font-bold">
+          Progress & Tasks
+        </h1>
+        <p className="text-gray-400 mt-2 text-xs sm:text-sm">
           Track Ongoing Work And Completed Deliverables
         </p>
       </header>
 
-      <div className="space-y-12">
+      <div className="space-y-8 sm:space-y-12">
         {sections.map((section, idx) => (
           <div
             key={idx}
-            className="bg-[#1A1A1A] border border-white/5 rounded-[2.5rem] p-8"
+            className="bg-[#1A1A1A] border border-white/5 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-8"
           >
-            <h2 className="text-xl font-orbitron font-bold mb-8">
+            <h2 className="text-lg sm:text-xl font-orbitron font-bold mb-6 sm:mb-8">
               {section.title}
             </h2>
 
@@ -100,20 +102,22 @@ const ProgressAndTasks = () => {
               {section.tasks.map((task, tIdx) => (
                 <div
                   key={tIdx}
-                  className="bg-[#242424] p-6 rounded-3xl border border-transparent hover:border-white/5 transition-all"
+                  className="bg-[#242424] p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-transparent hover:border-white/5 transition-all"
                 >
-                  <div className="flex justify-between items-start mb-2">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-2">
                     <div>
-                      <h4 className="font-orbitron text-lg font-bold">
+                      <h4 className="font-orbitron text-base sm:text-lg font-bold">
                         {task.name}
                       </h4>
-                      <p className="text-gray-500 text-xs mt-1">{task.desc}</p>
-                      <p className="text-[10px] text-gray-600 mt-2 uppercase tracking-widest">
+                      <p className="text-gray-500 text-[11px] sm:text-xs mt-1">
+                        {task.desc}
+                      </p>
+                      <p className="text-[9px] sm:text-[10px] text-gray-600 mt-2 uppercase tracking-widest">
                         {task.tag}
                       </p>
                     </div>
                     <span
-                      className={`px-4 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${
+                      className={`w-fit px-3 py-1 sm:px-4 sm:py-1 rounded-lg text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border ${
                         task.status === "Completed"
                           ? "bg-green-500/10 text-green-500 border-green-500/20"
                           : task.status === "Pending"
@@ -127,12 +131,12 @@ const ProgressAndTasks = () => {
 
                   {/* Progress Bar (Only show if progress exists) */}
                   {task.progress !== undefined && (
-                    <div className="mt-6">
-                      <div className="flex justify-between text-[10px] font-orbitron mb-2">
+                    <div className="mt-4 sm:mt-6">
+                      <div className="flex justify-between text-[9px] sm:text-[10px] font-orbitron mb-2">
                         <span className="text-gray-400">Progress</span>
                         <span className="text-white">{task.progress}%</span>
                       </div>
-                      <div className="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-white/5 h-2 sm:h-2.5 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] transition-all duration-1000"
                           style={{ width: `${task.progress}%` }}

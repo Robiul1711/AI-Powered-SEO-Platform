@@ -110,26 +110,26 @@ const Account = () => {
   );
 
   return (
-    <div className="font-inter">
-      <header className="mb-10">
-        <h1 className="text-4xl font-orbitron font-bold text-white">
+    <div className=" font-inter pb-10">
+      <header className="mb-8 sm:mb-10">
+        <h1 className="text-3xl xs:text-4xl font-orbitron font-bold text-white">
           Account Settings
         </h1>
-        <p className="text-gray-400 mt-2 text-sm">
+        <p className="text-gray-400 mt-2 text-xs sm:text-sm">
           Manage Your Profile And Account Preferences
         </p>
       </header>
 
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         {/* Profile Section */}
-        <section className="bg-[#1A1A1A] border border-white/5 rounded-[2.5rem] p-10">
-          <h2 className="text-xl font-orbitron font-bold mb-8 text-white">
+        <section className="bg-[#1A1A1A] border border-white/5 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-10">
+          <h2 className="text-lg sm:text-xl font-orbitron font-bold mb-6 sm:mb-8 text-white">
             Profile Information
           </h2>
 
-          <div className="flex items-center gap-6 mb-10">
-            <div className="relative group">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/30">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8 sm:mb-10">
+            <div className="relative group w-fit">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-purple-500/30">
                 <img
                   src={profileImg}
                   alt="Profile"
@@ -147,23 +147,23 @@ const Account = () => {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 bg-[#AC6CFF] p-2 rounded-full border-2 border-[#1A1A1A] hover:scale-110 transition-transform shadow-lg"
+                className="absolute bottom-0 right-0 bg-[#AC6CFF] p-1.5 sm:p-2 rounded-full border-2 border-[#1A1A1A] hover:scale-110 transition-transform shadow-lg"
               >
-                <Camera size={14} className="text-white" />
+                <Camera size={12} className="text-white sm:size-3.5" />
               </button>
             </div>
             <div>
-              <h4 className="font-orbitron font-bold text-sm mb-1 text-white">
+              <h4 className="font-orbitron font-bold text-[13px] sm:text-sm mb-1 text-white">
                 Profile Photo
               </h4>
-              <p className="text-gray-500 text-xs">
+              <p className="text-gray-500 text-[11px] sm:text-xs">
                 JPG, PNG or GIF. Max size 2MB.
               </p>
             </div>
           </div>
 
           <form onSubmit={handleSubmit(onProfileSubmit)}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
               <InputField
                 label="Full Name"
                 name="fullName"
@@ -181,7 +181,10 @@ const Account = () => {
               placeholder="Example.........."
             />
             <div className="pt-6">
-              <CommonButton type="submit" className="bg-bg-custom">
+              <CommonButton
+                type="submit"
+                className="bg-bg-custom w-full sm:w-auto"
+              >
                 Save Changes
               </CommonButton>
             </div>
@@ -189,11 +192,14 @@ const Account = () => {
         </section>
 
         {/* Password Section */}
-        <section className="bg-[#1A1A1A] border border-white/5 rounded-[2.5rem] p-10">
-          <h2 className="text-xl font-orbitron font-bold mb-8 text-white">
+        <section className="bg-[#1A1A1A] border border-white/5 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-10">
+          <h2 className="text-lg sm:text-xl font-orbitron font-bold mb-6 sm:mb-8 text-white">
             Change Password
           </h2>
-          <form onSubmit={handleSubmit(onPasswordSubmit)} className="space-y-8">
+          <form
+            onSubmit={handleSubmit(onPasswordSubmit)}
+            className="space-y-6 sm:space-y-8"
+          >
             <InputField
               label="Current Password"
               name="currentPassword"
@@ -216,7 +222,10 @@ const Account = () => {
               placeholder="••••••••••••"
             />
             <div className="pt-6">
-              <CommonButton type="submit" className="bg-bg-custom">
+              <CommonButton
+                type="submit"
+                className="bg-bg-custom w-full sm:w-auto"
+              >
                 Save Changes
               </CommonButton>
             </div>

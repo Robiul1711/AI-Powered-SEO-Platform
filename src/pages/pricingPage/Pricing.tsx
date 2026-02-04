@@ -9,11 +9,7 @@ const Pricing = () => {
     <div className="relative w-full pt-26 overflow-hidden">
       {/* Background Image - Changed absolute to fixed */}
       <div className="fixed inset-0 -z-10">
-        <img
-          src={authBg}
-          alt=""
-          className="w-full h-full object-cover"
-        />
+        <img src={authBg} alt="" className="w-full h-full object-cover" />
       </div>
 
       <div className="relative z-10">

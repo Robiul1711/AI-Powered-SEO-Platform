@@ -68,7 +68,7 @@ const SimpleProcess = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 py-16 font-inter">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xlg:grid-cols-6 gap-6 py-16 font-inter">
           {steps.map((step) => (
             <div
               key={step.id}

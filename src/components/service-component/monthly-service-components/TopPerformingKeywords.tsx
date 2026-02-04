@@ -39,13 +39,13 @@ const TopPerformingKeywords = () => {
   ];
 
   return (
-    <div className="section-padding-x py-16 font-inter">
+    <div className="section-padding-x section-padding-y font-inter">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         {stats.map((stat, i) => (
           <div
             key={i}
-            className={`p-10 rounded-[2.5rem] bg-gradient-to-br ${stat.gradient} ${stat.textColor} flex flex-col justify-between h-56 transition-all duration-300 hover:-translate-y-1 shadow-2xl relative overflow-hidden group`}
+            className={`md:p-10 p-6 md:rounded-[2.5rem] rounded-[1.5rem] bg-gradient-to-br ${stat.gradient} ${stat.textColor} flex flex-col justify-between md:h-56 h-40 transition-all duration-300 hover:-translate-y-1 shadow-2xl relative overflow-hidden group`}
           >
             {/* Subtle glow effect */}
             <div className="absolute -inset-1 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity blur-xl rounded-[2.5rem]" />
@@ -66,7 +66,7 @@ const TopPerformingKeywords = () => {
       </div>
 
       {/* Keywords List Section */}
-      <div className="bg-[#0A0A0A] border border-white/5 rounded-[3rem] p-10 md:p-14 shadow-2xl">
+      <div className="bg-[#0A0A0A] border border-white/5 rounded-[3rem] section-padding-x section-padding-y shadow-2xl">
         <h2 className="text-2xl font-orbitron font-bold text-white mb-12 tracking-wide text-center md:text-left">
           Top Performing Keywords
         </h2>

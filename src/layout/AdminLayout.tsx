@@ -73,7 +73,7 @@ const AdminLayout: React.FC = () => {
       }}>
         <SideBar open={open} setOpen={setOpen} sidebar={sideBar} />
         <div className="flex-1 bg-dark text-white flex flex-col overflow-auto custom-scrollbar">
-          <div className="flex flex-col lg:gap-10 gap-5 lg:py-6 py-3 lg:px-[30px] px-2.5 sm:px-5">
+          <div className="flex flex-col lg:gap-10 gap-5 lg:py-6  lg:px-[30px]  ">
             <CommonNavbar open={open} setOpen={setOpen} />
             <Outlet />
           </div>
