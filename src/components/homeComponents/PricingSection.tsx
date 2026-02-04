@@ -39,8 +39,8 @@ const PricingCard = ({
   isFeatured = false,
 }: PricingCardProps) => (
   <div
-    className={`relative p-8 
-  rounded-[30px] 
+    className={`relative md:p-8 p-6 
+  rounded-[22px] sm:rounded-[30px] 
 
   transition-all duration-500 
   flex flex-col h-full group
@@ -170,7 +170,7 @@ const PricingSection = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
+      <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
         {pricingPlans.map((plan, index) => (
           <PricingCard key={index} {...plan} />
         ))}

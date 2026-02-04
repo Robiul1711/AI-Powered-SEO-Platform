@@ -6,6 +6,7 @@ import FAQ from "../homeComponents/FAQ";
 import StartFreeToday from "../homeComponents/StartFreeToday";
 import Business from "./content-writing-components/Business";
 import AIAssisted from "./content-writing-components/AIAssisted";
+import ContentTypes from "./content-writing-components/ContentTypes";
 export default function ContentWriting() {
   return (
     <div>
@@ -20,6 +21,7 @@ export default function ContentWriting() {
       />
       <Business />
       <AIAssisted />
+      <ContentTypes />
       <VideoBannr />
       <PricingSection />
       <FAQ />

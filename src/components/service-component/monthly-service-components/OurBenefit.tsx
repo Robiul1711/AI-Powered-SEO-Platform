@@ -35,17 +35,25 @@ const OurBenefit = () => {
               website to heights that you couldn't have envisioned. We work on
             </p>
           </div>
-<div>
-    {
-        ["Marketing support tied to sales","Transparent reporting","Real-time updates","Dedicated account manager","Flexible monthly packages","Scalable solutions"].map((item)=>{
-            return(
+          <div>
+            {[
+              "Marketing support tied to sales",
+              "Transparent reporting",
+              "Real-time updates",
+              "Dedicated account manager",
+              "Flexible monthly packages",
+              "Scalable solutions",
+            ].map((item) => {
+              return (
                 <div key={item} className="font-inter text-white/70 ">
-                    <p className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-bg-custom"></span> {item}</p>
+                  <p className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-bg-custom"></span>{" "}
+                    {item}
+                  </p>
                 </div>
-            )
-        })
-    }
-</div>
+              );
+            })}
+          </div>
           {/* Optional: Add a Signature or CTA Button here for extra polish */}
           <CommonButton className="bg-bg-custom">Contact Us</CommonButton>
         </div>

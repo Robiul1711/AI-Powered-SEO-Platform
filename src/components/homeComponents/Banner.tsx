@@ -8,11 +8,12 @@ import TagLines from "../common/TagLines";
 import GlowText from "../common/GlowText";
 
 import { motion } from "motion/react";
+import { FlipWords } from "../ui/flipwords";
 
 const Banner = () => {
   return (
     <div className="relative w-full  pt-32 lg:pt-40 overflow-hidden ">
-      <div className="flex justify-between items-center section-padding-x absolute w-full top-[35%] translate-y-[-50%] pointer-events-none z-0">
+      <div className="flex justify-between items-center  absolute w-full top-[35%] translate-y-[-50%] pointer-events-none z-0">
         <motion.img
           src={mike}
           alt="Mike"
@@ -48,17 +49,29 @@ const Banner = () => {
         <img
           src={bannerBg}
           alt=""
-          className="w-full h-full object-cover rounded-b-[50px] "
+          className="w-full h-full object-cover rounded-b-[30px] md:rounded-b-[50px] "
         />
       </div>
 
       {/* Content Container */}
-      <div className="section-padding-x flex flex-col items-center text-center max-w-[1200px]  mx-auto">
+      <div className="px-2 flex flex-col items-center text-center max-w-[1200px]  mx-auto">
         <TagLines> AI-Powered SEO Automation</TagLines>
 
-        <h1 className="text-4xl sm:text-6xl mt-10 font-semibold text-white mb-6 leading-tight font-orbitron">
-          AI-Powered SEO Platform That 
-          <GlowText className=""> Automates Growth</GlowText>
+        <h1 className="text-3xl xs:text-4xl sm:text-6xl mt-10 font-semibold text-white mb-6 leading-tight font-orbitron">
+          AI-Powered SEO Platform That {""}
+          <GlowText className="">
+            <FlipWords
+              words={[
+                "Scales Revenue",
+                "Optimizes Strategy",
+                "Drives Traffic",
+                "Automates Growth",
+                "Enhances SEO",
+              ]}
+              duration={3000}
+              className="text-white"
+            />
+          </GlowText>
         </h1>
 
         <p className="text-base sm:text-lg text-white/60 mb-10 max-w-3xl font-inter">

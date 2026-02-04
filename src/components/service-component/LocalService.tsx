@@ -21,8 +21,8 @@ the Top of Local Search"
       />
 
       <CommonBusiness />
-         <WhyChoose />
-         <Results />
+      <WhyChoose />
+      <Results />
       <VideoBannr />
       <PricingSection />
       <FAQ />

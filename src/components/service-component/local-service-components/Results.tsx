@@ -59,7 +59,7 @@ const Results = () => {
         {resultsData.map((item) => (
           <div
             key={item.id}
-            className="group relative flex flex-col rounded-[32px] border border-[#AC6CFF]/20 overflow-hidden bg-[linear-gradient(180deg,rgba(172,108,255,0.05)_0%,rgba(0,0,0,0)_100%)] backdrop-blur-[26px] p-8 transition-all duration-500 hover:border-[#AC6CFF]/50 hover:shadow-[0_0_30px_rgba(172,108,255,0.15)]"
+            className="group relative flex flex-col rounded-[32px] border border-[#AC6CFF]/20 overflow-hidden bg-[linear-gradient(180deg,rgba(172,108,255,0.05)_0%,rgba(0,0,0,0)_100%)] backdrop-blur-[26px] md:p-8 sm:p-6 p-4 transition-all duration-500 hover:border-[#AC6CFF]/50 hover:shadow-[0_0_30px_rgba(172,108,255,0.15)]"
           >
             {/* Header with Icon and Decorative element */}
             <div className="flex justify-between items-start mb-6">
@@ -79,14 +79,14 @@ const Results = () => {
             </div>
 
             {/* Achievement Paragraph */}
-            <p className="text-white/80 mb-8 font-inter leading-relaxed">
+            <p className="text-white/80 mb-4 sm:mb-6 md:mb-8 font-inter leading-relaxed">
               {item.achievement}
             </p>
 
             {/* Large Highlight Box */}
-            <div className="mt-auto bg-zinc-900/60 border border-white/5 rounded-3xl p-6 mb-6">
+            <div className="mt-auto bg-zinc-900/60 border border-white/5 sm:rounded-3xl rounded-2xl sm:p-6 p-4 mb-6">
               <div className="flex flex-col">
-                <GlowText className="text-4xl font-bold mb-1">
+                <GlowText className="md:text-4xl text-2xl font-bold mb-1">
                   {item.resultValue} {item.resultType}
                 </GlowText>
                 <span className="text-white/40 text-sm font-inter">
@@ -96,7 +96,7 @@ const Results = () => {
             </div>
 
             {/* Testimonial Author */}
-            <div className="mt-4 flex items-center gap-2">
+            <div className="md:mt-4 flex items-center gap-2">
               <span className="text-white/40 font-inter">__</span>
               <span className="text-white/90 font-medium font-inter">
                 {item.testimonialName}

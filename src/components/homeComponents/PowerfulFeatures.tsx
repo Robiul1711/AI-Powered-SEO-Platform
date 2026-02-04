@@ -57,23 +57,23 @@ const PowerfulFeatures = () => {
   ];
 
   return (
-    <div className="section-padding-x ">
-      <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center">
+    <div className="">
+      <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center section-padding-x ">
         <TagLines>Powerful Features</TagLines>
         <Title level="title48" className="text-white">
           Everything You Need to <GlowText>Dominate Search</GlowText>
         </Title>
-        <p className="text-base sm:text-lg text-white/60 mb-10 max-w-2xl text-center ">
+        <p className="text-base sm:text-lg text-white/60  max-w-2xl text-center ">
           Our Al platform combines cutting-edge technology with proven SEO
           strategies
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-16 font-inter">
+      <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-6 py-16 font-inter section-padding-x ">
         {steps.map((step) => (
           <div
             key={step.id}
-            className="group relative p-8 rounded-[24px] border border-white/10 transition-all duration-500 hover:border-[#AC6CFF]/50 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(172,108,255,0.15)] cursor-pointer overflow-hidden backdrop-blur-sm"
+            className="group relative md:p-8 p-4 rounded-[24px] border border-white/10 transition-all duration-500 hover:border-[#AC6CFF]/50 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(172,108,255,0.15)] cursor-pointer overflow-hidden backdrop-blur-sm"
             style={{
               backgroundImage: `url(${featureCardBg})`,
               backgroundSize: "cover",
@@ -86,7 +86,7 @@ const PowerfulFeatures = () => {
             <div className="flex flex-col gap-6 relative z-10 h-full">
               {/* Icon Container */}
               <div
-                className="p-5 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-[0_0_25px_rgba(172,108,255,0.3)] rounded-2xl flex items-center justify-center"
+                className="p-3 sm:p-5  transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-[0_0_25px_rgba(172,108,255,0.3)] rounded-2xl flex items-center justify-center"
                 style={{
                   backgroundImage: `url(${iconBg})`,
                   backgroundSize: "cover",

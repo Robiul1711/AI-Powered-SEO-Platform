@@ -51,7 +51,7 @@ const FAQ = () => {
         <Title level="title48" className="text-white">
           Frequently <GlowText> Asked Questions </GlowText>(FAQ)
         </Title>
-        <p className="text-base sm:text-lg text-white/60 mb-10 max-w-2xl text-center font-inter">
+        <p className="text-base sm:text-lg text-white/60 mb-4 sm:mb-10 max-w-2xl text-center font-inter">
      Our Al platform combines cutting-edge technology with proven SEO strategies
         </p>
       </div>
@@ -72,10 +72,10 @@ const FAQ = () => {
     backdrop-blur-[26px]
                  `}
               >
-                <div className="p-5">
+                <div className="sm:p-5 p-3">
                   <div className="flex justify-between items-center gap-4">
                     <h2
-                      className={`font-semibold text-lg md:text-xl transition-colors duration-300 ${
+                      className={`font-semibold sm:text-lg text-base md:text-xl transition-colors duration-300 ${
                         isActive
                           ? "text-Primary "
                           : "text-white group-hover:text-Primary "
@@ -110,7 +110,7 @@ const FAQ = () => {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="pt-4 text-white/60 leading-relaxed border-t border-dashed border-gray-200  mt-4">
+                      <p className="pt-4 text-white/60 text-sm sm:text-base leading-relaxed border-t border-dashed border-gray-200  mt-4">
                         {item.description}
                       </p>
                     </div>

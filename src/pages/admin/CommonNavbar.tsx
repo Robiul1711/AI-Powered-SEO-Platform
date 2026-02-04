@@ -10,12 +10,12 @@ interface CommonNavbarProps {
 
 const CommonNavbar: React.FC<CommonNavbarProps> = ({ open, setOpen }) => {
   return (
-    <div className="flex items-center justify-between w-full font-inter px-0">
+    <div className="flex items-center justify-between w-full font-inter ">
       {/* Left Section: Search Bar */}
       <div className="flex items-center gap-4 flex-1">
         <button
           onClick={() => setOpen(!open)}
-          className="lg:hidden p-2 text-white/70 hover:text-white transition-colors"
+          className="xl:hidden p-2 text-white/70 hover:text-white transition-colors"
         >
           <Menu className="w-6 h-6" />
         </button>

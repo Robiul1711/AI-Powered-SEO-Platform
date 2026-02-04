@@ -18,9 +18,11 @@ type TitleSize =
 
 const sizeMap: Record<TitleSize, string> = {
   title64:
-    "text-[32px] sm:text-[44px] md:text-[56px] xl:text-[64px] font-extrabold",
-  title56: "text-[28px] sm:text-[40px] md:text-[48px] xl:text-[56px] font-bold",
-  title48: "text-[24px] sm:text-[32px] md:text-[40px] xl:text-[48px] font-bold",
+    "text-[32px] sm:text-[44px] md:text-[56px] xlg:text-[60px] xl:text-[64px] font-extrabold",
+  title56:
+    "text-[28px] sm:text-[40px] md:text-[48px] xlg:text-[52px] xl:text-[56px] font-bold",
+  title48:
+    "text-[24px] sm:text-[32px] md:text-[40px] xlg:text-[44px] xl:text-[48px] font-bold",
   title40:
     "text-[20px] sm:text-[28px] md:text-[34px] xl:text-[40px] font-semibold tracking-tight leading-tight md:font-bold",
   title32:
@@ -56,7 +58,7 @@ const Title = forwardRef<HTMLHeadingElement, TitleProps>(
         {children}
       </h2>
     );
-  }
+  },
 );
 
 Title.displayName = "Title";

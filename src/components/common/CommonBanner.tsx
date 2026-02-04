@@ -34,7 +34,7 @@ export default function CommonBanner({
       <img
         src={image}
         alt={title}
-        className="w-full h-[300px] md:h-[400px] lg:h-[450px] object-cover"
+        className="w-full h-[350px] md:h-[400px] lg:h-[500px] object-cover"
       />
 
       {/* Content */}
