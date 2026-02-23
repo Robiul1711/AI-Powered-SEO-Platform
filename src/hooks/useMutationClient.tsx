@@ -2,8 +2,9 @@ import { useMutation, useQueryClient, UseMutationResult } from "@tanstack/react-
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "./useAxiosPublic";
 import useAxiosSecure from "./useAxiosSecure";
-import { toast } from "react-toastify";
+
 import { AxiosResponse, AxiosInstance } from "axios";
+import toast from "react-hot-toast";
 
 interface MutationParams {
   url: string;

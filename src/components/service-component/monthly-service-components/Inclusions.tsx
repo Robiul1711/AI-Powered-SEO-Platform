@@ -50,14 +50,14 @@ const Inclusions = () => {
   ];
 
   return (
-    <div className=" overflow-hidden">
-      <div className="w-[60%] mx-auto">
+    <div className=" overflow-hidden section-padding-y">
+      {/* <div className="w-[60%] mx-auto">
         <img
           src={monthlySeo}
           alt="Monthly SEO"
           className="w-full h-full object-cover rounded-3xl"
         />
-      </div>
+      </div> */}
 
       {/* header section */}
       <div className="flex flex-col items-center gap-4 font-inter text-center sm:mb-16 mb-8">

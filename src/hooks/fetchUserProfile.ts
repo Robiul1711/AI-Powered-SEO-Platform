@@ -14,7 +14,7 @@ export const useUserProfile = () => {
     queryKey: ["userProfile", token],
     queryFn: async () => {
       if (!token) return null;
-      const res = await axiosSecure.get("/get-profile");
+      const res = await axiosSecure.get("/profile");
       return res.data.userdata || res.data;
     },
     enabled: !!token,

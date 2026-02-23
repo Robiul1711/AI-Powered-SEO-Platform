@@ -53,3 +53,5 @@ export const { setResetToken, setApiError, clearUiState, setUser } =
   uiSlice.actions;
 
 export default uiSlice.reducer;
+
+export const selectCurrentUser = (state: any) => state.ui.user;

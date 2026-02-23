@@ -9,7 +9,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-const CommonBusiness = () => {
+const ContentBusiness = () => {
   const inclusionsData = [
     {
       title: "On-Page Optimization",
@@ -103,4 +103,4 @@ const CommonBusiness = () => {
   );
 };
 
-export default CommonBusiness;
+export default ContentBusiness;

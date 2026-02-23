@@ -12,7 +12,7 @@ import {
 import TagLines from "@/components/common/TagLines";
 import Title from "@/components/common/Title";
 
-const TopPerformingKeywords = () => {
+const PPCProcess = () => {
   const steps = [
     {
       id: "01",
@@ -54,10 +54,10 @@ const TopPerformingKeywords = () => {
         <div className="flex flex-col items-center gap-4 font-inter">
           <TagLines>Local SEO</TagLines>
           <Title level="title48" className="text-white">
-         Our Monthly SEO Progress
+         Our PPC Process
           </Title>
           <p className="text-base sm:text-lg text-white/60 mb-10 max-w-2xl text-center font-inter">
-           See how we've helped local businesses dominate their markets
+          See how we've helped local businesses dominate their markets
           </p>
         </div>
 
@@ -100,4 +100,4 @@ const TopPerformingKeywords = () => {
   );
 };
 
-export default TopPerformingKeywords;
+export default PPCProcess;

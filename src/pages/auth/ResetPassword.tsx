@@ -1,26 +1,61 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import useMutationClient from "@/hooks/useMutationClient";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
+  const location = useLocation();
+  const email = location.state?.email;
+  const token = location.state?.token;
+
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors },
   } = useForm();
 
+  const { mutate, isPending } = useMutationClient({
+    url: "/auth/reset-password",
+    method: "post",
+  });
+
   const onSubmit = (data: any) => {
-    console.log("Reset Password Data:", data);
-    navigate("/auth/login");
+    mutate(
+      {
+        data: {
+          email,
+          token,
+          password: data.password,
+          password_confirmation: data.password_confirmation,
+        },
+      },
+      {
+        onSuccess: () => {
+          navigate("/auth/login");
+        },
+        onError: (err) => {
+          const serverErrors = err?.response?.data?.errors;
+          if (serverErrors) {
+            Object.keys(serverErrors).forEach((key) => {
+              setError(key as any, {
+                type: "server",
+                message: serverErrors[key][0],
+              });
+            });
+          }
+        },
+      },
+    );
   };
 
-  const newPassword = watch("newPassword");
+  const password = watch("password");
 
   return (
     <div className="space-y-8">
@@ -36,60 +71,32 @@ const ResetPassword = () => {
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-2">
           <label className="text-sm font-medium text-white/90 ml-1 block">
-            Current Password
-          </label>
-          <div className="relative">
-            <input
-              {...register("currentPassword", {
-                required: "Current password is required",
-              })}
-              type={showCurrentPassword ? "text" : "password"}
-              placeholder="••••••••••••"
-              className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none pr-12 ${errors.currentPassword ? "border-red-500" : "border-transparent"}`}
-            />
-            <button
-              type="button"
-              onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
-            >
-              {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
-          </div>
-          {errors.currentPassword && (
-            <p className="text-red-500 text-xs ml-1">
-              {(errors.currentPassword as any).message}
-            </p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white/90 ml-1 block">
             New Password
           </label>
           <div className="relative">
             <input
-              {...register("newPassword", {
+              {...register("password", {
                 required: "New password is required",
                 minLength: {
                   value: 8,
                   message: "Password must be at least 8 characters",
                 },
               })}
-              type={showNewPassword ? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               placeholder="••••••••••••"
-              className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none pr-12 ${errors.newPassword ? "border-red-500" : "border-transparent"}`}
+              className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none pr-12 ${errors.password ? "border-red-500" : "border-transparent"}`}
             />
             <button
               type="button"
-              onClick={() => setShowNewPassword(!showNewPassword)}
+              onClick={() => setShowPassword(!showPassword)}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
             >
-              {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          {errors.newPassword && (
+          {errors.password && (
             <p className="text-red-500 text-xs ml-1">
-              {(errors.newPassword as any).message}
+              {(errors.password as any).message}
             </p>
           )}
         </div>
@@ -100,14 +107,14 @@ const ResetPassword = () => {
           </label>
           <div className="relative">
             <input
-              {...register("confirmPassword", {
+              {...register("password_confirmation", {
                 required: "Confirm password is required",
                 validate: (value) =>
-                  value === newPassword || "Passwords do not match",
+                  value === password || "Passwords do not match",
               })}
               type={showConfirmPassword ? "text" : "password"}
               placeholder="••••••••••••"
-              className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none pr-12 ${errors.confirmPassword ? "border-red-500" : "border-transparent"}`}
+              className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none pr-12 ${errors.password_confirmation ? "border-red-500" : "border-transparent"}`}
             />
             <button
               type="button"
@@ -117,18 +124,19 @@ const ResetPassword = () => {
               {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          {errors.confirmPassword && (
+          {errors.password_confirmation && (
             <p className="text-red-500 text-xs ml-1">
-              {(errors.confirmPassword as any).message}
+              {(errors.password_confirmation as any).message}
             </p>
           )}
         </div>
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg"
+          disabled={isPending}
+          className="w-full bg-linear-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Reset Password
+          {isPending ? "Resetting..." : "Reset Password"}
         </button>
       </form>
     </div>

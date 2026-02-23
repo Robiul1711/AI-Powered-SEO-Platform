@@ -4,9 +4,12 @@ import VideoBannr from "../common/VideoBannr";
 import PricingSection from "../homeComponents/PricingSection";
 import FAQ from "../homeComponents/FAQ";
 import StartFreeToday from "../homeComponents/StartFreeToday";
-import Business from "./content-writing-components/Business";
+import Business from "./content-writing-components/ContentBusiness";
 import AIAssisted from "./content-writing-components/AIAssisted";
 import ContentTypes from "./content-writing-components/ContentTypes";
+import ContentBusiness from "./content-writing-components/ContentBusiness";
+import ContentWhyChoose from "./content-writing-components/ContentWhyChoose";
+import ContentBenifit from "./content-writing-components/ContentBenifit";
 export default function ContentWriting() {
   return (
     <div>
@@ -19,9 +22,11 @@ export default function ContentWriting() {
           { label: "services", href: "/services" },
         ]}
       />
-      <Business />
-      <AIAssisted />
+      <ContentBusiness />
+      {/* <AIAssisted /> */}
       <ContentTypes />
+      <ContentBenifit/>
+      <ContentWhyChoose/>
       <VideoBannr />
       <PricingSection />
       <FAQ />

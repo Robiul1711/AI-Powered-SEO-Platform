@@ -1,7 +1,9 @@
 import React from "react";
 import { User, TrendingUp, FileText, MessageSquare } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
+  const user = useSelector((state: any) => state.ui.user);
   const stats = [
     {
       title: "Active Services",
@@ -66,7 +68,7 @@ const Dashboard = () => {
       {/* Header */}
       <header className="mb-8 sm:mb-10">
         <h1 className="text-2xl xs:text-3xl font-orbitron font-bold tracking-tight">
-          Welcome back, John Doe
+          Welcome back, {user?.name || user?.full_name || "User"}
         </h1>
         <p className="text-gray-400 mt-2 text-xs sm:text-sm">
           Here's What's Happening With Your Marketing Campaigns

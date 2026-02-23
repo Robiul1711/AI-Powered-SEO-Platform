@@ -2,13 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, User, Settings, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useNavigate } from "react-router-dom";
+import { clearAuth } from "@/redux/slices/authSlice";
+import { setUser } from "@/redux/slices/uiSlice";
 
 const UserDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const user = useSelector((state: RootState) => state.ui.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -88,10 +93,12 @@ const UserDropdown: React.FC = () => {
 
             <div className="mt-2 pt-2 border-t border-white/5">
               <button
-                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-lg transition-colors cursor-pointer"
                 onClick={() => {
                   setIsOpen(false);
-                  // Add logout logic here
+                  dispatch(clearAuth());
+                  dispatch(setUser(null));
+                  navigate("/auth/login");
                 }}
               >
                 <LogOut className="w-4 h-4" />

@@ -1,7 +1,8 @@
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Camera, Eye, EyeOff } from "lucide-react";
 import CommonButton from "@/components/common/CommonButton";
+import { useSelector } from "react-redux";
 
 interface ShowPasswords {
   current: boolean;
@@ -21,17 +22,31 @@ interface InputFieldProps {
 }
 
 const Account = () => {
+  const user = useSelector((state: any) => state.ui.user);
   // 1. Setup React Hook Form
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      fullName: "John Smith",
-      email: "john@company.com",
+      fullName: user?.name || user?.full_name || "",
+      email: user?.email || "",
       companyName: "",
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        fullName: user.name || user.full_name,
+        email: user.email,
+        companyName: user.company_name || "",
+      });
+      if (user.avatar_url) {
+        setProfileImg(user.avatar_url);
+      }
+    }
+  }, [user, reset]);
 
   // 2. States for Image and Password Visibility
   const [profileImg, setProfileImg] = useState(
