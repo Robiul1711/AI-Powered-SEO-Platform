@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
+import useMutationClient from "@/hooks/useMutationClient";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,11 +12,38 @@ const Register = () => {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
-    console.log("Register Data:", data);
+  const { mutate, isPending } = useMutationClient({
+    url: "/auth/register",
+    method: "post",
+    // invalidateKeys: [["user-profile"]],
+  });
+  const onSubmit = (formData: any) => {
+    mutate(
+      { data: formData },
+      {
+        onSuccess: () => {
+          navigate("/auth/verify-email", {
+            state: { email: formData.email, from: "register" },
+          });
+        },
+        onError: (err) => {
+          const serverErrors = err?.response?.data?.errors;
+          if (serverErrors) {
+            Object.keys(serverErrors).forEach((key) => {
+              setError(key as any, {
+                type: "server",
+                message: serverErrors[key][0],
+              });
+            });
+          }
+        },
+      },
+    );
   };
 
   const password = watch("password");
@@ -34,14 +63,14 @@ const Register = () => {
             Full Name
           </label>
           <input
-            {...register("fullName", { required: "Full name is required" })}
+            {...register("name", { required: "Full name is required" })}
             type="text"
             placeholder="John Doe"
-            className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none ${errors.fullName ? "border-red-500" : "border-transparent"}`}
+            className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none ${errors.name ? "border-red-500" : "border-transparent"}`}
           />
-          {errors.fullName && (
+          {errors.name && (
             <p className="text-red-500 text-xs ml-1">
-              {(errors.fullName as any).message}
+              {(errors.name as any).message}
             </p>
           )}
         </div>
@@ -107,14 +136,14 @@ const Register = () => {
           </label>
           <div className="relative">
             <input
-              {...register("confirmPassword", {
+              {...register("password_confirmation", {
                 required: "Confirm password is required",
                 validate: (value) =>
                   value === password || "Passwords do not match",
               })}
               type={showConfirmPassword ? "text" : "password"}
               placeholder="••••••••••••"
-              className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none pr-12 ${errors.confirmPassword ? "border-red-500" : "border-transparent"}`}
+              className={`w-full bg-[#1E1E1E] border focus:border-Primary/50 rounded-2xl px-5 py-4 text-white placeholder:text-gray-500 transition-all outline-none pr-12 ${errors.password_confirmation ? "border-red-500" : "border-transparent"}`}
             />
             <button
               type="button"
@@ -124,18 +153,19 @@ const Register = () => {
               {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          {errors.confirmPassword && (
+          {errors.password_confirmation && (
             <p className="text-red-500 text-xs ml-1">
-              {(errors.confirmPassword as any).message}
+              {(errors.password_confirmation as any).message}
             </p>
           )}
         </div>
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg mt-4"
+          disabled={isPending}
+          className="w-full bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Create Account
+          {isPending ? "Creating Account..." : "Create Account"}
         </button>
       </form>
 

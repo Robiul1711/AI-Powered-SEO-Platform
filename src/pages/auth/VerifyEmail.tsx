@@ -5,7 +5,7 @@ import useMutationClient from "@/hooks/useMutationClient";
 import { useDispatch } from "react-redux";
 import { setToken } from "@/redux/slices/authSlice";
 
-const VerifyOtp = () => {
+const VerifyEmail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -18,8 +18,8 @@ const VerifyOtp = () => {
     formState: { errors },
   } = useForm();
 
-  const { mutate: verifyOtp, isPending: isVerifying } = useMutationClient({
-    url: "/auth/verify-otp",
+  const { mutate: verifyEmail, isPending: isVerifying } = useMutationClient({
+    url: "/auth/verify-email",
     method: "post",
   });
 
@@ -31,14 +31,12 @@ const VerifyOtp = () => {
 
   const onSubmit = (data: any) => {
     const otp = Object.values(data).join("");
-    verifyOtp(
+    verifyEmail(
       { data: { email, otp } },
       {
         onSuccess: (res: any) => {
           if (from === "forgot-password") {
-            navigate("/auth/reset-password", {
-              state: { email, token: res?.data?.access_token },
-            });
+            navigate("/auth/reset-password", { state: { email, otp } });
           } else {
             // Save token and navigate to dashboard
             const token = res?.data?.access_token;
@@ -46,7 +44,7 @@ const VerifyOtp = () => {
               dispatch(setToken({ token }));
               navigate("/dashboard");
             } else {
-              navigate("/auth/reset-password");
+              navigate("/auth/login");
             }
           }
         },
@@ -82,7 +80,7 @@ const VerifyOtp = () => {
     <div className="space-y-8">
       <div className="text-center">
         <h1 className="text-3xl font-orbitron font-semibold text-white">
-          Verify OTP
+          Verify Email
         </h1>
         <p className="text-gray-400 text-sm mt-2">
           Enter the 5-digit code sent to your email
@@ -137,4 +135,4 @@ const VerifyOtp = () => {
   );
 };
 
-export default VerifyOtp;
+export default VerifyEmail;

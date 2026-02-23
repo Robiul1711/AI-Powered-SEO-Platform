@@ -1,18 +1,52 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
+import useMutationClient from "@/hooks/useMutationClient";
+import { useDispatch } from "react-redux";
+import { setToken } from "@/redux/slices/authSlice";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log("Login Data:", data);
+  const { mutate, isPending } = useMutationClient({
+    url: "/auth/login",
+    method: "post",
+  });
+
+  const onSubmit = (formData: any) => {
+    mutate(
+      { data: formData },
+      {
+        onSuccess: (res: any) => {
+          const token = res?.data?.access_token;
+          if (token) {
+            dispatch(setToken({ token }));
+            navigate("/dashboard");
+          }
+        },
+        onError: (err: any) => {
+          const serverErrors = err?.response?.data?.errors;
+          if (serverErrors) {
+            Object.keys(serverErrors).forEach((key) => {
+              setError(key as any, {
+                type: "server",
+                message: serverErrors[key][0],
+              });
+            });
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -86,9 +120,10 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg"
+          disabled={isPending}
+          className="w-full bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Login
+          {isPending ? "Logging in..." : "Login"}
         </button>
       </form>
 

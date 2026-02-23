@@ -12,7 +12,7 @@ import {
 import TagLines from "@/components/common/TagLines";
 import Title from "@/components/common/Title";
 
-const TopPerformingKeywords = () => {
+const OutLocalSEO = () => {
   const steps = [
     {
       id: "01",
@@ -100,4 +100,4 @@ const TopPerformingKeywords = () => {
   );
 };
 
-export default TopPerformingKeywords;
+export default OutLocalSEO;

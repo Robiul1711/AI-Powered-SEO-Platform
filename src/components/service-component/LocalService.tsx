@@ -7,6 +7,9 @@ import FAQ from "../homeComponents/FAQ";
 import StartFreeToday from "../homeComponents/StartFreeToday";
 import WhyChoose from "./monthly-service-components/WhyChoose";
 import Results from "./local-service-components/Results";
+import OutLocalSEO from "./local-service-components/OutLocalSEO";
+import LocalBenifit from "./local-service-components/LocalBenifit";
+import LocalWhyChoose from "./local-service-components/LocalWhyChoose";
 export default function LocalService() {
   return (
     <>
@@ -21,8 +24,10 @@ the Top of Local Search"
       />
 
       <CommonBusiness />
-      <WhyChoose />
-      <Results />
+      <OutLocalSEO />
+      <LocalBenifit/>
+      <LocalWhyChoose />
+      {/* <Results /> */}
       <VideoBannr />
       <PricingSection />
       <FAQ />

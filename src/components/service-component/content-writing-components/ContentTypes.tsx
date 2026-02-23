@@ -1,88 +1,99 @@
-import GlowText from '@/components/common/GlowText'
-import TagLines from '@/components/common/TagLines'
-import Title from '@/components/common/Title'
-import React from 'react'
+import React from "react";
 
-const blogs = [
-  {
-    id: 1,
-    tag: "SEO",
-    words: "2350 Words",
-    title: "The Ultimate Guide to Local SEO in 2026",
-    desc: "Learn How To Dominate Local Search Results And Attract More Customers In Your Area With Proven Strategies...",
-  },
-  {
-    id: 2,
-    tag: "PPC",
-    words: "2350 Words",
-    title: "10 PPC Mistakes That Are Wasting Your Budget",
-    desc: "Discover The Most Common PPC Mistakes And How To Avoid Them To Maximize Your Return On Ad Spend...",
-  },
-  {
-    id: 3,
-    tag: "Content",
-    words: "2350 Words",
-    title: "Content Marketing Strategies That Actually Work",
-    desc: "Learn How To Explore Proven Content Marketing Tactics That Drive Traffic, Engagement, And Conversions...",
-  },
-  {
-    id: 4,
-    tag: "SEO",
-    words: "2350 Words",
-    title: "How to Choose the Right SEO Agency",
-    desc: "A Comprehensive Guide To Evaluating SEO Agencies And Finding The Perfect Partner For Your Business...",
-  },
-];
+import bannerShadow from "@/assets/images/bannerShadow.png";
+import {
+  Website,
+  Proposal,
+  Payment,
+  Dashboard,
+  AiStars,
+  Reports,
+} from "@/components/common/SVG";
+import TagLines from "@/components/common/TagLines";
+import Title from "@/components/common/Title";
 
 const ContentTypes = () => {
+  const steps = [
+    {
+      id: "01",
+      icon: <Website />,
+      title: "Audit & Analysis",
+      desc: "We evaluate your website and competitors.",
+    },
+    {
+      id: "02",
+      icon: <AiStars />,
+      title: "Strategy Planning",
+      desc: "We define keywords and growth direction.",
+    },
+    {
+      id: "03",
+      icon: <Proposal />,
+      title: "Optimization Implementation",
+      desc: "We improve on-page and technical SEO.",
+    },
+    {
+      id: "04",
+      icon: <Payment />,
+      title: "Ongoing Improvement",
+      desc: "We monitor performance and refine strategy.",
+    },
+    {
+      id: "05",
+      icon: <Dashboard />,
+      title: "Reporting & Insights",
+      desc: "You receive clear progress reports monthly.",
+    },
+  ];
+
   return (
-       <section className="section-padding-x section-padding-y relative overflow-hidden ">
-        {/* Header */}
-        <div className="flex flex-col items-center gap-4 text-center mb-12 sm:mb-16">
-          <TagLines>Business</TagLines>
-          <Title level="title48" className="text-white">
-            Content <GlowText>Types</GlowText>  We Create
-          </Title>
-          <p className="text-white/60 text-base sm:text-lg max-w-2xl font-inter">
-            Everything you need to dominate local search
-          </p>
-        </div>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8  font-inter">
-        {blogs.map((blog) => (
+    <div className="section-padding-x ">
+      <div className="flex flex-col items-center gap-4 font-inter">
+        <TagLines>Content Writing</TagLines>
+        <Title level="title48" className="text-white">
+          Our Content Writing Process{" "}
+        </Title>
+        <p className="text-base sm:text-lg text-white/60 mb-10 max-w-2xl text-center font-inter">
+          See how we've helped local businesses dominate their markets{" "}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xlg:grid-cols-5 gap-6 py-16 font-inter">
+        {steps.map((step) => (
           <div
-            key={blog.id}
-            className="rounded-2xl border border-white/10 bg-gradient-to-r 
-            from-white/5 to-purple-500/5 backdrop-blur-xl p-8 
-            hover:border-purple-500/40 transition duration-300"
+            key={step.id}
+            className="
+    group relative p-6
+    rounded-[24px]
+    bg-[#27242B]
+    border border-[rgba(255,255,255,0.21)]
+    shadow-[2px_2px_22px_0_rgba(255,255,255,0.12)_inset,4px_4px_4px_0_rgba(210,146,242,0.11)]
+    transition-all duration-300 hover:border-[#AC6CFF] hover:shadow-[inset_2px_2px_22px_0_rgba(255,255,255,0.12),0_0_26px_0_rgba(172,108,255,0.47)]
+  "
           >
-            {/* Top Tag */}
-            <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 text-xs rounded-full bg-purple-500/20 text-purple-400 font-medium">
-                {blog.tag}
-              </span>
+            {/* Step Number Overlay */}
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#38353D] px-4 py-1 rounded-xl text-white text-sm font-medium transition-colors group-hover:bg-[#AC6CFF]">
+              {step.id}
+            </span>
 
-              <p className="text-sm text-white/50">{blog.words}</p>
+            <div className="flex flex-col items-center gap-3 mt-4 text-center">
+              {/* Icon Container */}
+              <div className="p-4 rounded-xl bg-[linear-gradient(112deg,#5C2B9C_32.9%,#3E7AB3_120.42%)] shadow-[inset_4px_4px_4px_-2px_rgba(255,255,255,0.20),2px_2px_12px_0_rgba(172,108,255,0.34)] mb-2">
+                {step.icon}
+              </div>
+
+              <Title level="title20" className="text-white font-semibold">
+                {step.title}
+              </Title>
+              <p className="text-white/50 text-sm leading-relaxed">
+                {step.desc}
+              </p>
             </div>
-
-            {/* Title */}
-            <h2 className="text-xl md:text-2xl font-semibold text-white leading-snug mb-3 font-orbitron">
-              {blog.title}
-            </h2>
-
-            {/* Description */}
-            <p className="text-sm text-white/50 leading-relaxed mb-6">
-              {blog.desc}
-            </p>
-
-            {/* Button */}
-            <button className="text-purple-400 font-orbitron text-sm font-medium flex items-center gap-2 hover:gap-3 transition-all">
-              Read Sample <span>→</span>
-            </button>
           </div>
         ))}
       </div>
-    </section>
-  )
-}
+    </div>
+  );
+};
 
-export default ContentTypes
+export default ContentTypes;

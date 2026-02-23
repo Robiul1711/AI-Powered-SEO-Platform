@@ -1,18 +1,44 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ArrowLeft } from "lucide-react";
+import useMutationClient from "@/hooks/useMutationClient";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm();
 
+  const { mutate, isPending } = useMutationClient({
+    url: "/auth/forgot-password",
+    method: "post",
+  });
+
   const onSubmit = (data: any) => {
-    console.log("Forgot Password Data:", data);
-    navigate("/auth/verify-otp");
+    mutate(
+      { data },
+      {
+        onSuccess: () => {
+          navigate("/auth/verify-otp", {
+            state: { email: data.email, from: "forgot-password" },
+          });
+        },
+        onError: (err) => {
+          const serverErrors = err?.response?.data?.errors;
+          if (serverErrors) {
+            Object.keys(serverErrors).forEach((key) => {
+              setError(key as any, {
+                type: "server",
+                message: serverErrors[key][0],
+              });
+            });
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -52,9 +78,10 @@ const ForgotPassword = () => {
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg"
+          disabled={isPending}
+          className="w-full bg-linear-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Send Reset Link
+          {isPending ? "Sending..." : "Send Reset Link"}
         </button>
       </form>
 

@@ -28,6 +28,7 @@ import ProgressAndTasks from "@/pages/allDashboardPages/progressTasksPage/Progre
 import MyService from "@/pages/allDashboardPages/servicePage/MyService";
 import Report from "@/pages/allDashboardPages/reportPage/Report";
 import Dashboard from "@/pages/allDashboardPages/dashboardPage/Dashboard";
+import VerifyEmail from "@/pages/auth/VerifyEmail";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "verify-otp", element: <VerifyOtp /> },
+      { path: "verify-email", element: <VerifyEmail /> },
       { path: "reset-password", element: <ResetPassword /> },
     ],
   },
