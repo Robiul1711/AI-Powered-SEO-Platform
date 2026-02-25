@@ -56,7 +56,7 @@ export default function CommonBanner({
 
         <Title
           level="title48"
-          className="text-white leading-tight font-semibold max-w-3xl"
+          className="text-white leading-tight font-semibold max-w-6xl"
         >
           {title}
         </Title>

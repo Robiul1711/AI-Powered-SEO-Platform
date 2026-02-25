@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAuth, selectIsAuthenticated } from "@/redux/slices/authSlice";
 import { selectCurrentUser, setUser } from "@/redux/slices/uiSlice";
+import useClient from "@/hooks/useClient";
 
 const Navbar = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
@@ -41,18 +42,20 @@ const Navbar = () => {
       document.body.style.overflow = "unset";
     };
   }, [isMobileMenuOpen]);
+  const { data, refetch, isFetching } = useClient({
+    queryKey: ["services"],
+    url: "/services",
+  });
 
   const navLinks = [
     { name: "Home", path: "/" },
     {
       name: "Services",
       path: "/services",
-      subLinks: [
-        { name: "Monthly SEO", path: "/services/monthly-seo" },
-        { name: "Local SEO", path: "/services/local-seo" },
-        { name: "PPC Campaigns", path: "/services/ppc-campaigns" },
-        { name: "Content Writing", path: "/services/content-writing" },
-      ],
+      subLinks: data?.data?.map((item: any) => ({
+        name: item?.title,
+        path: `/services/${item?.slug}`,
+      })),
     },
     { name: "AI SEO Audit", path: "/ai-seo-audit" },
     { name: "Pricing", path: "/pricing" },
@@ -196,15 +199,16 @@ const Navbar = () => {
                 <button
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                   className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition-all duration-300"
-                >
+                  >
                   <div className="w-10 h-10 rounded-full bg-bg-custom flex items-center justify-center text-white overflow-hidden border-2 border-[#AC6CFF]/20">
-                    {user?.profile_image ? (
+                    {user?.data?.avatar_url ? (
                       <img
-                        src={user.profile_image}
+                        src={user.data.avatar_url}
                         alt="Profile"
                         className="w-full h-full object-cover"
                       />
                     ) : (
+                      // <User size={20} />
                       <User size={20} />
                     )}
                   </div>
@@ -216,14 +220,14 @@ const Navbar = () => {
 
                 {/* User Dropdown Menu */}
                 {isUserDropdownOpen && (
-                  <div className="absolute top-full right-0 pt-4 w-56 z-50">
+                  <div className="absolute top-full right-0 pt-4 w-56 z-50 font-inter">
                     <div className="bg-white rounded-2xl p-2 shadow-2xl border border-gray-100 animate-in fade-in zoom-in slide-in-from-top-2 duration-200">
                       <div className="px-4 py-3 border-b border-gray-50 mb-1">
                         <p className="text-sm font-semibold text-gray-900 truncate">
-                          {user?.full_name || user?.name || "User"}
+                          {user?.data?.name || user?.name || "User"}
                         </p>
                         <p className="text-xs text-gray-500 truncate">
-                          {user?.email}
+                          {user?.data?.email || user?.email || "User"}
                         </p>
                       </div>
                       <NavLink

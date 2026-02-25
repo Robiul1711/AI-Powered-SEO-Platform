@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Camera, Eye, EyeOff } from "lucide-react";
 import CommonButton from "@/components/common/CommonButton";
 import { useSelector } from "react-redux";
+import useMutationClient from "@/hooks/useMutationClient";
 
 interface ShowPasswords {
   current: boolean;
@@ -23,41 +24,69 @@ interface InputFieldProps {
 
 const Account = () => {
   const user = useSelector((state: any) => state.ui.user);
-  // 1. Setup React Hook Form
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: {
-      fullName: user?.name || user?.full_name || "",
-      email: user?.email || "",
-      companyName: "",
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    },
-  });
-
-  useEffect(() => {
-    if (user) {
-      reset({
-        fullName: user.name || user.full_name,
-        email: user.email,
-        companyName: user.company_name || "",
-      });
-      if (user.avatar_url) {
-        setProfileImg(user.avatar_url);
-      }
-    }
-  }, [user, reset]);
-
-  // 2. States for Image and Password Visibility
-  const [profileImg, setProfileImg] = useState(
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-  );
+  const [profileImg, setProfileImg] = useState<string | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [showPasswords, setShowPasswords] = useState<ShowPasswords>({
     current: false,
     new: false,
     confirm: false,
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // 1. Setup Profile Form
+  const {
+    register: registerProfile,
+    handleSubmit: handleSubmitProfile,
+    reset: resetProfile,
+  } = useForm({
+    defaultValues: {
+      name: user?.data?.name || "",
+      phone: user?.data?.phone || "",
+      gender: user?.data?.gender || "",
+    },
+  });
+
+  // 2. Setup Password Form
+  const {
+    register: registerPassword,
+    handleSubmit: handleSubmitPassword,
+    reset: resetPassword,
+  } = useForm({
+    defaultValues: {
+      current_password: "",
+      password: "",
+      password_confirmation: "",
+    },
+  });
+
+  useEffect(() => {
+    if (user?.data) {
+      resetProfile({
+        name: user.data.name || "",
+        phone: user.data.phone || "",
+        gender: user.data.gender || "",
+      });
+      if (user.data.avatar_url) {
+        setProfileImg(user.data.avatar_url);
+      }
+    }
+  }, [user, resetProfile]);
+
+  // Mutations
+  const profileMutation = useMutationClient({
+    url: "/profile/setup",
+    method: "post",
+    isPrivate: true,
+    invalidateKeys: [["userProfile"]],
+    successMessage: "Profile updated successfully!",
+  });
+
+  const passwordMutation = useMutationClient({
+    url: "/profile/update-password",
+    method: "post",
+    isPrivate: true,
+    successMessage: "Password changed successfully!",
+  });
 
   // Toggle eye icons
   const toggleVisibility = (field: PasswordKeys) => {
@@ -68,6 +97,7 @@ const Account = () => {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setAvatarFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
@@ -78,17 +108,37 @@ const Account = () => {
     }
   };
 
-  const onProfileSubmit = (data: any) => console.log("Profile Data:", data);
-  const onPasswordSubmit = (data: any) => console.log("Password Data:", data);
+  const onProfileSubmit = (data: any) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("phone", data.phone);
+    formData.append("gender", data.gender);
+    if (avatarFile) {
+      formData.append("avatar", avatarFile);
+    }
+    profileMutation.mutate({ data: formData });
+  };
 
-  // Reusable Input Component with Eye Toggle
-  const InputField: React.FC<InputFieldProps> = ({
+  const onPasswordSubmit = (data: any) => {
+    passwordMutation.mutate(
+      { data },
+      {
+        onSuccess: () => {
+          resetPassword();
+        },
+      },
+    );
+  };
+
+  // Reusable Input Component
+  const InputField: React.FC<InputFieldProps & { register: any }> = ({
     label,
     name,
     placeholder,
     type = "text",
     isPassword = false,
     toggleKey,
+    register,
   }) => (
     <div className="flex flex-col gap-3 w-full relative">
       <label className="font-orbitron text-sm font-bold text-gray-200">
@@ -96,7 +146,7 @@ const Account = () => {
       </label>
       <div className="relative">
         <input
-          {...(register as any)(name)}
+          {...register(name)}
           type={
             isPassword && toggleKey
               ? showPasswords[toggleKey]
@@ -144,14 +194,16 @@ const Account = () => {
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8 sm:mb-10">
             <div className="relative group w-fit">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-purple-500/30">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-purple-500/30 bg-[#242424]">
                 <img
-                  src={profileImg}
+                  src={
+                    profileImg ||
+                    "https://api.dicebear.com/7.x/avataaars/svg?seed=John"
+                  }
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
               </div>
-              {/* Hidden File Input */}
               <input
                 type="file"
                 ref={fileInputRef}
@@ -177,30 +229,45 @@ const Account = () => {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit(onProfileSubmit)}>
+          <form onSubmit={handleSubmitProfile(onProfileSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
               <InputField
                 label="Full Name"
-                name="fullName"
-                placeholder="John Smith"
+                name="name"
+                placeholder="Your Name"
+                register={registerProfile}
+              />
+              <div className="flex flex-col gap-3 w-full">
+                <label className="font-orbitron text-sm font-bold text-gray-200">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={user?.data?.email || ""}
+                  disabled
+                  className="w-full bg-[#242424] border border-white/5 rounded-2xl px-6 py-4 text-gray-500 cursor-not-allowed font-inter"
+                />
+              </div>
+              <InputField
+                label="Phone"
+                name="phone"
+                placeholder="Your Phone"
+                register={registerProfile}
               />
               <InputField
-                label="Email Address"
-                name="email"
-                placeholder="john@company.com"
+                label="Gender"
+                name="gender"
+                placeholder="Your Gender"
+                register={registerProfile}
               />
             </div>
-            <InputField
-              label="Company Name"
-              name="companyName"
-              placeholder="Example.........."
-            />
             <div className="pt-6">
               <CommonButton
                 type="submit"
                 className="bg-bg-custom w-full sm:w-auto"
+                disabled={profileMutation.isPending}
               >
-                Save Changes
+                {profileMutation.isPending ? "Saving..." : "Save Changes"}
               </CommonButton>
             </div>
           </form>
@@ -212,36 +279,40 @@ const Account = () => {
             Change Password
           </h2>
           <form
-            onSubmit={handleSubmit(onPasswordSubmit)}
+            onSubmit={handleSubmitPassword(onPasswordSubmit)}
             className="space-y-6 sm:space-y-8"
           >
             <InputField
               label="Current Password"
-              name="currentPassword"
+              name="current_password"
               isPassword
               toggleKey="current"
               placeholder="••••••••••••"
+              register={registerPassword}
             />
             <InputField
               label="New Password"
-              name="newPassword"
+              name="password"
               isPassword
               toggleKey="new"
               placeholder="••••••••••••"
+              register={registerPassword}
             />
             <InputField
               label="Confirm New Password"
-              name="confirmPassword"
+              name="password_confirmation"
               isPassword
               toggleKey="confirm"
               placeholder="••••••••••••"
+              register={registerPassword}
             />
             <div className="pt-6">
               <CommonButton
                 type="submit"
                 className="bg-bg-custom w-full sm:w-auto"
+                disabled={passwordMutation.isPending}
               >
-                Save Changes
+                {passwordMutation.isPending ? "Changing..." : "Save Changes"}
               </CommonButton>
             </div>
           </form>

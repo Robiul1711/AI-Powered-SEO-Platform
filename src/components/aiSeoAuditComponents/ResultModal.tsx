@@ -4,23 +4,83 @@ import {
   X,
   Check,
   AlertCircle,
-  AlertTriangle,
+  Info,
   Download,
   Zap,
-  Clock,
+  CheckCircle,
+  AlertTriangle,
 } from "lucide-react";
 
 interface ResultModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: {
-    website: string;
-    overallScore: number;
-    performance: number;
-    technical: number;
-    content: number;
+    website_url: string;
+    overall_score: number;
+    performance_score: number;
+    technical_seo_score: number;
+    content_score: number;
+    summary: string;
+    recommendations: { type: string; message: string }[];
+    section_analysis: {
+      section: string;
+      status: string;
+      analysis: string;
+    }[];
+    pagespeed: {
+      scores: {
+        performance: number;
+        accessibility: number;
+        best_practices: number;
+        seo: number;
+      };
+      metrics: {
+        first_contentful_paint: string;
+        largest_contentful_paint: string;
+        total_blocking_time: string;
+        cumulative_layout_shift: string;
+        speed_index: string;
+      };
+    };
+    screenshots: string[];
   };
 }
+
+const getScoreColor = (score: number) => {
+  if (score >= 80) return "text-green-400";
+  if (score >= 50) return "text-yellow-400";
+  return "text-red-400";
+};
+
+const getScoreBarColor = (score: number) => {
+  if (score >= 80) return "from-green-500 to-emerald-400";
+  if (score >= 50) return "from-yellow-500 to-orange-400";
+  return "from-red-500 to-rose-400";
+};
+
+const getStatusStyle = (status: string) => {
+  const s = status.toLowerCase();
+  if (s === "good")
+    return {
+      bg: "bg-green-500/5 border-green-500/10 hover:bg-green-500/10",
+      iconBg: "bg-green-500/20",
+      Icon: CheckCircle,
+      iconColor: "text-green-500",
+    };
+  if (s === "needs update")
+    return {
+      bg: "bg-yellow-500/5 border-yellow-500/10 hover:bg-yellow-500/10",
+      iconBg: "bg-yellow-500/20",
+      Icon: AlertTriangle,
+      iconColor: "text-yellow-500",
+    };
+  return {
+    bg: "bg-blue-500/5 border-blue-500/10 hover:bg-blue-500/10",
+    iconBg: "bg-blue-500/20",
+    Icon: Info,
+    iconColor: "text-blue-500",
+  };
+};
 
 const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
   return (
@@ -72,11 +132,11 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                       Website Analyzed
                     </p>
                     <h3 className="text-lg md:text-xl text-white font-medium break-all">
-                      {data.website}
+                      {data.website_url}
                     </h3>
                   </div>
 
-                  {/* Circular Score */}
+                  {/* Circular Overall Score */}
                   <div className="relative w-24 h-24 flex items-center justify-center">
                     <svg className="w-full h-full transform -rotate-90">
                       <circle
@@ -99,7 +159,7 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                         initial={{ strokeDashoffset: 251.2 }}
                         animate={{
                           strokeDashoffset:
-                            251.2 - (251.2 * data.overallScore) / 100,
+                            251.2 - (251.2 * data.overall_score) / 100,
                         }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
                         className="text-Primary"
@@ -108,18 +168,33 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                     </svg>
                     <div className="absolute flex flex-col items-center">
                       <span className="text-2xl font-bold text-white font-orbitron">
-                        {data.overallScore}%
+                        {data.overall_score}%
                       </span>
                     </div>
                   </div>
                 </div>
 
+                {/* Summary */}
+                {data.summary && (
+                  <div className="mb-10 p-4 bg-white/5 border border-white/5 rounded-2xl">
+                    <p className="text-gray-300 text-sm md:text-base leading-relaxed">
+                      {data.summary}
+                    </p>
+                  </div>
+                )}
+
                 {/* Metrics Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
                   {[
-                    { label: "Performance", score: data.performance },
-                    { label: "Technical SEO", score: data.technical },
-                    { label: "Content", score: data.content },
+                    {
+                      label: "Performance",
+                      score: data.performance_score,
+                    },
+                    {
+                      label: "Technical SEO",
+                      score: data.technical_seo_score,
+                    },
+                    { label: "Content", score: data.content_score },
                   ].map((metric, idx) => (
                     <div
                       key={idx}
@@ -129,7 +204,9 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                         <span className="text-gray-400 text-sm">
                           {metric.label}
                         </span>
-                        <span className="text-white font-bold">
+                        <span
+                          className={`font-bold ${getScoreColor(metric.score)}`}
+                        >
                           {metric.score}%
                         </span>
                       </div>
@@ -137,58 +214,166 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${metric.score}%` }}
-                          transition={{ duration: 1, delay: 0.5 + idx * 0.2 }}
-                          className="h-full bg-gradient-to-r from-Primary to-blue-500 rounded-full"
+                          transition={{
+                            duration: 1,
+                            delay: 0.5 + idx * 0.2,
+                          }}
+                          className={`h-full bg-gradient-to-r ${getScoreBarColor(metric.score)} rounded-full`}
                         />
                       </div>
                     </div>
                   ))}
                 </div>
 
-                {/* Recommendations */}
-                <div className="space-y-4 mb-12">
-                  <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
-                    Top Recommendation
-                  </h3>
-
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-4 bg-red-500/5 border border-red-500/10 rounded-xl p-4 group hover:bg-red-500/10 transition-colors">
-                      <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center shrink-0">
-                        <X className="text-red-500" size={20} />
-                      </div>
-                      <p className="text-gray-300 text-sm md:text-base">
-                        Missing Meta Descriptions On 12 Pages
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-4 bg-yellow-500/5 border border-yellow-500/10 rounded-xl p-4 group hover:bg-yellow-500/10 transition-colors">
-                      <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center shrink-0">
-                        <AlertTriangle className="text-yellow-500" size={20} />
-                      </div>
-                      <p className="text-gray-300 text-sm md:text-base">
-                        Images Lacking Alt Text (23 Found)
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-4 bg-yellow-500/5 border border-yellow-500/10 rounded-xl p-4 group hover:bg-yellow-500/10 transition-colors">
-                      <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center shrink-0">
-                        <Clock className="text-yellow-500" size={20} />
-                      </div>
-                      <p className="text-gray-300 text-sm md:text-base">
-                        Page Load Time Exceeds 3 Seconds
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-4 bg-blue-500/5 border border-blue-500/10 rounded-xl p-4 group hover:bg-blue-500/10 transition-colors">
-                      <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center shrink-0">
-                        <AlertCircle className="text-blue-500" size={20} />
-                      </div>
-                      <p className="text-gray-300 text-sm md:text-base">
-                        Page Load Time Exceeds 3 Seconds
-                      </p>
+                {/* PageSpeed Scores */}
+                {data.pagespeed?.scores && (
+                  <div className="mb-12">
+                    <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
+                      PageSpeed Insights
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {Object.entries(data.pagespeed.scores).map(
+                        ([key, value], idx) => (
+                          <div
+                            key={idx}
+                            className="bg-white/5 border border-white/5 rounded-xl p-4 text-center"
+                          >
+                            <p
+                              className={`text-2xl font-bold font-orbitron ${getScoreColor(value)}`}
+                            >
+                              {value}%
+                            </p>
+                            <p className="text-gray-500 text-xs mt-1 capitalize">
+                              {key.replace(/_/g, " ")}
+                            </p>
+                          </div>
+                        ),
+                      )}
                     </div>
                   </div>
-                </div>
+                )}
+
+                {/* PageSpeed Metrics */}
+                {data.pagespeed?.metrics && (
+                  <div className="mb-12">
+                    <h3 className="text-lg font-orbitron font-semibold text-white mb-4">
+                      Core Web Vitals
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {Object.entries(data.pagespeed.metrics).map(
+                        ([key, value], idx) => (
+                          <div
+                            key={idx}
+                            className="bg-white/5 border border-white/5 rounded-xl p-3"
+                          >
+                            <p className="text-white font-semibold text-sm">
+                              {value}
+                            </p>
+                            <p className="text-gray-500 text-xs mt-0.5 capitalize">
+                              {key.replace(/_/g, " ")}
+                            </p>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Section Analysis */}
+                {data.section_analysis?.length > 0 && (
+                  <div className="space-y-4 mb-12">
+                    <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
+                      Section Analysis
+                    </h3>
+                    <div className="space-y-3">
+                      {data.section_analysis.map((section, idx) => {
+                        const style = getStatusStyle(section.status);
+                        const IconComp = style.Icon;
+                        return (
+                          <div
+                            key={idx}
+                            className={`flex items-center gap-4 border rounded-xl p-4 transition-colors ${style.bg}`}
+                          >
+                            <div
+                              className={`w-10 h-10 ${style.iconBg} rounded-lg flex items-center justify-center shrink-0`}
+                            >
+                              <IconComp className={style.iconColor} size={20} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-0.5">
+                                <p className="text-white font-medium text-sm">
+                                  {section.section}
+                                </p>
+                                <span
+                                  className={`text-xs px-2 py-0.5 rounded-full ${
+                                    section.status.toLowerCase() === "good"
+                                      ? "bg-green-500/20 text-green-400"
+                                      : "bg-yellow-500/20 text-yellow-400"
+                                  }`}
+                                >
+                                  {section.status}
+                                </span>
+                              </div>
+                              <p className="text-gray-400 text-sm">
+                                {section.analysis}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Recommendations */}
+                {data.recommendations?.length > 0 && (
+                  <div className="space-y-4 mb-12">
+                    <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
+                      Recommendations
+                    </h3>
+                    <div className="space-y-3">
+                      {data.recommendations.map((rec, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-4 bg-blue-500/5 border border-blue-500/10 rounded-xl p-4 hover:bg-blue-500/10 transition-colors"
+                        >
+                          <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center shrink-0">
+                            <AlertCircle className="text-blue-500" size={20} />
+                          </div>
+                          <p className="text-gray-300 text-sm md:text-base">
+                            {rec.message}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Screenshots */}
+                {data.screenshots?.length > 0 && (
+                  <div className="mb-12">
+                    <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
+                      Page Screenshots
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {data.screenshots.map((url, idx) => (
+                        <a
+                          key={idx}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block rounded-xl overflow-hidden border border-white/10 hover:border-Primary/30 transition-colors group"
+                        >
+                          <img
+                            src={url}
+                            alt={`Screenshot ${idx + 1}`}
+                            className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">

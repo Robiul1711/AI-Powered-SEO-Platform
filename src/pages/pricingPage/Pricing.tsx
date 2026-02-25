@@ -3,12 +3,19 @@ import authBg from "@/assets/images/authBg1.png";
 import ProposalHeader from "@/components/pricingComponents/ProposalHeader";
 import TimelineInvestment from "@/components/pricingComponents/TimelineInvestment";
 import ExpectedResults from "@/components/pricingComponents/ExpectedResults";
+import PricingSection from "@/components/homeComponents/PricingSection";
+import useClient from "@/hooks/useClient";
 
 const Pricing = () => {
+    const { data: pricingPlans, isLoading } = useClient({
+    queryKey: ["pricing-plans"], // Add slug to key to refetch on route change
+    url: `/pricing-plans`,
+  });
+
   return (
     <div className="relative w-full pt-26 overflow-hidden">
       {/* Background Image - Changed absolute to fixed */}
-      <div className="fixed inset-0 -z-10">
+      {/* <div className="fixed inset-0 -z-10">
         <img src={authBg} alt="" className="w-full h-full object-cover" />
       </div>
 
@@ -16,7 +23,8 @@ const Pricing = () => {
         <ProposalHeader />
         <TimelineInvestment />
         <ExpectedResults />
-      </div>
+      </div> */}
+      <PricingSection pricingPlansData={pricingPlans?.data} isLoading={isLoading}/>
     </div>
   );
 };

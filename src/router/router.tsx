@@ -29,6 +29,7 @@ import MyService from "@/pages/allDashboardPages/servicePage/MyService";
 import Report from "@/pages/allDashboardPages/reportPage/Report";
 import Dashboard from "@/pages/allDashboardPages/dashboardPage/Dashboard";
 import VerifyEmail from "@/pages/auth/VerifyEmail";
+import AllServices from "@/components/service-component/AllServices";
 
 const router = createBrowserRouter([
   {
@@ -47,10 +48,12 @@ const router = createBrowserRouter([
         path: "services",
         element: <Service />,
         children: [
-          { path: "monthly-seo", element: <MonthlyService /> },
-          { path: "local-seo", element: <LocalService /> },
-          { path: "ppc-campaigns", element: <PpcService /> },
-          { path: "content-writing", element: <ContentWriting /> },
+          { path: ":slug", element: <AllServices /> },
+
+          // { path: ":slug", element: <MonthlyService /> },
+          // { path: ":slug", element: <LocalService /> },
+          // { path: ":slug", element: <PpcService /> },
+          // { path: ":slug", element: <ContentWriting /> },
         ],
       },
     ],

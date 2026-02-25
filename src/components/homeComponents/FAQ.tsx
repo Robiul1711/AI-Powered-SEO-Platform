@@ -5,60 +5,32 @@ import TagLines from "../common/TagLines";
 import Title from "../common/Title";
 import GlowText from "../common/GlowText";
 
-
-
-const FAQ = () => {
-  const accordingData = [
-    {
-      title: "What is the purpose of wireframing in design?",
-      description:
-        "Wireframing outlines the basic structure and layout of a design, serving as a visual guide before detailed development. It helps stakeholders focus on functionality before getting distracted by visual aesthetics.",
-    },
-    {
-      title: "Why is user-centered design important?",
-      description:
-        "User-centered design ensures products meet the needs and preferences of the end-users, enhancing usability and satisfaction. It reduces development costs by fixing issues early in the design process.",
-    },
-    {
-      title: "What role does contrast play in graphic design?",
-      description:
-        "Contrast in graphic design emphasizes differences, making elements stand out and improving visual hierarchy. It guides the user's eye to the most important information on the page.",
-    },
-    {
-      title: 'Define the term "responsive design" in web development.',
-      description:
-        "Responsive design ensures web pages adapt to various screen sizes, providing an optimal user experience on different devices, from desktop monitors to mobile phones.",
-    },
-    {
-      title: "What is the significance of color theory in design?",
-      description:
-        "Color theory guides the selection and combination of colors to evoke specific emotions, enhance readability, and create visually appealing designs that align with brand identity.",
-    },
-  ];
+const FAQ = ({ serviceData }: { serviceData: any }) => {
+  const dynamicfaq = serviceData?.faq || [];
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
 
   const handleToggle = (index: number) =>
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
 
   return (
-    <section  className="w-full section-padding-x ">
+    <section className="w-full section-padding-x ">
       <div className="max-w-5xl mx-auto flex flex-col gap-6">
         {/* Header Section */}
-      <div className="flex flex-col items-center gap-4  text-center ">
-        <TagLines className="font-inter">FAQ</TagLines>
-        <Title level="title48" className="text-white">
-          Frequently <GlowText> Asked Questions </GlowText>(FAQ)
-        </Title>
-        <p className="text-base sm:text-lg text-white/60 mb-4 sm:mb-10 max-w-2xl text-center font-inter">
-     Our Al platform combines cutting-edge technology with proven SEO strategies
-        </p>
-      </div>
+        <div className="flex flex-col items-center gap-4  text-center ">
+          <TagLines className="font-inter">FAQ</TagLines>
+          <Title level="title48" className="text-white">
+            Frequently <GlowText> Asked Questions </GlowText>(FAQ)
+          </Title>
+          <p className="text-base sm:text-lg text-white/60 mb-4 sm:mb-10 max-w-2xl text-center font-inter">
+            Our Al platform combines cutting-edge technology with proven SEO
+            strategies
+          </p>
+        </div>
 
         {/* Accordion List */}
         <div className="flex flex-col gap-4">
-          {accordingData.map((item, index) => {
+          {dynamicfaq?.map((item: any, index: number) => {
             const isActive = activeIndex === index;
 
             return (
@@ -81,16 +53,12 @@ const FAQ = () => {
                           : "text-white group-hover:text-Primary "
                       }`}
                     >
-                      {item.title}
+                      {item.question}
                     </h2>
 
                     <div
                       className={`relative flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 shrink-0
-                      ${
-                        isActive
-                          ? " rotate-45"
-                          : ""
-                      }`}
+                      ${isActive ? " rotate-45" : ""}`}
                     >
                       <FaPlus
                         className={` transition-colors duration-300 
@@ -111,7 +79,7 @@ const FAQ = () => {
                   >
                     <div className="overflow-hidden">
                       <p className="pt-4 text-white/60 text-sm sm:text-base leading-relaxed border-t border-dashed border-gray-200  mt-4">
-                        {item.description}
+                        {item.answer}
                       </p>
                     </div>
                   </div>
