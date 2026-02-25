@@ -7,20 +7,16 @@ import {
   Clock,
   CheckCircle,
   ArrowRight,
+  Loader2,
 } from "lucide-react";
 import TagLines from "@/components/common/TagLines";
 import GlowText from "@/components/common/GlowText";
 import ResultModal from "./ResultModal";
+import useMutationClient from "@/hooks/useMutationClient";
 
 const PoweredAnalysis = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [auditData, setAuditData] = useState({
-    website: "",
-    overallScore: 60,
-    performance: 67,
-    technical: 72,
-    content: 81,
-  });
+  const [auditData, setAuditData] = useState<any>(null);
 
   const {
     register,
@@ -28,15 +24,22 @@ const PoweredAnalysis = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log("Audit Data:", data);
-    setAuditData({
-      ...auditData,
-      website: data.website.startsWith("http")
-        ? data.website
-        : `https://${data.website}`,
-    });
-    setIsModalOpen(true);
+  const { mutate, isPending } = useMutationClient({
+    url: "/seo-audit",
+    method: "post",
+    successMessage: "SEO Audit completed!",
+  });
+
+  const onSubmit = (formData: any) => {
+    mutate(
+      { data: formData, },
+      {
+        onSuccess: (res) => {
+          setAuditData(res?.data?.data);
+          setIsModalOpen(true);
+        },
+      },
+    );
   };
 
   return (
@@ -69,17 +72,17 @@ const PoweredAnalysis = () => {
                 <Globe size={20} />
               </div>
               <input
-                {...register("website", { required: "Website is required" })}
+                {...register("url", { required: "Website is required" })}
                 type="text"
                 placeholder="Enter Your Website (E.G., Example.Com)"
-                className={`w-full bg-[#1A1A1A] border ${errors.website ? "border-red-500" : "border-white/10 hover:border-Primary/30"} focus:border-Primary/50 rounded-2xl px-14 py-5 text-white placeholder:text-gray-500 transition-all outline-none text-lg font-inter`}
+                className={`w-full bg-[#1A1A1A] border ${errors.url ? "border-red-500" : "border-white/10 hover:border-Primary/30"} focus:border-Primary/50 rounded-2xl px-14 py-5 text-white placeholder:text-gray-500 transition-all outline-none text-lg font-inter`}
               />
             </div>
-              {errors.website && (
-                <p className="text-red-500 text-xs text-left mt-1 ml-2">
-                  {(errors.website as any).message}
-                </p>
-              )}
+            {errors.url && (
+              <p className="text-red-500 text-xs text-left mt-1 ml-2">
+                {(errors.url as any).message}
+              </p>
+            )}
 
             {/* Email Input */}
             <div className="relative">
@@ -99,22 +102,32 @@ const PoweredAnalysis = () => {
                 className={`w-full bg-[#1A1A1A] border ${errors.email ? "border-red-500" : "border-white/10 hover:border-Primary/30"} focus:border-Primary/50 rounded-2xl px-14 py-5 text-white placeholder:text-gray-500 transition-all outline-none text-lg font-inter`}
               />
             </div>
-              {errors.email && (
-                <p className="text-red-500 text-xs text-left mt-1 ml-2">
-                  {(errors.email as any).message}
-                </p>
-              )}
+            {errors.email && (
+              <p className="text-red-500 text-xs text-left mt-1 ml-2">
+                {(errors.email as any).message}
+              </p>
+            )}
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-5 rounded-2xl transition-all shadow-[0_0_30px_rgba(172,108,255,0.3)] hover:shadow-[0_0_40px_rgba(172,108,255,0.5)] active:scale-[0.98] text-xl flex items-center justify-center gap-3 group/btn"
+              disabled={isPending}
+              className="w-full bg-linear-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 disabled:opacity-60 text-white font-orbitron font-bold py-5 rounded-2xl transition-all shadow-[0_0_30px_rgba(172,108,255,0.3)] hover:shadow-[0_0_40px_rgba(172,108,255,0.5)] active:scale-[0.98] text-xl flex items-center justify-center gap-3 group/btn"
             >
-              Start Free Audit
-              <ArrowRight
-                size={22}
-                className="group-hover/btn:translate-x-1 transition-transform"
-              />
+              {isPending ? (
+                <>
+                  <Loader2 size={22} className="animate-spin" />
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  Start Free Audit
+                  <ArrowRight
+                    size={22}
+                    className="group-hover/btn:translate-x-1 transition-transform"
+                  />
+                </>
+              )}
             </button>
           </form>
 
@@ -136,11 +149,13 @@ const PoweredAnalysis = () => {
         </div>
       </div>
 
-      <ResultModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        data={auditData}
-      />
+      {auditData && (
+        <ResultModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          data={auditData}
+        />
+      )}
     </div>
   );
 };

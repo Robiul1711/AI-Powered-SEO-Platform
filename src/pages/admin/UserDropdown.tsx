@@ -29,10 +29,10 @@ const UserDropdown: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const userName = user?.full_name || user?.name || "John Doe";
-  const userEmail = user?.email || "johndoe@example.com";
+  const userName = user?.data?.name || user?.name || "John Doe";
+  const userEmail = user?.data?.email || "johndoe@example.com";
   const userAvatar =
-    user?.profile_image ||
+    user?.data?.avatar_url ||
     "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1760&auto=format&fit=crop";
 
   return (
@@ -81,14 +81,14 @@ const UserDropdown: React.FC = () => {
                 <User className="w-4 h-4" />
                 <span>Profile</span>
               </Link>
-              <Link
+              {/* <Link
                 to="/dashboard/settings"
                 className="flex items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white rounded-lg transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 <Settings className="w-4 h-4" />
                 <span>Settings</span>
-              </Link>
+              </Link> */}
             </div>
 
             <div className="mt-2 pt-2 border-t border-white/5">
