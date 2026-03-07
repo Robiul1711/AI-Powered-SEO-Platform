@@ -1,10 +1,12 @@
 import Banner from "@/components/homeComponents/Banner";
-import FAQ from "@/components/homeComponents/FAQ";
+import FAQ from "@/components/common/FAQ";
+import FAQHomePage from "@/components/homeComponents/FAQHomePage";
 import PowerfulFeatures from "@/components/homeComponents/PowerfulFeatures";
-import PricingSection from "@/components/homeComponents/PricingSection";
+import PricingSection from "@/components/common/PricingSection";
 import SimpleProcess from "@/components/homeComponents/SimpleProcess";
 import StartFreeToday from "@/components/homeComponents/StartFreeToday";
 import LightRays from "@/components/LightRays";
+import PricingSectionHome from "@/components/homeComponents/PricingSectionHome";
 
 const Home = () => {
   return (
@@ -15,8 +17,8 @@ const Home = () => {
       <Banner />
       <SimpleProcess />
       <PowerfulFeatures />
-      <PricingSection />
-      <FAQ />
+      <PricingSectionHome />
+      <FAQHomePage/>
       <StartFreeToday />
     </div>
   );

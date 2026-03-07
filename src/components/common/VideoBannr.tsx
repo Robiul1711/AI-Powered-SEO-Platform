@@ -22,7 +22,7 @@ import React from 'react'
 import VideoButton from './VideoButton'
 import videoBg from "@/assets/images/videoBg.png";
 
-const VideoBannr = ({ serviceData }: { serviceData: any }) => {
+const VideoBannr = ({ serviceData = {} }: { serviceData?: any } = { serviceData: {} }) => {
   // 1. Extract video data from API
   const dynamicVideo = serviceData?.video;
   

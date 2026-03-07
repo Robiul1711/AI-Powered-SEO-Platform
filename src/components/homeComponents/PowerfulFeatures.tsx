@@ -12,8 +12,7 @@ import {
 import GlowText from "../common/GlowText";
 import iconBg from "@/assets/images/iconBg.png";
 import featureCardBg from "@/assets/images/featureCardBg.png";
-import videoBg from "@/assets/images/videoBg.png";
-import VideoButton from "../common/VideoButton";
+
 import VideoBannr from "../common/VideoBannr";
 
 const PowerfulFeatures = () => {
@@ -118,7 +117,7 @@ const PowerfulFeatures = () => {
         ))}
       </div>
       <div>
-        <VideoBannr />
+        <VideoBannr  />
       </div>
     </div>
   );
