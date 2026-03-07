@@ -5,13 +5,35 @@ import TagLines from "../common/TagLines";
 import Title from "../common/Title";
 import GlowText from "../common/GlowText";
 
-const FAQ = ({ serviceData }: { serviceData: any }) => {
-  const dynamicfaq = serviceData?.faq || [];
+const FAQHomePage = () => {
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleToggle = (index: number) =>
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
+
+  const dynamicfaq = [
+    {
+      question: "What is SEO?",
+      answer: "SEO stands for Search Engine Optimization. It's the process of improving your website's visibility in search engine results pages (SERPs) to increase organic traffic."
+    },
+    {
+      question: "How long does it take to see SEO results?",
+      answer: "SEO results typically take 3-6 months to become noticeable, depending on factors like competition, website age, and the quality of your content and backlinks."
+    },
+    {
+      question: "What services do you offer?",
+      answer: "We offer a range of services including keyword research, on-page optimization, content creation, link building, and technical SEO audits."
+    },
+    {
+      question: "Do you provide local SEO services?",
+      answer: "Yes, we specialize in local SEO to help businesses appear in location-based searches, including Google My Business optimization and local citation building."
+    },
+    {
+      question: "What is the cost of your SEO services?",
+      answer: "Our pricing varies based on the scope of work. We offer monthly packages starting from $500, with customized plans for larger projects."
+    }
+  ];
 
   return (
     <section className="w-full section-padding-x ">
@@ -93,4 +115,4 @@ const FAQ = ({ serviceData }: { serviceData: any }) => {
   );
 };
 
-export default FAQ;
+export default FAQHomePage;

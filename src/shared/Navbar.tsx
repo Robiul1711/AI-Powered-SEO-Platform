@@ -168,7 +168,7 @@ const Navbar = () => {
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-64 z-100">
                     <div className="bg-[#1A1A1A] rounded-3xl p-4 shadow-2xl border border-white/5 animate-in fade-in zoom-in duration-200">
                       <div className="flex flex-col gap-2">
-                        {link.subLinks.map((subLink) => (
+                        {link.subLinks.map((subLink: any) => (
                           <NavLink
                             key={subLink.name}
                             to={subLink.path}
@@ -372,7 +372,7 @@ const Navbar = () => {
                         }`}
                       >
                         <div className="flex flex-col gap-1 pl-4">
-                          {link.subLinks.map((subLink) => (
+                          {link.subLinks.map((subLink: any) => (
                             <NavLink
                               key={subLink.name}
                               to={subLink.path}

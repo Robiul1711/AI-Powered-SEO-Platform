@@ -21,6 +21,53 @@ const CheckIcon = ({ className = "w-4 h-4" }: CheckIconProps) => (
   </svg>
 );
 
+const dummyPricingPlans = [
+  {
+    name: "Starter",
+    price: "99",
+    subtitle: "Perfect for small businesses just getting started with SEO",
+    features: [
+      "Keyword research and analysis",
+      "On-page optimization",
+      "Monthly performance reports",
+      "Basic technical SEO audit",
+      "Email support"
+    ],
+    is_popular: false,
+    button_text: "Get Started"
+  },
+  {
+    name: "Professional",
+    price: "299",
+    subtitle: "Ideal for growing businesses needing comprehensive SEO",
+    features: [
+      "Everything in Starter",
+      "Content creation and optimization",
+      "Link building strategy",
+      "Local SEO optimization",
+      "Advanced analytics dashboard",
+      "Priority support"
+    ],
+    is_popular: true,
+    button_text: "Choose Professional"
+  },
+  {
+    name: "Enterprise",
+    price: "599",
+    subtitle: "Full-service SEO for large businesses and agencies",
+    features: [
+      "Everything in Professional",
+      "Custom strategy development",
+      "White-label reporting",
+      "API access",
+      "Dedicated account manager",
+      "24/7 phone support"
+    ],
+    is_popular: false,
+    button_text: "Contact Sales"
+  }
+];
+
 interface PricingCardProps {
   name: string;
   price: string;
@@ -140,13 +187,13 @@ const PricingCardSkeleton = () => (
   </div>
 );
 
-const PricingSection = ({
-  pricingPlansData,
-  isLoading,
+const PricingSectionHome = ({
+  pricingPlansData = dummyPricingPlans,
+  isLoading = false,
 }: {
-  pricingPlansData: any;
-  isLoading: boolean;
-}) => {
+  pricingPlansData?: any;
+  isLoading?: boolean;
+} = {}) => {
   return (
     <section className="section-padding-x section-padding-y relative overflow-hidden">
       {/* Background Glows */}
@@ -166,7 +213,7 @@ const PricingSection = ({
       <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
         {isLoading
           ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
-          : pricingPlansData?.map((plan: any, index: number) => (
+          : (pricingPlansData || dummyPricingPlans)?.map((plan: any, index: number) => (
               <PricingCard key={index} {...plan} />
             ))}
       </div>
@@ -174,4 +221,4 @@ const PricingSection = ({
   );
 };
 
-export default PricingSection;
+export default PricingSectionHome;

@@ -3,7 +3,7 @@ import authBg from "@/assets/images/authBg1.png";
 import ProposalHeader from "@/components/pricingComponents/ProposalHeader";
 import TimelineInvestment from "@/components/pricingComponents/TimelineInvestment";
 import ExpectedResults from "@/components/pricingComponents/ExpectedResults";
-import PricingSection from "@/components/homeComponents/PricingSection";
+import PricingSection from "@/components/common/PricingSection";
 import useClient from "@/hooks/useClient";
 
 const Pricing = () => {

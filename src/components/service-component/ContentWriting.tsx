@@ -1,8 +1,8 @@
 import CommonBanner from "../common/CommonBanner";
 import { ImageProvider } from "@/components/common/ImageProvider";
 import VideoBannr from "../common/VideoBannr";
-import PricingSection from "../homeComponents/PricingSection";
-import FAQ from "../homeComponents/FAQ";
+import PricingSection from "../common/PricingSection";
+import FAQ from "../common/FAQ";
 import StartFreeToday from "../homeComponents/StartFreeToday";
 import Business from "./content-writing-components/ContentBusiness";
 import AIAssisted from "./content-writing-components/AIAssisted";
