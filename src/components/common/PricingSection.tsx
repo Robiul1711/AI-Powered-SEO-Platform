@@ -3,6 +3,7 @@ import TagLines from "./TagLines";
 import Title from "./Title";
 import GlowText from "./GlowText";
 import CommonButton from "./CommonButton";
+import useMutationClient from "@/hooks/useMutationClient";
 
 interface CheckIconProps {
   className?: string;
@@ -41,10 +42,10 @@ const dummyPricingPlans = [
       "On-page optimization",
       "Monthly performance reports",
       "Basic technical SEO audit",
-      "Email support"
+      "Email support",
     ],
     is_popular: false,
-    button_text: "Get Started"
+    button_text: "Get Started",
   },
   {
     name: "Professional",
@@ -56,10 +57,10 @@ const dummyPricingPlans = [
       "Link building strategy",
       "Local SEO optimization",
       "Advanced analytics dashboard",
-      "Priority support"
+      "Priority support",
     ],
     is_popular: true,
-    button_text: "Choose Professional"
+    button_text: "Choose Professional",
   },
   {
     name: "Enterprise",
@@ -71,11 +72,11 @@ const dummyPricingPlans = [
       "White-label reporting",
       "API access",
       "Dedicated account manager",
-      "24/7 phone support"
+      "24/7 phone support",
     ],
     is_popular: false,
-    button_text: "Contact Sales"
-  }
+    button_text: "Contact Sales",
+  },
 ];
 
 const PricingCard = ({
@@ -195,6 +196,17 @@ const PricingSection = ({
   pricingPlansData?: any;
   isLoading?: boolean;
 } = {}) => {
+  console.log(pricingPlansData);
+  const { mutate, isPending } = useMutationClient({
+    url: "/bookings/create",
+    method: "post",
+  });
+  const { mutate: verifyPayment, isPending: isPendingVerifyPayment } =
+    useMutationClient({
+      url: "/payments/verify",
+      method: "post",
+    });
+
   return (
     <section className="section-padding-x section-padding-y relative overflow-hidden">
       {/* Background Glows */}
@@ -214,9 +226,11 @@ const PricingSection = ({
       <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
         {isLoading
           ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
-          : (pricingPlansData || dummyPricingPlans).map((plan: any, index: number) => (
-              <PricingCard key={index} {...plan} />
-            ))}
+          : (pricingPlansData || dummyPricingPlans).map(
+              (plan: any, index: number) => (
+                <PricingCard key={index} {...plan} />
+              ),
+            )}
       </div>
     </section>
   );
