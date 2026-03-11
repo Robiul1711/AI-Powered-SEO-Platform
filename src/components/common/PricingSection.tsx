@@ -121,8 +121,8 @@ const PricingCard = ({
       </div>
       <p className="text-white/40 text-sm mt-4 leading-relaxed">{subtitle}</p>
     </div>
-    <CommonButton
-      className={`w-full !py-4  ${
+    <CommonButton href="/simple-checkout" as="a"
+      className={`w-full !py-4 text-center ${
         is_popular ? "bg-bg-custom " : "!bg-white/10 "
       }`}
     >
