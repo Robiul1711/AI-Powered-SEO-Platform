@@ -20,16 +20,16 @@ if (!rootElement) throw new Error("Failed to find the root element");
 
 createRoot(rootElement).render(
   <StrictMode>
-  <Toaster
-  position="top-center"
-  reverseOrder={false}
-  toastOptions={{
-    style: {
-      fontSize: "14px",
-      fontFamily: "Poppins, sans-serif",
-    },
-  }}
-/>
+    <Toaster
+      position="top-center"
+      reverseOrder={false}
+      toastOptions={{
+        style: {
+          fontSize: "14px",
+          fontFamily: "Poppins, sans-serif",
+        },
+      }}
+    />
     <QueryClientProvider client={queryClient}>
 
       <Provider store={store}>

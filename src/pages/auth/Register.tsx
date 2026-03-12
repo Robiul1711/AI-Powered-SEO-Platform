@@ -4,10 +4,22 @@ import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import useMutationClient from "@/hooks/useMutationClient";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "@/redux/slices/authSlice";
+import { useEffect } from "react";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
+
   const {
     register,
     handleSubmit,
@@ -15,12 +27,10 @@ const Register = () => {
     setError,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
 
   const { mutate, isPending } = useMutationClient({
     url: "/auth/register",
     method: "post",
-    // invalidateKeys: [["user-profile"]],
   });
   const onSubmit = (formData: any) => {
     mutate(

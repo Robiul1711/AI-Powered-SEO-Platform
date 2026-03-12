@@ -1,15 +1,29 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import useMutationClient from "@/hooks/useMutationClient";
-import { useDispatch } from "react-redux";
-import { setToken } from "@/redux/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken, selectIsAuthenticated } from "@/redux/slices/authSlice";
+import { setUser } from "@/redux/slices/uiSlice";
+import { useAuthStore } from "@/providers/useAuthStore";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const { saveAuthData } = useAuthStore();
+
+  const location = useLocation();
+  const from = location.state?.from || "/dashboard";
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
 
   const {
     register,
@@ -28,10 +42,19 @@ const Login = () => {
       { data: formData },
       {
         onSuccess: (res: any) => {
-          const token = res?.data?.access_token;
+          const responseData = res?.data;
+          const token = responseData?.access_token || responseData?.data?.access_token;
+          const userData = responseData?.user || responseData?.userdata || responseData?.data?.user;
+
           if (token) {
             dispatch(setToken({ token }));
-            navigate("/dashboard");
+            if (userData) {
+              dispatch(setUser(userData));
+            }
+            saveAuthData(token, userData || {});
+            navigate(from, { replace: true });
+          } else {
+            toast.error("Invalid response from server");
           }
         },
         onError: (err: any) => {

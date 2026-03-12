@@ -21,6 +21,8 @@ import ResetPassword from "../pages/auth/ResetPassword";
 import SimpleCheckout from "@/pages/simpleCheckoutPage/SimpleCheckout";
 import AboutPage from "@/pages/aboutPage/AboutPage";
 import CaseStudiesDetails from "@/pages/caseStudiesPage/CaseStudiesDetails";
+import SuccessPage from "@/pages/successPage/SuccessPage";
+import FailedPage from "@/pages/failedPage/FailedPage";
 
 import Message from "@/pages/allDashboardPages/messagePage/Message";
 import Account from "@/pages/allDashboardPages/accountPage/Account";
@@ -44,6 +46,8 @@ const router = createBrowserRouter([
       { path: "about", element: <AboutPage /> },
       { path: "pricing", element: <Pricing /> },
       { path: "simple-checkout", element: <SimpleCheckout /> },
+      { path: "checkout-success", element: <SuccessPage /> },
+      { path: "checkout-failed", element: <FailedPage /> },
       {
         path: "services",
         element: <Service />,
@@ -80,6 +84,13 @@ const router = createBrowserRouter([
       { path: "messages", element: <Message /> },
       { path: "reports", element: <Report/> },
       { path: "my-services", element: <MyService /> },
+    ],
+  },
+  {
+    path: "/user",
+    element: <AdminLayout />,
+    children: [
+      { path: "services", element: <MyService /> },
     ],
   },
 ]);

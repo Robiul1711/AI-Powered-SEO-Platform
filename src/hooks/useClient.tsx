@@ -8,6 +8,7 @@ type UseClientProps = {
   isPrivate?: boolean;
   params?: Record<string, any>;
   enabled?: boolean;
+  options?: any;
 };
 
 const useClient = <T = any>({
@@ -16,6 +17,7 @@ const useClient = <T = any>({
   isPrivate = false,
   params,
   enabled = true,
+  options = {},
 }: UseClientProps) => {
   const axiosClient = isPrivate ? useAxiosSecure() : useAxiosPublic();
 
@@ -23,6 +25,7 @@ const useClient = <T = any>({
     queryKey: [...queryKey, params],
     enabled,
     retry: 1,
+    ...options,
 
     queryFn: async () => {
       const res = await axiosClient.get(url, { params });
@@ -41,7 +44,3 @@ const useClient = <T = any>({
 };
 
 export default useClient;
-  {/* const { data, refetch, isFetching } = useClient({
-    queryKey: ["products"],
-    url: "/product/all-products",
-  }); */}
