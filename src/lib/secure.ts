@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
 
 // Next.js environment variable (browser accessible)
-const SECRET_KEY = import.meta.env.VITE_SECURE_KEY as string;
+const SECRET_KEY = (import.meta.env.VITE_SECURE_KEY as string) || "fallback_secure_key_123";
 
 
 export const secureSet = (key: string, value: unknown): void => {

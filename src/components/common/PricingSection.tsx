@@ -4,6 +4,7 @@ import Title from "./Title";
 import GlowText from "./GlowText";
 import CommonButton from "./CommonButton";
 import useMutationClient from "@/hooks/useMutationClient";
+import { encryptId } from "@/lib/encryption";
 
 interface CheckIconProps {
   className?: string;
@@ -23,6 +24,7 @@ const CheckIcon = ({ className = "w-4 h-4" }: CheckIconProps) => (
 );
 
 interface PricingCardProps {
+  id: string | number;
   name: string;
   price: string;
   subtitle: string;
@@ -34,6 +36,7 @@ interface PricingCardProps {
 // Fallback dummy data when no plans are provided
 const dummyPricingPlans = [
   {
+    id: 1,
     name: "Starter",
     price: "99",
     subtitle: "Perfect for small businesses just getting started with SEO",
@@ -48,6 +51,7 @@ const dummyPricingPlans = [
     button_text: "Get Started",
   },
   {
+    id: 2,
     name: "Professional",
     price: "299",
     subtitle: "Ideal for growing businesses needing comprehensive SEO",
@@ -63,6 +67,7 @@ const dummyPricingPlans = [
     button_text: "Choose Professional",
   },
   {
+    id: 3,
     name: "Enterprise",
     price: "599",
     subtitle: "Full-service SEO for large businesses and agencies",
@@ -80,6 +85,7 @@ const dummyPricingPlans = [
 ];
 
 const PricingCard = ({
+  id,
   name,
   price,
   subtitle,
@@ -121,7 +127,7 @@ const PricingCard = ({
       </div>
       <p className="text-white/40 text-sm mt-4 leading-relaxed">{subtitle}</p>
     </div>
-    <CommonButton href="/simple-checkout" as="a"
+    <CommonButton href={`/simple-checkout?plan=${encryptId(id)}`} as="a"
       className={`w-full !py-4 text-center ${
         is_popular ? "bg-bg-custom " : "!bg-white/10 "
       }`}

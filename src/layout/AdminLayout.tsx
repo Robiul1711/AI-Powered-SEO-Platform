@@ -3,6 +3,9 @@ import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import CommonNavbar from "../pages/admin/CommonNavbar";
 import SideBar, { type SidebarItem } from "../pages/admin/SideBar";
 import { MdDashboard } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "@/redux/slices/authSlice";
 import useUserProfile from "@/hooks/fetchUserProfile";
 import {
   AccountIcon,
@@ -17,6 +20,14 @@ const AdminLayout: React.FC = () => {
   useUserProfile();
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/auth/login", { state: { from: location.pathname } });
+    }
+  }, [isAuthenticated, navigate, location]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -38,8 +49,8 @@ const AdminLayout: React.FC = () => {
       id: 2,
       icon: <ServiceIcon />,
       text: "My Services",
-      path: "/dashboard/my-services",
-      activePaths: ["/dashboard/my-services"],
+      path: "/user/services",
+      activePaths: ["/user/services"],
     },
     {
       id: 3,

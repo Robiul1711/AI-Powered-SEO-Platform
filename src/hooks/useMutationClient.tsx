@@ -13,6 +13,8 @@ interface MutationParams {
   invalidateKeys?: any[][];
   successMessage?: string;
   redirectTo?: string;
+  showToast?: boolean;
+  showErrorToast?: boolean;
 }
 
 interface MutationData {
@@ -27,6 +29,8 @@ const useMutationClient = ({
   invalidateKeys = [],
   successMessage = "Action successful!",
   redirectTo,
+  showToast = true,
+  showErrorToast = true,
 }: MutationParams): UseMutationResult<AxiosResponse<any>, any, MutationData> => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -44,7 +48,9 @@ const useMutationClient = ({
       const responseData = res?.data;
       
       // 1. Global Success Feedback
-      toast.success(responseData?.message || successMessage);
+      if (showToast) {
+        toast.success(responseData?.message || successMessage);
+      }
 
       // 2. Cache Invalidation
       invalidateKeys.forEach((key) => {
@@ -58,7 +64,9 @@ const useMutationClient = ({
     onError: (error: any) => {
       // Extract error message for the toast
       const msg = error?.response?.data?.message || error.message || "An error occurred";
-      toast.error(msg);
+      if (showErrorToast) {
+        toast.error(msg);
+      }
     },
   });
 };

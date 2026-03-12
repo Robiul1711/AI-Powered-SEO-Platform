@@ -57,7 +57,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       secureSet("user", userData);
     } catch (err) {
       console.error("Failed to fetch user:", err);
-      toast.error("Failed to fetch user data");
+      // If fetching user fails (e.g. backend reset), log out the user
+      get().logout();
     } finally {
       set({ loading: false });
     }
