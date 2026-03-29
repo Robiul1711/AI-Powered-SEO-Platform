@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   Globe,
@@ -13,26 +13,65 @@ import TagLines from "@/components/common/TagLines";
 import GlowText from "@/components/common/GlowText";
 import ResultModal from "./ResultModal";
 import useMutationClient from "@/hooks/useMutationClient";
+import { useAuthStore } from "@/providers/useAuthStore";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated, selectCurrentToken } from "@/redux/slices/authSlice";
+import { selectCurrentUser } from "@/redux/slices/uiSlice";
 
 const PoweredAnalysis = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [auditData, setAuditData] = useState<any>(null);
+  const { user: zustandUser } = useAuthStore();
+  const reduxUser = useSelector(selectCurrentUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const reduxToken = useSelector(selectCurrentToken);
+
+  // Determine the current user (either from Redux or Zustand)
+  const currentUser = reduxUser || zustandUser;
+  // Robustly find the email in the user object (checking common variants)
+  const userEmail = currentUser?.email || currentUser?.user_email || currentUser?.data?.email || currentUser?.userdata?.email || currentUser?.user?.email;
+
+  // Check if we are physically logged in (have a token/auth state)
+  const isAuth = !!(isAuthenticated || reduxToken || zustandUser);
+  // Only hide the email field if we actually have the user's email to submit.
+  const shouldHideEmail = !!userEmail;
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      url: "",
+      email: userEmail || "",
+    },
+  });
+
+  // Keep form in sync with user profile (auto-fill)
+  useEffect(() => {
+    if (userEmail) {
+      reset({
+        url: "",
+        email: userEmail,
+      });
+    }
+  }, [userEmail, reset]);
 
   const { mutate, isPending } = useMutationClient({
     url: "/seo-audit",
     method: "post",
+    isPrivate: isAuth,
     successMessage: "SEO Audit completed!",
   });
 
   const onSubmit = (formData: any) => {
+    const data = {
+      ...formData,
+      email: shouldHideEmail ? userEmail : formData.email,
+    };
     mutate(
-      { data: formData, },
+      { data },
       {
         onSuccess: (res) => {
           setAuditData(res?.data?.data);
@@ -85,27 +124,40 @@ const PoweredAnalysis = () => {
             )}
 
             {/* Email Input */}
-            <div className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40">
-                <Mail size={20} />
+            {isAuth && !shouldHideEmail ? (
+              <div className="flex items-center gap-3 py-4 px-6 bg-[#1A1A1A] border border-white/5 rounded-2xl animate-pulse">
+                <Loader2 size={18} className="text-Primary animate-spin" />
+                <span className="text-gray-400 text-sm font-orbitron tracking-tight">
+                  Verifying Your Account...
+                </span>
               </div>
-              <input
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })}
-                type="email"
-                placeholder="Enter Your Email"
-                className={`w-full bg-[#1A1A1A] border ${errors.email ? "border-red-500" : "border-white/10 hover:border-Primary/30"} focus:border-Primary/50 rounded-2xl px-14 py-5 text-white placeholder:text-gray-500 transition-all outline-none text-lg font-inter`}
-              />
-            </div>
-            {errors.email && (
-              <p className="text-red-500 text-xs text-left mt-1 ml-2">
-                {(errors.email as any).message}
-              </p>
+            ) : (
+              !shouldHideEmail && (
+                <>
+                  <div className="relative">
+                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40">
+                      <Mail size={20} />
+                    </div>
+                    <input
+                      {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: "Invalid email address",
+                        },
+                      })}
+                      type="email"
+                      placeholder="Enter Your Email"
+                      className={`w-full bg-[#1A1A1A] border ${errors.email ? "border-red-500" : "border-white/10 hover:border-Primary/30"} focus:border-Primary/50 rounded-2xl px-14 py-5 text-white placeholder:text-gray-500 transition-all outline-none text-lg font-inter`}
+                    />
+                  </div>
+                  {errors.email && (
+                    <p className="text-red-500 text-xs text-left mt-1 ml-2">
+                      {(errors.email as any).message}
+                    </p>
+                  )}
+                </>
+              )
             )}
 
             {/* Submit Button */}

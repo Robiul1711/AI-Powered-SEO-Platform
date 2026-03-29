@@ -21,10 +21,10 @@ const Message = () => {
     const currentId = currentUser?.id || currentUser?.data?.id || currentUser?.user_id || currentUser?.userdata?.id || currentUser?.userdata?.user_id;
     
     if (echo && currentId) {
-      const channelName = `chat.${currentId}`;
+      const channelName = `user.${currentId}`;
       const channel = echo.private(channelName);
       
-      channel.listen("MessageSent", (e: any) => {
+      channel.listen(".message.sent", (e: any) => {
         refetchConversations();
         if (selectedConversationId) {
           refetchMessages();
