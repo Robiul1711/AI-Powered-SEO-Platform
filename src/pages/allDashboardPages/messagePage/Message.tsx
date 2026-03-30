@@ -21,10 +21,10 @@ const Message = () => {
     const currentId = currentUser?.id || currentUser?.data?.id || currentUser?.user_id || currentUser?.userdata?.id || currentUser?.userdata?.user_id;
     
     if (echo && currentId) {
-      const channelName = `chat.${currentId}`;
+      const channelName = `user.${currentId}`;
       const channel = echo.private(channelName);
       
-      channel.listen("MessageSent", (e: any) => {
+      channel.listen(".message.sent", (e: any) => {
         refetchConversations();
         if (selectedConversationId) {
           refetchMessages();
@@ -178,19 +178,10 @@ const Message = () => {
 
   return (
     <div className="font-inter text-white pb-6">
-      <header className="mb-6 sm:mb-8">
-        <h1 className="text-3xl xs:text-4xl font-orbitron font-bold">
-          Messages
-        </h1>
-        <p className="text-gray-400 mt-2 text-xs sm:text-sm">
-          Communicate With Your Account Team
-        </p>
-      </header>
-
       <div className="flex flex-col lg:flex-row gap-6 h-[600px] sm:h-[700px] lg:h-[700px] relative">
         {/* Sidebar: Conversion List */}
         <div
-          className={`w-full lg:w-1/3 bg-[#1A1A1A] border border-white/5 rounded-[1.5rem] sm:rounded-xl overflow-hidden flex flex-col ${(selectedConversationId !== null || newChatUser !== null) && "hidden lg:flex"}`}
+          className={`w-full lg:w-1/3 bg-[#1A1A1A] border border-white/5 rounded-3xl sm:rounded-xl overflow-hidden flex flex-col ${(selectedConversationId !== null || newChatUser !== null) && "hidden lg:flex"}`}
         >
           <div className="p-5 sm:p-6 border-b border-white/5 flex justify-between items-center">
             <h2 className="text-lg sm:text-xl font-orbitron font-bold">
@@ -210,7 +201,7 @@ const Message = () => {
                 placeholder="Search Here..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-full pl-11 pr-14 py-2.5 text-xs focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.05] transition-all font-orbitron placeholder:text-white/20"
+                className="w-full bg-white/3 border border-white/10 rounded-full pl-11 pr-14 py-2.5 text-xs focus:outline-none focus:border-purple-500/50 focus:bg-white/5 transition-all font-orbitron placeholder:text-white/20"
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-2 py-1 bg-white/5 border border-white/10 rounded-lg pointer-events-none">
                 <span className="text-[10px] text-white/40 font-inter">⌘</span>
@@ -239,7 +230,7 @@ const Message = () => {
                       setNewChatUser(null);
                     }}
                     className={`p-3 sm:p-4 rounded-xl cursor-pointer transition-all flex gap-3 sm:gap-4 items-center ${selectedConversationId === conversation.id
-                      ? "bg-gradient-to-b from-[#AC6CFF] to-[#674199] text-white shadow-[0_0_20px_rgba(172,108,255,0.3)]"
+                      ? "bg-linear-to-b from-[#AC6CFF] to-[#674199] text-white shadow-[0_0_20px_rgba(172,108,255,0.3)]"
                       : "bg-[#242424] hover:bg-[#2a2a2a]"
                       }`}
                   >
@@ -314,7 +305,7 @@ const Message = () => {
 
         {/* Main Chat Window */}
         <div
-          className={`flex-1 bg-[#1A1A1A] border border-white/5 rounded-[1.5rem] sm:rounded-xl flex flex-col relative overflow-hidden ${(selectedConversationId === null && newChatUser === null) && "hidden lg:flex"}`}
+          className={`flex-1 bg-[#1A1A1A] border border-white/5 rounded-3xl sm:rounded-xl flex flex-col relative overflow-hidden ${(selectedConversationId === null && newChatUser === null) && "hidden lg:flex"}`}
         >
           {selectedConversationId !== null || newChatUser !== null ? (
             <>
@@ -379,8 +370,8 @@ const Message = () => {
                           )}
                           <div className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
                             <div
-                              className={`max-w-[85%] sm:max-w-[70%] px-4 py-3 rounded-[1.5rem] relative ${isMe
-                                ? "bg-gradient-to-r from-[#AC6CFF] to-[#674199] text-white shadow-[0_4px_15px_rgba(172,108,255,0.2)]"
+                              className={`max-w-[85%] sm:max-w-[70%] px-4 py-3 rounded-3xl relative ${isMe
+                                ? "bg-linear-to-r from-[#AC6CFF] to-[#674199] text-white shadow-[0_4px_15px_rgba(172,108,255,0.2)]"
                                 : "bg-[#242424] border border-white/5 text-gray-200"
                                 }`}
                             >

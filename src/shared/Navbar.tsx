@@ -258,7 +258,7 @@ const Navbar = () => {
                 >
                   Sign Up
                 </CommonButton>
-                <CommonButton className="bg-bg-custom text-white! hover:bg-[#9D56FF]! shadow-[0_0_20px_rgba(172,108,255,0.3)] px-4! xl:px-8! text-sm! xl:text-base!">
+                <CommonButton to="/ai-seo-audit" as="link" className="bg-bg-custom text-white! hover:bg-[#9D56FF]! shadow-[0_0_20px_rgba(172,108,255,0.3)] px-4! xl:px-8! text-sm! xl:text-base!">
                   Free AI Audit
                 </CommonButton>
               </>

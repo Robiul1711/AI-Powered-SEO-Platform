@@ -32,6 +32,10 @@ import Report from "@/pages/allDashboardPages/reportPage/Report";
 import Dashboard from "@/pages/allDashboardPages/dashboardPage/Dashboard";
 import VerifyEmail from "@/pages/auth/VerifyEmail";
 import AllServices from "@/components/service-component/AllServices";
+import NotFound from "@/pages/notFoundPage/NotFound";
+import PrivacyPolicy from "@/pages/policyPages/PrivacyPolicy";
+import TermsAndConditions from "@/pages/policyPages/TermsAndConditions";
+import CookiePolicy from "@/pages/policyPages/CookiePolicy";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +52,9 @@ const router = createBrowserRouter([
       { path: "simple-checkout", element: <SimpleCheckout /> },
       { path: "checkout-success", element: <SuccessPage /> },
       { path: "checkout-failed", element: <FailedPage /> },
+      { path: "privacy", element: <PrivacyPolicy /> },
+      { path: "terms", element: <TermsAndConditions /> },
+      { path: "cookie-policy", element: <CookiePolicy /> },
       {
         path: "services",
         element: <Service />,
@@ -92,6 +99,10 @@ const router = createBrowserRouter([
     children: [
       { path: "services", element: <MyService /> },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

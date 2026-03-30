@@ -10,6 +10,7 @@ import {
   CheckCircle,
   AlertTriangle,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ResultModalProps {
   isOpen: boolean;
@@ -17,9 +18,12 @@ interface ResultModalProps {
   data: {
     website_url: string;
     overall_score: number;
-    performance_score: number;
-    technical_seo_score: number;
-    content_score: number;
+    performance_score?: number;
+    performance?: number;
+    technical_seo_score?: number;
+    technical_seo?: number;
+    content_score?: number;
+    content?: number;
     summary: string;
     recommendations: { type: string; message: string }[];
     section_analysis: {
@@ -43,6 +47,8 @@ interface ResultModalProps {
       };
     };
     screenshots: string[];
+    is_subscribed: boolean;
+    download_pdf?: string;
   };
 }
 
@@ -188,13 +194,24 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                   {[
                     {
                       label: "Performance",
-                      score: data.performance_score,
+                      score:
+                        data.performance_score ||
+                        data.performance ||
+                        data.pagespeed?.scores?.performance ||
+                        0,
                     },
                     {
                       label: "Technical SEO",
-                      score: data.technical_seo_score,
+                      score:
+                        data.technical_seo_score ||
+                        data.technical_seo ||
+                        data.pagespeed?.scores?.seo ||
+                        0,
                     },
-                    { label: "Content", score: data.content_score },
+                    {
+                      label: "Content",
+                      score: data.content_score || data.content || 0,
+                    },
                   ].map((metric, idx) => (
                     <div
                       key={idx}
@@ -279,72 +296,107 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                   </div>
                 )}
 
-                {/* Section Analysis */}
-                {data.section_analysis?.length > 0 && (
-                  <div className="space-y-4 mb-12">
-                    <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
-                      Section Analysis
-                    </h3>
-                    <div className="space-y-3">
-                      {data.section_analysis.map((section, idx) => {
-                        const style = getStatusStyle(section.status);
-                        const IconComp = style.Icon;
-                        return (
-                          <div
-                            key={idx}
-                            className={`flex items-center gap-4 border rounded-xl p-4 transition-colors ${style.bg}`}
-                          >
-                            <div
-                              className={`w-10 h-10 ${style.iconBg} rounded-lg flex items-center justify-center shrink-0`}
-                            >
-                              <IconComp className={style.iconColor} size={20} />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-0.5">
-                                <p className="text-white font-medium text-sm">
-                                  {section.section}
-                                </p>
-                                <span
-                                  className={`text-xs px-2 py-0.5 rounded-full ${
-                                    section.status.toLowerCase() === "good"
-                                      ? "bg-green-500/20 text-green-400"
-                                      : "bg-yellow-500/20 text-yellow-400"
-                                  }`}
+                {/* Premium Content Sections (Conditional) */}
+                {data.is_subscribed ? (
+                  <>
+                    {/* Section Analysis */}
+                    {data.section_analysis?.length > 0 && (
+                      <div className="space-y-4 mb-12">
+                        <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
+                          Section Analysis
+                        </h3>
+                        <div className="space-y-3">
+                          {data.section_analysis.map((section, idx) => {
+                            const style = getStatusStyle(section.status);
+                            const IconComp = style.Icon;
+                            return (
+                              <div
+                                key={idx}
+                                className={`flex items-center gap-4 border rounded-xl p-4 transition-colors ${style.bg}`}
+                              >
+                                <div
+                                  className={`w-10 h-10 ${style.iconBg} rounded-lg flex items-center justify-center shrink-0`}
                                 >
-                                  {section.status}
-                                </span>
+                                  <IconComp
+                                    className={style.iconColor}
+                                    size={20}
+                                  />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 mb-0.5">
+                                    <p className="text-white font-medium text-sm">
+                                      {section.section}
+                                    </p>
+                                    <span
+                                      className={`text-xs px-2 py-0.5 rounded-full ${
+                                        section.status.toLowerCase() === "good"
+                                          ? "bg-green-500/20 text-green-400"
+                                          : "bg-yellow-500/20 text-yellow-400"
+                                      }`}
+                                    >
+                                      {section.status}
+                                    </span>
+                                  </div>
+                                  <p className="text-gray-400 text-sm">
+                                    {section.analysis}
+                                  </p>
+                                </div>
                               </div>
-                              <p className="text-gray-400 text-sm">
-                                {section.analysis}
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Recommendations */}
+                    {data.recommendations?.length > 0 && (
+                      <div className="space-y-4 mb-12">
+                        <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
+                          Recommendations
+                        </h3>
+                        <div className="space-y-3">
+                          {data.recommendations.map((rec, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center gap-4 bg-blue-500/5 border border-blue-500/10 rounded-xl p-4 hover:bg-blue-500/10 transition-colors"
+                            >
+                              <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center shrink-0">
+                                <AlertCircle
+                                  className="text-blue-500"
+                                  size={20}
+                                />
+                              </div>
+                              <p className="text-gray-300 text-sm md:text-base">
+                                {rec.message}
                               </p>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Recommendations */}
-                {data.recommendations?.length > 0 && (
-                  <div className="space-y-4 mb-12">
-                    <h3 className="text-xl font-orbitron font-semibold text-white mb-6">
-                      Recommendations
-                    </h3>
-                    <div className="space-y-3">
-                      {data.recommendations.map((rec, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center gap-4 bg-blue-500/5 border border-blue-500/10 rounded-xl p-4 hover:bg-blue-500/10 transition-colors"
-                        >
-                          <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center shrink-0">
-                            <AlertCircle className="text-blue-500" size={20} />
-                          </div>
-                          <p className="text-gray-300 text-sm md:text-base">
-                            {rec.message}
-                          </p>
+                          ))}
                         </div>
-                      ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  /* Upgrade Message for Non-Subscribed Users */
+                  <div className="mb-12 py-12 px-6 bg-white/5 border border-white/5 rounded-[32px] text-center relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-Primary/10 rounded-full blur-3xl -mr-16 -mt-16" />
+                    <div className="relative z-10 flex flex-col items-center">
+                      <div className="w-16 h-16 bg-Primary/20 rounded-2xl flex items-center justify-center mb-6 border border-Primary/30">
+                        <Zap className="text-Primary w-8 h-8" />
+                      </div>
+                      <h4 className="text-2xl font-orbitron font-bold text-white mb-3">
+                        Unlock Detailed Analysis
+                      </h4>
+                      <p className="text-gray-400 mb-8 max-w-md mx-auto leading-relaxed">
+                        Upgrade to our premium plans to access the full
+                        section-by-section analysis and specific recommendations
+                        tailored for your website.
+                      </p>
+                      <Link
+                        to="/pricing"
+                        className="bg-Primary hover:opacity-90 text-white font-orbitron font-bold px-10 py-4 rounded-xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)]"
+                      >
+                        Explore Premium Plans
+                      </Link>
                     </div>
                   </div>
                 )}
@@ -377,14 +429,28 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="flex-1 bg-gradient-to-r from-Primary to-blue-500 hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] flex items-center justify-center gap-2">
-                    <Download size={20} />
-                    Download Report
-                  </button>
-                  <button className="flex-1 bg-[#1A1A1A] border border-white/5 hover:border-white/10 text-white font-orbitron font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                  {/* {console.log(data)} */}
+                  {data?.is_subscribed && (
+                    <a
+                      href={data.download_pdf}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 bg-gradient-to-r from-Primary to-blue-500 hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] flex items-center justify-center gap-2"
+                    >
+                      <Download size={20} />
+                      Download Report
+                    </a>
+                  )}
+                  <Link
+                    to="/pricing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-[#1A1A1A] border border-white/5 hover:border-white/10 text-white font-orbitron font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2"
+                  >
                     <Zap size={20} className="text-Primary" />
                     Get Optimization Plan
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

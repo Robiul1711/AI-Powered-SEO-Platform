@@ -74,7 +74,8 @@ const OurBenefit = ({ serviceData }: { serviceData: any }) => {
 
           {/* Dynamic Button */}
           <div className="pt-4">
-            <CommonButton 
+            
+            <CommonButton  
               className="bg-bg-custom hover:opacity-90 transition-all"
               // Optional: link to the button_url from API if it exists
               onClick={() => benefits?.button_url && window.open(benefits.button_url, '_blank')}

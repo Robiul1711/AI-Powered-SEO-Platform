@@ -81,7 +81,7 @@ const Banner = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4">
-          <CommonButton className="bg-bg-custom">
+          <CommonButton className="bg-bg-custom" to="/ai-seo-audit" as="link">
             Run Free AI SEO Audit
           </CommonButton>
           <CommonButton

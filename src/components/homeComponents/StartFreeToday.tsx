@@ -27,12 +27,12 @@ const StartFreeToday = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4">
-          <CommonButton className="bg-white text-Primary!  px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base shadow-[0_0_30px_rgba(172,108,255,0.4)]">
+          <CommonButton to="/ai-seo-audit" as="link" className="bg-white text-Primary!  px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base shadow-[0_0_30px_rgba(172,108,255,0.4)]">
             Start Free AI Audit
           </CommonButton>
           <CommonButton
             as="link"
-            to="/services"
+            to="/dashboard"
             className="bg-[#FFFFFF]/35 border border-white/20 text-white!  px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base hover:border-[#ffff] hover:text-[#ffff]!"
           >
             Access Client Dashboard
