@@ -56,8 +56,8 @@ const SimpleCheckout = () => {
   });
 
   const selectedPlan = useMemo(() => {
-    if (!planId || !pricingPlans?.data) return null;
-    return pricingPlans.data.find((p: any) => p.id.toString() === planId.toString());
+    if (!planId || !(pricingPlans as any)?.data) return null;
+    return (pricingPlans as any).data.find((p: any) => p.id.toString() === planId.toString());
   }, [planId, pricingPlans]);
 
   if (!isAuthenticated) return null;

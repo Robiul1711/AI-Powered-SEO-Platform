@@ -52,7 +52,7 @@ const Navbar = () => {
     {
       name: "Services",
       path: "/services",
-      subLinks: data?.data?.map((item: any) => ({
+      subLinks: (data as any)?.data?.map((item: any) => ({
         name: item?.title,
         path: `/services/${item?.slug}`,
       })),
