@@ -54,10 +54,30 @@
 
   /* animate */
   --animate-spin: spin 1s linear infinite;
+  --animate-slow-spin: slow-spin 20s linear infinite;
+  --animate-slow-spin-reverse: slow-spin-reverse 20s linear infinite;
 
   @keyframes spin {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes slow-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes slow-spin-reverse {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
     }
   }
 }

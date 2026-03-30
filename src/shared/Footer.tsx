@@ -11,7 +11,7 @@ const Footer = () => {
         { name: "AI Audit", path: "/ai-seo-audit" },
         { name: "Pricing", path: "/pricing" },
         { name: "Dashboard", path: "/dashboard" },
-        { name: "API", path: "/api" },
+        // { name: "API", path: "/api" },
       ],
     },
     {
@@ -19,17 +19,17 @@ const Footer = () => {
       links: [
         { name: "About", path: "/about" },
         { name: "Blog", path: "/blog" },
-        { name: "Careers", path: "/careers" },
+        // { name: "Careers", path: "/careers" },
         { name: "Contact", path: "/contact" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { name: "Documentation", path: "/docs" },
-        { name: "Help Center", path: "/help" },
+        // { name: "Documentation", path: "/docs" },
+        { name: "Help Center", path: "/contact" },
         { name: "Case Studies", path: "/case-studies" },
-        { name: "SEO Guide", path: "/seo-guide" },
+        { name: "SEO Guide", path: "/" },
       ],
     },
     {

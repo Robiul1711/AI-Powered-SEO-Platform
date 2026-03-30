@@ -176,18 +176,9 @@ const Account = () => {
 
   return (
     <div className=" font-inter pb-10">
-      <header className="mb-8 sm:mb-10">
-        <h1 className="text-3xl xs:text-4xl font-orbitron font-bold text-white">
-          Account Settings
-        </h1>
-        <p className="text-gray-400 mt-2 text-xs sm:text-sm">
-          Manage Your Profile And Account Preferences
-        </p>
-      </header>
-
       <div className="space-y-6 sm:space-y-8">
         {/* Profile Section */}
-        <section className="bg-[#1A1A1A] border border-white/5 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-10">
+        <section className="bg-[#1A1A1A] border border-white/5 rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10">
           <h2 className="text-lg sm:text-xl font-orbitron font-bold mb-6 sm:mb-8 text-white">
             Profile Information
           </h2>
@@ -274,7 +265,7 @@ const Account = () => {
         </section>
 
         {/* Password Section */}
-        <section className="bg-[#1A1A1A] border border-white/5 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-10">
+        <section className="bg-[#1A1A1A] border border-white/5 rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10">
           <h2 className="text-lg sm:text-xl font-orbitron font-bold mb-6 sm:mb-8 text-white">
             Change Password
           </h2>
