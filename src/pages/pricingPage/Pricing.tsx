@@ -24,7 +24,7 @@ const Pricing = () => {
         <TimelineInvestment />
         <ExpectedResults />
       </div> */}
-      <PricingSection pricingPlansData={pricingPlans?.data} isLoading={isLoading}/>
+      <PricingSection pricingPlansData={(pricingPlans as any)?.data} isLoading={isLoading}/>
     </div>
   );
 };

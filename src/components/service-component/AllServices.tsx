@@ -19,7 +19,7 @@ const { slug = "" } = useParams<{ slug: string }>();
 
 
 
-  const serviceData = response?.data;
+  const serviceData = (response as any)?.data;
   // console.log(serviceData)
   return (
     <>
