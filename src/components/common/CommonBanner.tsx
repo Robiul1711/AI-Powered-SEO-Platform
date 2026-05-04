@@ -56,13 +56,13 @@ export default function CommonBanner({
 
         <Title
           level="title48"
-          className="text-white leading-tight font-semibold max-w-6xl"
+          className="text-white leading-tight font-semibold max-w-7xl"
         >
           {title}
         </Title>
 
         {subtitle && (
-          <p className="text-white/80 mt-4 max-w-2xl">{subtitle}</p>
+          <p className="text-white/80 mt-4 max-w-6xl">{subtitle}</p>
         )}
 
         {/* Action Buttons */}

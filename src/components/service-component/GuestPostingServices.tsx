@@ -1,0 +1,34 @@
+import CommonBanner from "../common/CommonBanner";
+import { ImageProvider } from "@/components/common/ImageProvider";
+import StartFreeToday from "../homeComponents/StartFreeToday";
+import WhyChoose from "./seoCampaignComponents/WhyChoose";
+import OutLocalSEO from "./guestPostingcomponents/OutLocalSEO";
+import OurBenefit from "./seoCampaignComponents/OurBenefit";
+import Newsletter from "../common/Newsletter";
+import GestPostingFAQ from "./guestPostingcomponents/GestPostingFAQ";
+import GuestPostingPrice from "./guestPostingcomponents/GuestPostingPrice";
+import GuestWhyChoose from "./guestPostingcomponents/GuestWhyChoose";
+import GuesstOurBenefit from "./guestPostingcomponents/GuesstOurBenefit";
+export default function GuestPostingServices() {
+  return (
+    <>
+      <CommonBanner
+        title="Guest Posting Services"
+        subtitle="Guest posting is a great way to build backlinks and improve your website's SEO. Our team can help you get high-quality guest posts on authoritative websites in your niche. We offer a range of guest posting packages to suit your needs and budget."
+        image={ImageProvider.localService}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "services", href: "/services" },
+        ]}
+      />
+
+      <GuestPostingPrice />
+      <OutLocalSEO />
+      <GuesstOurBenefit serviceData="" />
+      <GuestWhyChoose serviceData="" />
+      <Newsletter />
+      <GestPostingFAQ />
+      <StartFreeToday />
+    </>
+  );
+}

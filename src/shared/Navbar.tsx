@@ -42,20 +42,22 @@ const Navbar = () => {
       document.body.style.overflow = "unset";
     };
   }, [isMobileMenuOpen]);
-  const { data, refetch, isFetching } = useClient({
-    queryKey: ["services"],
-    url: "/services",
-  });
+  // const { data, refetch, isFetching } = useClient({
+  //   queryKey: ["services"],
+  //   url: "/services",
+  // });
 
   const navLinks = [
     { name: "Home", path: "/" },
     {
       name: "Services",
       path: "/services",
-      subLinks: (data as any)?.data?.map((item: any) => ({
-        name: item?.title,
-        path: `/services/${item?.slug}`,
-      })),
+      subLinks: [
+        { name: "SEO Campaign", path: "/services/seo-campaign" },
+        { name: "Guest Posting", path: "/services/guest-posting" },
+        { name: "Link Building", path: "/services/link-building" },
+        { name: "SMM Marketing", path: "/services/smm-marketing" },
+      ],
     },
     { name: "AI SEO Audit", path: "/ai-seo-audit" },
     { name: "Pricing", path: "/pricing" },
@@ -165,7 +167,7 @@ const Navbar = () => {
 
                 {/* Desktop Dropdown Menu */}
                 {link.subLinks && isServicesOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-68 z-100">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-72 z-[100]">
                     <div className="bg-[#1A1A1A] rounded-2xl p-4 shadow-2xl border border-white/5 animate-in fade-in zoom-in duration-200">
                       <div className="flex flex-col gap-2">
                         {link.subLinks.map((subLink: any) => (
