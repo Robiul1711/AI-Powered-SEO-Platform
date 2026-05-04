@@ -1,5 +1,5 @@
 import Banner from "@/components/homeComponents/Banner";
-import FAQ from "@/components/common/FAQ";
+import FAQ from "@/components/service-component/seoCampaignComponents/SeoCampignFAQ";
 import FAQHomePage from "@/components/homeComponents/FAQHomePage";
 import PowerfulFeatures from "@/components/homeComponents/PowerfulFeatures";
 import PricingSection from "@/components/common/PricingSection";
@@ -18,7 +18,7 @@ const Home = () => {
       <SimpleProcess />
       <PowerfulFeatures />
       <PricingSectionHome />
-      <FAQHomePage/>
+      <FAQHomePage />
       <StartFreeToday />
     </div>
   );

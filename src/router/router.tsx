@@ -3,10 +3,6 @@ import Home from "../pages/homePage/Home";
 import Layout from "../layout/Layout";
 import AdminLayout from "../layout/AdminLayout";
 import Service from "@/pages/service/Service";
-// import MonthlyService from "@/components/service-component/MonthlyService";
-// import LocalService from "@/components/service-component/LocalService";
-// import PpcService from "@/components/service-component/PpcService";
-// import ContentWriting from "@/components/service-component/ContentWriting";
 import SEOAudit from "@/pages/aiSeoAuditPage/SEOAudit";
 import Contact from "@/pages/contactPage/Contact";
 import CaseStudies from "@/pages/caseStudiesPage/CaseStudies";
@@ -31,11 +27,15 @@ import MyService from "@/pages/allDashboardPages/servicePage/MyService";
 import Report from "@/pages/allDashboardPages/reportPage/Report";
 import Dashboard from "@/pages/allDashboardPages/dashboardPage/Dashboard";
 import VerifyEmail from "@/pages/auth/VerifyEmail";
-import AllServices from "@/components/service-component/AllServices";
+// import AllServices from "@/components/service-component/AllServices";
 import NotFound from "@/pages/notFoundPage/NotFound";
 import PrivacyPolicy from "@/pages/policyPages/PrivacyPolicy";
 import TermsAndConditions from "@/pages/policyPages/TermsAndConditions";
 import CookiePolicy from "@/pages/policyPages/CookiePolicy";
+import SEOCampaign from "@/components/service-component/SEOCampaign";
+import GuestPostingServices from "@/components/service-component/GuestPostingServices";
+import LinkBuilding from "@/components/service-component/LinkBuilding";
+import MarketingSolutions from "@/components/service-component/MarketingSolutions";
 
 const router = createBrowserRouter([
   {
@@ -59,12 +59,12 @@ const router = createBrowserRouter([
         path: "services",
         element: <Service />,
         children: [
-          { path: ":slug", element: <AllServices /> },
+          // { path: ":slug", element: <AllServices /> },
 
-          // { path: ":slug", element: <MonthlyService /> },
-          // { path: ":slug", element: <LocalService /> },
-          // { path: ":slug", element: <PpcService /> },
-          // { path: ":slug", element: <ContentWriting /> },
+          { path: "seo-campaign", element: <SEOCampaign /> },
+          { path: "guest-posting", element: <GuestPostingServices /> },
+          { path: "link-building", element: <LinkBuilding /> },
+          { path: "smm-marketing", element: <MarketingSolutions /> },
         ],
       },
     ],
