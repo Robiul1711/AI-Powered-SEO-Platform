@@ -17,10 +17,10 @@ export default function SEOCampaign() {
         title="SEO Packages"
         subtitle="Unlock Sustainable Growth with Our Expert-Crafted SEO Packages. Every Strategy is a Promise: Visible, Measurable, and Built for Real Business Impact."
         image={ImageProvider.monthlyService}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "SEO Campaign", href: `/services/seo-campaign` },
-        ]}
+        // breadcrumbs={[
+        //   { label: "Home", href: "/" },
+        //   { label: "SEO Campaign", href: `/services/seo-campaign` },
+        // ]}
       />
       <SEOPackages/>
       <SeoCapaignPrice />

@@ -17,10 +17,10 @@ export default function MarketingSolutions() {
         subtitle="Social Media Marketing is the intersection between creative and performance. Our team delivers the perfect combination of creative and paid media expertise to maximize results."
         image={ImageProvider.contentWriting}
         buttonOne="Get a free audit"
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "services", href: "/services" },
-        ]}
+        // breadcrumbs={[
+        //   { label: "Home", href: "/" },
+        //   { label: "services", href: "/services" },
+        // ]}
       />
       <ContentBusiness />
       <FacebookMarketing />
