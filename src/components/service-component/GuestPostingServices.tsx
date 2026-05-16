@@ -16,10 +16,10 @@ export default function GuestPostingServices() {
         title="Guest Posting Services"
         subtitle="Guest posting is a great way to build backlinks and improve your website's SEO. Our team can help you get high-quality guest posts on authoritative websites in your niche. We offer a range of guest posting packages to suit your needs and budget."
         image={ImageProvider.localService}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "services", href: "/services" },
-        ]}
+        // breadcrumbs={[
+        //   { label: "Home", href: "/" },
+        //   { label: "services", href: "/services" },
+        // ]}
       />
 
       <GuestPostingPrice />
