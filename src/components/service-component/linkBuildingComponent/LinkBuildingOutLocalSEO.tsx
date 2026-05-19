@@ -11,57 +11,16 @@ import {
 import TagLines from "@/components/common/TagLines";
 import Title from "@/components/common/Title";
 
-const LinkBuildingOutLocalSEO = () => {
-const steps = [
-  {
-    id: "01",
-    icon: <Proposal />,
-    title: "Keyword analysis",
-    desc: "Etiam vel placerat enim dapibus varius massa sodales lacinia",
-  },
-  {
-    id: "02",
-    icon: <Reports />,
-    title: "Competitor analysis",
-    desc: "Etiam vel placerat enim dapibus varius massa sodales lacinia",
-  },
-  {
-    id: "03",
-    icon: <Payment />,
-    title: "Backlink audits",
-    desc: "Etiam vel placerat enim dapibus varius massa sodales lacinia",
-  },
-  {
-    id: "04",
-    icon: <Payment />,
-    title: "Outreach service",
-    desc: "Etiam vel placerat enim dapibus varius massa sodales lacinia",
-  },
-  {
-    id: "05",
-    icon: <Proposal />,
-    title: "Broken link recovery",
-    desc: "Etiam vel placerat enim dapibus varius massa sodales lacinia",
-  },
-  {
-    id: "06",
-    icon: <Reports />,
-    title: "Niche edits",
-    desc: "Etiam vel placerat enim dapibus varius massa sodales lacinia",
-  },
-  {
-    id: "07",
-    icon: <Payment />,
-    title: "Digital press release",
-    desc: "Etiam vel placerat enim dapibus varius massa sodales lacinia",
-  },
-  {
-    id: "08",
-    icon: <Payment />,
-    title: "Guest posting",
-    desc: "Etiam vel placerat enim dapibus varius massa sodales lacinia",
-  },
-];
+const LinkBuildingOutLocalSEO = ({
+  serviceData = [],
+  isLoading = false,
+}: {
+  serviceData?: any[];
+  isLoading?: boolean;
+} = {}) => {
+  console.log(serviceData);
+  
+
   return (
     <div className="section-padding-x">
       {/* <div className="flex flex-col items-center gap-4 font-inter">
@@ -75,7 +34,7 @@ const steps = [
       </div> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-16 font-inter">
-        {steps.map((step) => (
+        {serviceData?.map((step) => (
           <div
             key={step.id}
             className="
@@ -95,16 +54,17 @@ const steps = [
             <div className="flex flex-col items-center gap-4 mt-4 text-center">
               {/* Icon Container */}
               <div className="p-4 rounded-2xl bg-[linear-gradient(112deg,#5C2B9C_32.9%,#3E7AB3_120.42%)] shadow-[inset_4px_4px_4px_-2px_rgba(255,255,255,0.20),2px_2px_12px_0_rgba(172,108,255,0.34)] mb-2">
-                <div className="w-8 h-8 flex items-center justify-center text-white">
-                    {step.icon}
-                </div>
+                {step?.icon && 
+                  <img src={step?.icon} alt={step?.title} className="w-[20px] h-[20px] object-contain invert" />
+                }
               </div>
+             
 
               <Title level="title24" className="text-white font-semibold">
                 {step.title}
               </Title>
               <p className="text-white/70 text-sm leading-relaxed">
-                {step.desc}
+                {step.description}
               </p>
             </div>
           </div>

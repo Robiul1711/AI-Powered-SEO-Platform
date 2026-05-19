@@ -4,26 +4,13 @@ import TagLines from "../../common/TagLines";
 import Title from "../../common/Title";
 import GlowText from "../../common/GlowText";
 
-const LinkBuildingPostingFAQ = () => {
-  // Content extracted from the provided images
-  const defaultFAQ = [
-    {
-      question:
-        "Do I need different SEO strategies for various search engines?",
-      answer:
-        "There are minor variations in the requirements of different search engines. But if you adhere to the guidelines by Google for SEO, your website will be in a good position across all platforms.",
-    },
-    {
-      question: "Can i manage SEO on my own?",
-      answer:
-        "You can try, but there’s a lot that has to be taken care of. It will take up too much of your time, which in turn will compromise your business. And you are bound to miss out on things as you learn.",
-    },
-    {
-      question: "How long will SEO take?",
-      answer:
-        "This depends on your SEO campaign. There’s no magic trick here. SEO starts showing results gradually.",
-    },
-  ];
+const LinkBuildingPostingFAQ = ({
+  serviceData = [],
+  isLoading = false
+}: {
+  serviceData?: any;
+  isLoading?: boolean;
+} = {}) => {
 
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -48,7 +35,7 @@ const LinkBuildingPostingFAQ = () => {
 
         {/* Accordion List */}
         <div className="flex flex-col gap-4">
-          {defaultFAQ?.map((item: any, index: number) => {
+          {serviceData?.map((item: any, index: number) => {
             const isActive = activeIndex === index;
 
             return (

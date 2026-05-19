@@ -3,22 +3,16 @@ import CommonButton from "@/components/common/CommonButton";
 import TagLines from "@/components/common/TagLines";
 import Title from "@/components/common/Title";
 
-const OurBenefit = ({ serviceData }: { serviceData: any }) => {
+const OurBenefit = ({
+  serviceData = [],
+  isLoading = false
+}: {
+  serviceData?: any;
+  isLoading?: boolean;
+} = {}) => {
   // 1. Extract the benefits object from API
-  const benefits = serviceData?.banifite;
+  const benefits = serviceData;
 
-  // 2. Define fallback points if the API array is empty
-  const defaultPoints = [
-    "Marketing support tied to sales",
-    "Transparent reporting",
-    "Real-time updates",
-    "Dedicated account manager",
-    "Flexible monthly packages",
-    "Scalable solutions",
-  ];
-
-  // 3. Determine which points to use (API data or Fallback)
-  const displayPoints = benefits?.points?.length > 0 ? benefits.points : defaultPoints;
 
   return (
     <section className="section-padding-y section-padding-x">
@@ -28,8 +22,7 @@ const OurBenefit = ({ serviceData }: { serviceData: any }) => {
         <div className="flex-1 w-full max-w-3xl">
           <div className="relative">
             <img
-              // Use API image if available, otherwise use local import
-              src={benefits?.image || aboutme}
+              src={benefits?.image}
               alt={benefits?.title || "Our Benefits"}
               className="w-full h-auto rounded-xl object-cover shadow-2xl"
             />
@@ -62,7 +55,7 @@ const OurBenefit = ({ serviceData }: { serviceData: any }) => {
 
           {/* Points List */}
           <div className="space-y-3">
-            {displayPoints.map((item: string, index: number) => (
+            {benefits?.points?.map((item: string, index: number) => (
               <div key={index} className="font-inter text-white/70">
                 <p className="flex items-center gap-3">
                   <span className="h-2 w-2 rounded-full bg-[#AC6CFF] shadow-[0_0_8px_#AC6CFF]"></span>

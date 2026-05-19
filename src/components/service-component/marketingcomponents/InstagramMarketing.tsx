@@ -2,132 +2,22 @@ import React, { useState } from "react";
 import Title from "@/components/common/Title";
 import GlowText from "@/components/common/GlowText";
 
-const packagesData = [
-  {
-    price: 5,
-    details: [
-      { title: "Profile Optimization Check", description: "" },
-      { title: "1 Custom Post Image", description: "" },
-      { title: "Basic Hashtag Research", description: "" },
-      { title: "24-Hour Growth Boost", description: "" },
-    ],
-  },
-  {
-    price: 10,
-    details: [
-      { title: "Grid Layout Consultation", description: "" },
-      { title: "3 Themed Feed Posts", description: "" },
-      { title: "Niche Engagement Strategy", description: "" },
-      { title: "3-Day Active Monitoring", description: "" },
-    ],
-  },
-  {
-    price: 25,
-    details: [
-      { title: "Story Branding Package", description: "" },
-      { title: "5 Custom Graphic Posts", description: "" },
-      { title: "Advanced Hashtag Strategy", description: "" },
-      { title: "7-Day Content Scheduling", description: "" },
-      { title: "Weekly Insights Review", description: "" },
-    ],
-  },
-  {
-    price: 50,
-    details: [
-      { title: "Reels Content Strategy", description: "" },
-      { title: "10 High-Impact Posts", description: "" },
-      { title: "Automated DM Responses", description: "" },
-      { title: "15-Day Account Management", description: "" },
-      { title: "Engagement Analysis Report", description: "" },
-    ],
-  },
-  {
-    price: 75,
-    details: [
-      { title: "Influencer Outreach Intro", description: "" },
-      { title: "15 Multi-Format Posts", description: "" },
-      { title: "Community Management", description: "" },
-      { title: "Full Month Strategy", description: "" },
-      { title: "Competitor Grid Analysis", description: "" },
-    ],
-  },
-  {
-    price: 100,
-    details: [
-      { title: "Brand Identity Workshop", description: "" },
-      { title: "20 Custom Design Assets", description: "" },
-      { title: "Reels Viral Optimization", description: "" },
-      { title: "Daily Stories Setup", description: "" },
-      { title: "Monthly Growth Summary", description: "" },
-    ],
-  },
-  {
-    price: 150,
-    details: [
-      { title: "Elite Aesthetic Overhaul", description: "" },
-      { title: "30-Day Content Calendar", description: "" },
-      { title: "UGC Campaign Management", description: "" },
-      { title: "Influencer Whitelisting", description: "" },
-      { title: "Deep-Dive Trend Analysis", description: "" },
-    ],
-  },
-  {
-    price: 200,
-    details: [
-      { title: "Master Growth Engine", description: "" },
-      { title: "Professional Video Editing", description: "" },
-      { title: "Shop & Catalog Setup", description: "" },
-      { title: "Dedicated Content Creator", description: "" },
-      { title: "Advanced Conversion Tracking", description: "" },
-    ],
-  },
-  {
-    price: 250,
-    details: [
-      { title: "Viral Loop Strategy", description: "" },
-      { title: "Infinite Content Loop", description: "" },
-      { title: "Cross-Platform Syncing", description: "" },
-      { title: "Priority Support (24/7)", description: "" },
-      { title: "Live Streaming Strategy", description: "" },
-    ],
-  },
-  {
-    price: 500,
-    details: [
-      { title: "Prestige Branding Tier", description: "" },
-      { title: "Cinema-Grade Reels", description: "" },
-      { title: "Major Influencer Collabs", description: "" },
-      { title: "Global Reach Campaigns", description: "" },
-      { title: "Custom AR Filter Design", description: "" },
-    ],
-  },
-  {
-    price: 750,
-    details: [
-      { title: "Imperial Growth Suite", description: "" },
-      { title: "Full Team Access", description: "" },
-      { title: "Brand Ambassadorships", description: "" },
-      { title: "Quarterly ROI Mapping", description: "" },
-      { title: "Automation Ecosystem", description: "" },
-    ],
-  },
-  {
-    price: 1000,
-    details: [
-      { title: "Legendary Presence Kit", description: "" },
-      { title: "Total Market Dominance", description: "" },
-      { title: "PR & Media Integration", description: "" },
-      { title: "CMO-Level Directorship", description: "" },
-      { title: "Legacy Brand Building", description: "" },
-    ],
-  },
-];
+const InstagramMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[], isLoading?: boolean }) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const campaign = serviceData?.find((c: any) => c.title.toLowerCase().includes("instagram"));
+  const tiers = campaign?.tiers || [];
+  
+  const selectedPackage = tiers[selectedIndex] || null;
+  const prices = tiers.map((p: any) => p.price);
 
-const InstagramMarketing = () => {
-  const [selectedIndex, setSelectedIndex] = useState(5); // Default to €100
-  const selectedPackage = packagesData[selectedIndex];
-  const prices = packagesData.map((p) => p.price);
+  if (isLoading) {
+    return <div className="text-center text-white py-20">Loading Instagram Marketing...</div>;
+  }
+
+  if (!campaign || tiers.length === 0) {
+    return null;
+  }
 
   return (
     <div className="section-padding-x section-padding-y ">
@@ -136,7 +26,7 @@ const InstagramMarketing = () => {
           Submit Instagram <GlowText>Marketing Campaign</GlowText>
         </Title>
         <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
-          Choose a plan, enter your account details and goals, then checkout securely.
+          {campaign.subtitle || "Choose a plan, enter your account details and goals, then checkout securely."}
         </p>
 
         <div className="w-full mt-8 sm:mt-12 px-4">
@@ -152,12 +42,12 @@ const InstagramMarketing = () => {
             <div className="absolute w-full h-2 bg-white/10 rounded-full" />
             <div
               className="absolute h-2 bg-Primary rounded-full shadow-[0_0_15px_#ac6cff]"
-              style={{ width: `${(selectedIndex / (prices.length - 1)) * 100}%` }}
+              style={{ width: `${prices.length > 1 ? (selectedIndex / (prices.length - 1)) * 100 : 0}%` }}
             />
             <input
               type="range"
               min="0"
-              max={prices.length - 1}
+              max={prices.length > 0 ? prices.length - 1 : 0}
               value={selectedIndex}
               onChange={(e) => setSelectedIndex(parseInt(e.target.value))}
               className="absolute w-full h-2 appearance-none bg-transparent cursor-pointer z-10 
@@ -169,9 +59,9 @@ const InstagramMarketing = () => {
           </div>
 
           <div className="flex justify-between mt-2 sm:mt-4">
-            {prices.map((price, idx) => (
+            {prices.map((price: number, idx: number) => (
               <button
-                key={price}
+                key={idx}
                 onClick={() => setSelectedIndex(idx)}
                 className={`text-[9px] sm:text-xs md:text-sm font-orbitron transition-all duration-300 ${
                   idx === selectedIndex ? "text-Primary scale-110" : "text-white/40 hover:text-white/60"
@@ -191,14 +81,24 @@ const InstagramMarketing = () => {
             Plan Details
           </Title>
           <div className="space-y-4">
-            {selectedPackage.details.map((detail, idx) => (
+            {selectedPackage?.features?.map((feature: any, idx: number) => (
               <div
                 key={idx}
                 className="bg-[#1a1a1a] border border-white/5 rounded-xl p-4 border-l-4 border-l-Primary"
               >
                 <h4 className="text-white/90 font-inter text-sm md:text-base font-medium">
-                  {detail.title}
+                  {feature.text}
                 </h4>
+                {feature.sub_items && feature.sub_items.length > 0 && (
+                  <ul className="mt-2 space-y-1">
+                    {feature.sub_items.map((sub: string, i: number) => (
+                      <li key={i} className="text-white/60 text-xs md:text-sm font-inter flex items-start gap-2">
+                         <span className="text-Primary mt-1">•</span>
+                         <span>{sub}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))}
           </div>

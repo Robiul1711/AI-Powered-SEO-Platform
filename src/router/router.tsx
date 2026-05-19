@@ -61,10 +61,10 @@ const router = createBrowserRouter([
         children: [
           // { path: ":slug", element: <AllServices /> },
 
-          { path: "seo-campaign", element: <SEOCampaign /> },
-          { path: "guest-posting", element: <GuestPostingServices /> },
-          { path: "link-building", element: <LinkBuilding /> },
-          { path: "smm-marketing", element: <MarketingSolutions /> },
+          { path: "monthly-seo", element: <SEOCampaign /> },
+          { path: "local-seo", element: <GuestPostingServices /> },
+          { path: "ppc-campaigns", element: <LinkBuilding /> },
+          { path: "content-writing", element: <MarketingSolutions /> },
         ],
       },
     ],

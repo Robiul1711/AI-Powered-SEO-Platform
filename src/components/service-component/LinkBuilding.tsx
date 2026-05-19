@@ -7,15 +7,20 @@ import LinkBuildingOurBenefit from "./linkBuildingComponent/LinkBuildingOurBenef
 import LinkBuildingWhyChoose from "./linkBuildingComponent/LinkBuildingWhyChoose";
 import StartFreeToday from "../homeComponents/StartFreeToday";
 import LinkOurBenifits from "./linkBuildingComponent/LinkOurBenifits";
+import useClient from "@/hooks/useClient";
 
 
 export default function LinkBuilding() {
+        const { data:PPCSeoData, isLoading } = useClient({
+    queryKey: ["ppc-campaigns"],
+    url: "/services/ppc-campaigns",
+  });
   return (
     <>
       <CommonBanner
-        title="We Offer Link Building Strategies That Actually Deliver!"
-        subtitle="Link building is crucial to make your website credible, both for search engines and for users. And we excel in providing you with quality backlinks that will enhance your website's quality manifold. Our strategies will ensure that your website gets the prominence it needs by featuring in the right kind of places. We use"
-        image={ImageProvider.ppcService}
+        title={PPCSeoData?.data?.title ||"We Offer Link Building Strategies That Actually Deliver!"}
+        subtitle={PPCSeoData?.data?.description ||"Link building is crucial to make your website credible, both for search engines and for users. And we excel in providing you with quality backlinks that will enhance your website's quality manifold. Our strategies will ensure that your website gets the prominence it needs by featuring in the right kind of places. We use"}
+        image={ PPCSeoData?.data?.thumbnail ||ImageProvider.ppcService}
         // buttonOne="Start Campaign"
         // buttonTwo="Learn More"
         // breadcrumbs={[
@@ -23,12 +28,12 @@ export default function LinkBuilding() {
         //   { label: "services", href: "/services" },
         // ]}
       />
-      <LinkBuildinPostingPrice/>
-      <LinkBuildingOutLocalSEO/>
-      <LinkBuildingOurBenefit />
-      <LinkBuildingWhyChoose/>
-      <LinkOurBenifits/>
-      <LinkBuildingPostingFAQ/>
+      <LinkBuildinPostingPrice serviceData={PPCSeoData?.data?.pricing || []} isLoading={isLoading}/>
+      <LinkBuildingOutLocalSEO serviceData={PPCSeoData?.data?.what_include || []} isLoading={isLoading}/>
+      <LinkBuildingOurBenefit serviceData={PPCSeoData?.data?.banifite || []} isLoading={isLoading}/>
+      <LinkBuildingWhyChoose serviceData={PPCSeoData?.data?.why_chose_us || []} isLoading={isLoading}/>
+      <LinkOurBenifits serviceData={PPCSeoData?.data?.secondary_features || []} isLoading={isLoading}/>
+      <LinkBuildingPostingFAQ serviceData={PPCSeoData?.data?.faq || []} isLoading={isLoading}/>
       <StartFreeToday/>  
     </>
   );
