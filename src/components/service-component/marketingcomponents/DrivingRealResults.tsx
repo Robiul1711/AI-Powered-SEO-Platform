@@ -2,7 +2,7 @@ import React from "react";
 import Title from "@/components/common/Title";
 import { FaArrowUp } from "react-icons/fa";
 
-const DrivingRealResults = () => {
+const DrivingRealResults = ({ serviceData, isLoading }: any) => {
   const stats = [
     { value: "3%", label: "Increase" },
     { value: "100%", label: "Growth" },
@@ -22,13 +22,13 @@ const DrivingRealResults = () => {
               </Title>
               
               <div className="flex flex-wrap justify-center lg:justify-start gap-8 md:gap-12">
-                {stats.map((stat, index) => (
+                {serviceData?.map((stat: any, index: any) => (
                   <div key={index} className="flex flex-col items-center gap-4">
                     <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center border border-white/10 bg-gradient-to-b from-white/5 to-transparent shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]">
                       {/* Outer Ring Decoration */}
                       <div className="absolute inset-[-10px] rounded-full border border-white/5" />
                       
-                      <span className="text-2xl md:text-3xl font-orbitron text-white font-bold">
+                      <span className="md:text-2xl text-xl font-orbitron text-white font-bold">
                         {stat.value}
                       </span>
                       <FaArrowUp className="text-white/60 mt-2 text-sm" />

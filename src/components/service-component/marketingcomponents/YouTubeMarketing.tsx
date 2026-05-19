@@ -2,132 +2,22 @@ import React, { useState } from "react";
 import Title from "@/components/common/Title";
 import GlowText from "@/components/common/GlowText";
 
-const packagesData = [
-  {
-    price: 5,
-    details: [
-      { title: "Basic Video SEO Check", description: "" },
-      { title: "1 Simple Thumbnail Design", description: "" },
-      { title: "Keyword Suggestion List", description: "" },
-      { title: "24-Hour Channel Review", description: "" },
-    ],
-  },
-  {
-    price: 10,
-    details: [
-      { title: "Channel Branding Audit", description: "" },
-      { title: "3 Custom Thumbnails", description: "" },
-      { title: "Niche Trend Analysis", description: "" },
-      { title: "3-Day Growth Monitoring", description: "" },
-    ],
-  },
-  {
-    price: 25,
-    details: [
-      { title: "Advanced SEO Metadata", description: "" },
-      { title: "5 Click-Bait (High CTR) Thumbnails", description: "" },
-      { title: "Competitor Tag Analysis", description: "" },
-      { title: "7-Day Active Promotion", description: "" },
-      { title: "Weekly Analytics Review", description: "" },
-    ],
-  },
-  {
-    price: 50,
-    details: [
-      { title: "Shorts Content Strategy", description: "" },
-      { title: "10 Custom Graphic Assets", description: "" },
-      { title: "End Screen & Card Setup", description: "" },
-      { title: "15-Day Channel Management", description: "" },
-      { title: "Audience Retention Report", description: "" },
-    ],
-  },
-  {
-    price: 75,
-    details: [
-      { title: "Viral Topic Research", description: "" },
-      { title: "15 Premium Thumbnails", description: "" },
-      { title: "Community Tab Strategy", description: "" },
-      { title: "Full Month Strategy", description: "" },
-      { title: "Competitor Secret Sauce Analysis", description: "" },
-    ],
-  },
-  {
-    price: 100,
-    details: [
-      { title: "Audit + Setup Of 5 Ads", description: "" },
-      { title: "Professional Video Intro/Outro", description: "" },
-      { title: "Custom Channel Trailer Review", description: "" },
-      { title: "Daily Optimization Checks", description: "" },
-      { title: "Monthly Performance Summary", description: "" },
-    ],
-  },
-  {
-    price: 150,
-    details: [
-      { title: "Elite Channel Overhaul", description: "" },
-      { title: "30-Day Content Roadmap", description: "" },
-      { title: "Collaboration Outreach", description: "" },
-      { title: "Google Ads (YouTube) Setup", description: "" },
-      { title: "Detailed Conversion Tracking", description: "" },
-    ],
-  },
-  {
-    price: 200,
-    details: [
-      { title: "Master Growth System", description: "" },
-      { title: "Advanced Video Editing (2 Clips)", description: "" },
-      { title: "Membership & Merch Setup", description: "" },
-      { title: "Dedicated Content Strategist", description: "" },
-      { title: "A/B Thumbnail Testing", description: "" },
-    ],
-  },
-  {
-    price: 250,
-    details: [
-      { title: "Algorithm Dominance Strategy", description: "" },
-      { title: "Infinite Growth Strategy", description: "" },
-      { title: "Multilingual Caption Setup", description: "" },
-      { title: "Priority Support (24/7)", description: "" },
-      { title: "Live Stream Production Guide", description: "" },
-    ],
-  },
-  {
-    price: 500,
-    details: [
-      { title: "Prestige Creator Tier", description: "" },
-      { title: "Cinema-Grade Post Production", description: "" },
-      { title: "Sponsorship Brokerage Intro", description: "" },
-      { title: "Global Reach Campaigns", description: "" },
-      { title: "Custom Channel Icon & Banner", description: "" },
-    ],
-  },
-  {
-    price: 750,
-    details: [
-      { title: "Imperial Channel Suite", description: "" },
-      { title: "Full Production Team Access", description: "" },
-      { title: "Brand Deal Management", description: "" },
-      { title: "Quarterly Revenue Mapping", description: "" },
-      { title: "Automation Ecosystem Setup", description: "" },
-    ],
-  },
-  {
-    price: 1000,
-    details: [
-      { title: "Legendary Creator Kit", description: "" },
-      { title: "Total Market Dominance", description: "" },
-      { title: "Cross-Platform Syndication", description: "" },
-      { title: "CMO-Level Directorship", description: "" },
-      { title: "Legacy Brand Authority", description: "" },
-    ],
-  },
-];
+const YouTubeMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[], isLoading?: boolean }) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const campaign = serviceData?.find((c: any) => c.title.toLowerCase().includes("youtube"));
+  const tiers = campaign?.tiers || [];
+  
+  const selectedPackage = tiers[selectedIndex] || null;
+  const prices = tiers.map((p: any) => p.price);
 
-const YouTubeMarketing = () => {
-  const [selectedIndex, setSelectedIndex] = useState(5); // Default to €100
-  const selectedPackage = packagesData[selectedIndex];
-  const prices = packagesData.map((p) => p.price);
+  if (isLoading) {
+    return <div className="text-center text-white py-20">Loading YouTube Marketing...</div>;
+  }
+
+  if (!campaign || tiers.length === 0) {
+    return null;
+  }
 
   return (
     <div className="section-padding-x section-padding-y ">
@@ -136,7 +26,7 @@ const YouTubeMarketing = () => {
           Submit YouTube <GlowText>Marketing Campaign</GlowText>
         </Title>
         <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
-          Choose a plan, enter your channel and goals, then checkout securely.
+          {campaign.subtitle || "Choose a plan, enter your channel and goals, then checkout securely."}
         </p>
 
         <div className="w-full mt-8 sm:mt-12 px-4">
@@ -152,12 +42,12 @@ const YouTubeMarketing = () => {
             <div className="absolute w-full h-2 bg-white/10 rounded-full" />
             <div
               className="absolute h-2 bg-Primary rounded-full shadow-[0_0_15px_#ac6cff]"
-              style={{ width: `${(selectedIndex / (prices.length - 1)) * 100}%` }}
+              style={{ width: `${prices.length > 1 ? (selectedIndex / (prices.length - 1)) * 100 : 0}%` }}
             />
             <input
               type="range"
               min="0"
-              max={prices.length - 1}
+              max={prices.length > 0 ? prices.length - 1 : 0}
               value={selectedIndex}
               onChange={(e) => setSelectedIndex(parseInt(e.target.value))}
               className="absolute w-full h-2 appearance-none bg-transparent cursor-pointer z-10 
@@ -169,9 +59,9 @@ const YouTubeMarketing = () => {
           </div>
 
           <div className="flex justify-between mt-2 sm:mt-4">
-            {prices.map((price, idx) => (
+            {prices.map((price: number, idx: number) => (
               <button
-                key={price}
+                key={idx}
                 onClick={() => setSelectedIndex(idx)}
                 className={`text-[9px] sm:text-xs md:text-sm font-orbitron transition-all duration-300 ${
                   idx === selectedIndex ? "text-Primary scale-110" : "text-white/40 hover:text-white/60"
@@ -191,14 +81,24 @@ const YouTubeMarketing = () => {
             Plan Details
           </Title>
           <div className="space-y-4">
-            {selectedPackage.details.map((detail, idx) => (
+            {selectedPackage?.features?.map((feature: any, idx: number) => (
               <div
                 key={idx}
                 className="bg-[#1a1a1a] border border-white/5 rounded-xl p-4 border-l-4 border-l-Primary"
               >
                 <h4 className="text-white/90 font-inter text-sm md:text-base font-medium">
-                  {detail.title}
+                  {feature.text}
                 </h4>
+                {feature.sub_items && feature.sub_items.length > 0 && (
+                  <ul className="mt-2 space-y-1">
+                    {feature.sub_items.map((sub: string, i: number) => (
+                      <li key={i} className="text-white/60 text-xs md:text-sm font-inter flex items-start gap-2">
+                         <span className="text-Primary mt-1">•</span>
+                         <span>{sub}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))}
           </div>

@@ -2,30 +2,18 @@ import React from "react";
 import { Proposal, Reports, Payment } from "@/components/common/SVG";
 import Title from "@/components/common/Title";
 
-const LinkOurBenifits = () => {
-  const benefits = [
-    {
-      id: "01",
-      icon: <Proposal />,
-      title: "Organic Link Building",
-      desc: "We Will Conduct Detailed Research To Find Blogging Websites That Attract An Audience Related To Your Niche.",
-    },
-    {
-      id: "02",
-      icon: <Reports />,
-      title: "Outreaching",
-      desc: "We Will Reach Out To Them Manually And Pitch Your Blog To Them, Encouraging Them To Feature It On Their Site.",
-    },
-    {
-      id: "03",
-      icon: <Payment />,
-      title: "Analyzing The Backlinks",
-      desc: "We Will Work With You To Create Content That Will Make A Compelling Case In Favor Of Your Business And Reek Of Quality.",
-    },
-  ];
+const LinkOurBenifits = ({
+  serviceData = [],
+  isLoading = false
+}: {
+  serviceData?: any;
+  isLoading?: boolean;
+} = {}) => {
+  const benefits = serviceData;
+
 
   return (
-    <div className="section-padding-x section-padding-y">
+    <div className="section-padding-x">
       <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center mb-16">
         <Title level="title48" className="text-white uppercase font-orbitron tracking-wider">
           OUR BENEFITS
@@ -37,7 +25,7 @@ const LinkOurBenifits = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter pb-12">
-        {benefits.map((benefit) => (
+        {benefits.map((benefit:any) => (
           <div
             key={benefit.id}
             className="
@@ -50,18 +38,17 @@ const LinkOurBenifits = () => {
               flex flex-col items-center text-center
             "
           >
-            {/* Icon Container */}
-            <div className="p-5 rounded-2xl bg-[linear-gradient(112deg,#5C2B9C_32.9%,#3E7AB3_120.42%)] shadow-[0_0_20px_rgba(92,43,156,0.4)] mb-6 transition-transform duration-500 group-hover:scale-110">
-              <div className="w-10 h-10 flex items-center justify-center text-white">
-                {benefit.icon}
+                <div className="p-4 rounded-2xl bg-[linear-gradient(112deg,#5C2B9C_32.9%,#3E7AB3_120.42%)] shadow-[inset_4px_4px_4px_-2px_rgba(255,255,255,0.20),2px_2px_12px_0_rgba(172,108,255,0.34)] mb-2">
+                {benefit?.icon && 
+                  <img src={benefit?.icon} alt={benefit?.title} className="w-[20px] h-[20px] object-contain invert" />
+                }
               </div>
-            </div>
 
             <Title level="title24" className="text-white mb-4 font-semibold uppercase tracking-wide">
               {benefit.title}
             </Title>
             <p className="text-white/60 text-sm md:text-base leading-relaxed">
-              {benefit.desc}
+              {benefit.description}
             </p>
           </div>
         ))}

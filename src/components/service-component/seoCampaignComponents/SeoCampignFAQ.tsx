@@ -5,6 +5,7 @@ import Title from "../../common/Title";
 import GlowText from "../../common/GlowText";
 
 const FAQ = ({ serviceData = {} }: { serviceData?: any }) => {
+  console.log(serviceData);
   // Content extracted from the provided images
   const defaultFAQ = [
     {
@@ -27,8 +28,8 @@ const FAQ = ({ serviceData = {} }: { serviceData?: any }) => {
 
   // Prioritize dynamic data from props, fallback to the image content
   const dynamicfaq =
-    serviceData?.faq && serviceData.faq.length > 0
-      ? serviceData.faq
+    serviceData && serviceData.length > 0
+      ? serviceData
       : defaultFAQ;
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);

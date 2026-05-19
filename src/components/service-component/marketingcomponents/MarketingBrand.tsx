@@ -7,19 +7,19 @@ import squre from "@/assets/images/squre.png";
 import Marquee from "react-fast-marquee";
 
 
-const MarketingBrand = () => {
-  const brands = [
-    { name: "Notion", logo: notion },
-    { name: "Intercom", logo: intercom },
-    { name: "Grammarly", logo: grammerly },
-    { name: "Square", logo: squre },
-    { name: "HelloSign", logo: hellosign },
-    { name: "Notion", logo: notion },
-    { name: "Intercom", logo: intercom },
-    { name: "Grammarly", logo: grammerly },
-    { name: "Square", logo: squre },
-    { name: "HelloSign", logo: hellosign },
-  ];
+const MarketingBrand = ({ serviceData, isLoading }: any) => {
+  // const brands = [
+  //   { name: "Notion", logo: notion },
+  //   { name: "Intercom", logo: intercom },
+  //   { name: "Grammarly", logo: grammerly },
+  //   { name: "Square", logo: squre },
+  //   { name: "HelloSign", logo: hellosign },
+  //   { name: "Notion", logo: notion },
+  //   { name: "Intercom", logo: intercom },
+  //   { name: "Grammarly", logo: grammerly },
+  //   { name: "Square", logo: squre },
+  //   { name: "HelloSign", logo: hellosign },
+  // ];
 
   return (
     <div className="section-padding-y section-padding-x">
@@ -30,7 +30,7 @@ const MarketingBrand = () => {
 
         <Marquee gradient={false} speed={50} pauseOnHover={true}>
           <div className="flex items-center gap-12 md:gap-24 px-12">
-            {brands.map((brand, index) => (
+            {serviceData?.map((brand: any, index: any) => (
               <div key={index} className="flex items-center justify-center">
                 <img
                   src={brand.logo}

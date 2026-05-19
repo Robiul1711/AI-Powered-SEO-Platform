@@ -198,13 +198,13 @@ const PricingCardSkeleton = () => (
 );
 
 const SeoCapaignPrice = ({
-  pricingPlansData = dummyPricingPlans,
+  serviceData = [],
   isLoading = false,
 }: {
-  pricingPlansData?: any;
+  serviceData?: any[];
   isLoading?: boolean;
 } = {}) => {
-  console.log(pricingPlansData);
+  console.log(serviceData);
   const { mutate, isPending } = useMutationClient({
     url: "/bookings/create",
     method: "post",
@@ -233,7 +233,7 @@ const SeoCapaignPrice = ({
       <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
         {isLoading
           ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
-          : (pricingPlansData || dummyPricingPlans).map(
+          : (serviceData || dummyPricingPlans).map(
               (plan: any, index: number) => (
                 <PricingCard key={index} {...plan} />
               ),

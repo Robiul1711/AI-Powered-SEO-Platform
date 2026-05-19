@@ -127,7 +127,9 @@ const PricingCard = ({
       </div>
       <p className="text-white/40 text-sm mt-4 leading-relaxed">{subtitle}</p>
     </div>
-    <CommonButton href={`/simple-checkout?plan=${encryptId(id)}`} as="a"
+    <CommonButton
+      href={`/simple-checkout?plan=${encryptId(id)}`}
+      as="a"
       className={`w-full !py-4 text-center ${
         is_popular ? "bg-bg-custom " : "!bg-white/10 "
       }`}
@@ -196,13 +198,13 @@ const PricingCardSkeleton = () => (
 );
 
 const LinkBuildinPostingPrice = ({
-  pricingPlansData = dummyPricingPlans,
+  serviceData = [],
   isLoading = false,
 }: {
-  pricingPlansData?: any;
+  serviceData?: any[];
   isLoading?: boolean;
 } = {}) => {
-  console.log(pricingPlansData);
+  console.log(serviceData);
   const { mutate, isPending } = useMutationClient({
     url: "/bookings/create",
     method: "post",
@@ -219,20 +221,19 @@ const LinkBuildinPostingPrice = ({
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#AC6CFF]/10 blur-[120px] rounded-full -z-10" />
 
       <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center mb-16">
-        <TagLines>Top Rated Guest Posting Packages</TagLines>
+        <TagLines>SEO Packages for All Budgets</TagLines>
         <Title level="title48" className="text-white">
-         Guest Posting <GlowText>Service Plans</GlowText>
+          Choose Package <GlowText>Service Plans</GlowText>
         </Title>
         <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
-        Leverage everything guest posting has to offer with our assistance!
-Buy Guest Posts Packages
+         Capture More Traffic & Revenue From Search
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
         {isLoading
           ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
-          : (pricingPlansData || dummyPricingPlans).map(
+          : (serviceData || dummyPricingPlans).map(
               (plan: any, index: number) => (
                 <PricingCard key={index} {...plan} />
               ),
