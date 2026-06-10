@@ -9,8 +9,13 @@ import {
   Zap,
   CheckCircle,
   AlertTriangle,
+  Loader2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import * as htmlToImage from 'html-to-image';
+import jsPDF from "jspdf";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface ResultModalProps {
   isOpen: boolean;
@@ -89,6 +94,55 @@ const getStatusStyle = (status: string) => {
 };
 
 const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadPdf = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const element = document.getElementById("pdf-content-wrapper");
+    if (!element) return;
+
+    setIsDownloading(true);
+    try {
+      // Hide action buttons temporarily during capture
+      const actionButtons = document.getElementById("pdf-action-buttons");
+      if (actionButtons) actionButtons.style.display = "none";
+
+      const imgData = await htmlToImage.toJpeg(element, {
+        quality: 0.95,
+        backgroundColor: "#111111",
+        pixelRatio: 1.5,
+        style: {
+          transform: 'scale(1)',
+          transformOrigin: 'top left',
+        }
+      });
+
+      if (actionButtons) actionButtons.style.display = "flex";
+
+      const width = element.offsetWidth;
+      const height = element.offsetHeight;
+
+      const pdf = new jsPDF({
+        orientation: width > height ? "landscape" : "portrait",
+        unit: "px",
+        format: [width, height]
+      });
+
+      pdf.addImage(imgData, "JPEG", 0, 0, width, height);
+      const filename = data?.website_url ? `SEO_Audit_${data.website_url.replace(/[^a-zA-Z0-9]/g, '_')}.pdf` : 'SEO_Audit.pdf';
+      pdf.save(filename);
+      toast.success("Report downloaded successfully!");
+    } catch (error: any) {
+      console.error("Error generating PDF", error);
+      if (document.getElementById("pdf-action-buttons")) {
+        document.getElementById("pdf-action-buttons")!.style.display = "flex";
+      }
+      toast.error(`Failed to generate PDF: ${error.message || "Unknown error"}`);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -126,7 +180,7 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
             </div>
 
             {/* Content Card */}
-            <div className="bg-[#111111] border border-white/5 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden font-inter">
+            <div id="pdf-content-wrapper" className="bg-[#111111] border border-white/5 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden font-inter">
               {/* Background Glow */}
               <div className="absolute -top-24 -right-24 w-64 h-64 bg-Primary/10 rounded-full blur-[100px]" />
 
@@ -328,11 +382,10 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                                       {section.section}
                                     </p>
                                     <span
-                                      className={`text-xs px-2 py-0.5 rounded-full ${
-                                        section.status.toLowerCase() === "good"
+                                      className={`text-xs px-2 py-0.5 rounded-full ${section.status.toLowerCase() === "good"
                                           ? "bg-green-500/20 text-green-400"
                                           : "bg-yellow-500/20 text-yellow-400"
-                                      }`}
+                                        }`}
                                     >
                                       {section.status}
                                     </span>
@@ -428,19 +481,17 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                 )}
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div id="pdf-action-buttons" className="flex flex-col sm:flex-row gap-4">
                   {/* {console.log(data)} */}
                   {data?.is_subscribed && (
-                    <a
-                      href={data.download_pdf}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 bg-gradient-to-r from-Primary to-blue-500 hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] flex items-center justify-center gap-2"
+                    <button
+                      onClick={handleDownloadPdf}
+                      disabled={isDownloading}
+                      className="flex-1 bg-gradient-to-r from-Primary to-blue-500 hover:opacity-90 disabled:opacity-50 text-white font-orbitron font-bold py-4 rounded-xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] flex items-center justify-center gap-2"
                     >
-                      <Download size={20} />
-                      Download Report
-                    </a>
+                      {isDownloading ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
+                      {isDownloading ? "Generating PDF..." : "Download Report"}
+                    </button>
                   )}
                   <Link
                     to="/pricing"

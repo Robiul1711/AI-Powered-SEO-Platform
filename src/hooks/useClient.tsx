@@ -19,7 +19,9 @@ const useClient = <T = any>({
   enabled = true,
   options = {},
 }: UseClientProps) => {
-  const axiosClient = isPrivate ? useAxiosSecure() : useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
+  const axiosClient = isPrivate ? axiosSecure : axiosPublic;
 
   const { data, isLoading, isFetching, isError, error, refetch } = useQuery<T>({
     queryKey: [...queryKey, params],

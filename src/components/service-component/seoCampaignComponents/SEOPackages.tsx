@@ -159,6 +159,7 @@ const SEOPackages = ({
 
   const dynamicPackagesData = tiers.length > 0 
     ? tiers.map((tier: any) => ({
+        id: tier.id,
         price: tier.price,
         details: tier.features?.map((feature: any) => ({
           title: feature.text,
@@ -262,7 +263,12 @@ const SEOPackages = ({
         </div>
 
         <div className="h-full">
-          <OrderDetails price={selectedPackage.price} />
+          <OrderDetails 
+            price={selectedPackage.price} 
+            tierId={selectedPackage.id}
+            tierTitle={currentCampaign.title ? `${currentCampaign.title} - €${selectedPackage.price}` : `Campaign Package - €${selectedPackage.price}`}
+            features={selectedPackage.details}
+          />
         </div>
       </div>
     </div>

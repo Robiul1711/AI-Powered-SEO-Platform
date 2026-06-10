@@ -24,9 +24,9 @@ const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[500px]">
-        <Loader2 className="w-12 h-12 text-[#AC6CFF] animate-spin" />
-        <p className="mt-4 text-gray-500 font-orbitron text-sm tracking-widest uppercase animate-pulse">Syncing Matrix...</p>
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 text-[#AC6CFF] animate-spin" />
+        <p className="mt-3 text-gray-500 font-orbitron text-xs tracking-widest uppercase animate-pulse">Syncing Matrix...</p>
       </div>
     );
   }
@@ -35,91 +35,93 @@ const Dashboard = () => {
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
-      case "Briefcase": return <Briefcase size={20} />;
-      case "BarChart": return <BarChart size={20} />;
-      case "FileText": return <FileText size={20} />;
-      case "MessageSquare": return <MessageSquare size={20} />;
-      default: return <Activity size={20} />;
+      case "Briefcase": return <Briefcase size={18} />;
+      case "BarChart": return <BarChart size={18} />;
+      case "FileText": return <FileText size={18} />;
+      case "MessageSquare": return <MessageSquare size={18} />;
+      default: return <Activity size={18} />;
     }
   };
 
   return (
-    <div className="font-inter pb-10">
+    <div className="font-inter pb-8">
       {/* Header */}
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xmd:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {dashboardData.stats.map((stat: any, i: number) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-            className="bg-[#1A1A1A] border border-white/5 p-6 rounded-[2rem] relative overflow-hidden group hover:border-[#AC6CFF]/30 transition-all duration-300 shadow-xl"
+            transition={{ duration: 0.3, delay: i * 0.1 }}
+            className="bg-[#1A1A1A] border border-white/5 p-5 rounded-2xl relative overflow-hidden group hover:border-[#AC6CFF]/30 transition-all duration-300 shadow-lg flex flex-col justify-between"
           >
-            <div className="flex justify-between items-start mb-6">
+            <div className="flex justify-between items-start mb-4">
               <h3 className="font-orbitron text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                 {stat.title}
               </h3>
               <div
-                className={`p-3 rounded-xl bg-[#242424] text-[#AC6CFF] border border-white/5 group-hover:bg-[#AC6CFF] group-hover:text-black transition-all duration-500`}
+                className={`p-2.5 rounded-lg bg-[#242424] text-[#AC6CFF] border border-white/5 group-hover:bg-[#AC6CFF] group-hover:text-black transition-all duration-300`}
               >
                 {getIcon(stat.icon)}
               </div>
             </div>
             <div>
-              <span className="text-3xl sm:text-4xl font-orbitron font-black text-white">
+              <span className="text-2xl sm:text-3xl font-orbitron font-black text-white">
                 {stat.value}{stat.title.includes("Progress") ? "%" : ""}
               </span>
-              <p className="text-gray-500 text-[10px] font-orbitron font-bold mt-2 uppercase tracking-widest">
+              <p className="text-gray-500 text-[10px] font-orbitron font-bold mt-1 uppercase tracking-widest">
                 {stat.subtitle}
               </p>
             </div>
-            <div className="absolute bottom-0 left-0 w-0 group-hover:w-full h-1 bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] transition-all duration-700" />
+            <div className="absolute bottom-0 left-0 w-0 group-hover:w-full h-[2px] bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] transition-all duration-500" />
           </motion.div>
         ))}
       </div>
 
       {/* Recent Activity Section */}
       <motion.div 
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        className="bg-[#1A1A1A] border border-white/5 p-6 sm:p-10 rounded-[2.5rem] shadow-2xl overflow-hidden relative"
+        transition={{ duration: 0.4, delay: 0.3 }}
+        className="bg-[#1A1A1A] border border-white/5 p-5 sm:p-8 rounded-2xl shadow-xl overflow-hidden relative"
       >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#AC6CFF]/5 blur-[100px] rounded-full -mr-32 -mt-32" />
+        <div className="absolute top-0 right-0 w-48 h-48 bg-[#AC6CFF]/5 blur-[80px] rounded-full -mr-24 -mt-24" />
         
-        <h2 className="text-xl sm:text-2xl font-orbitron font-bold mb-8 text-white uppercase tracking-tight">
-          Recent Activity
+        <h2 className="text-lg sm:text-xl font-orbitron font-bold mb-6 text-white uppercase tracking-tight flex items-center justify-between">
+          <span>Recent Activity</span>
         </h2>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {dashboardData.activities.map((item: any, i: number) => (
             <motion.div
               key={i}
-              whileHover={{ x: 10 }}
-              className="bg-[#242424]/50 backdrop-blur-sm p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-white/5 hover:border-white/10 transition-all"
+              whileHover={{ x: 5 }}
+              className="bg-[#242424]/50 backdrop-blur-sm p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-white/5 hover:border-white/10 hover:bg-[#2A2A2A] transition-all"
             >
-              <div className="flex items-start gap-4">
-                <div className={`w-3 h-3 rounded-full ${item.color || 'bg-[#AC6CFF]'} mt-1.5 shadow-[0_0_10px_rgba(172,108,255,0.4)]`} />
+              <div className="flex items-start gap-3">
+                <div className={`w-2 h-2 rounded-full ${item.color || 'bg-[#AC6CFF]'} mt-1.5 shadow-[0_0_8px_rgba(172,108,255,0.4)] shrink-0`} />
                 <div>
-                  <h4 className="font-orbitron text-sm font-bold text-white uppercase tracking-tight">
+                  <h4 className="font-inter text-sm font-bold text-white">
                     {item.title}
                   </h4>
-                  <p className="text-gray-500 text-xs mt-1 font-light leading-relaxed">
+                  <p className="text-gray-400 text-xs mt-0.5 font-medium leading-relaxed">
                     {item.description}
                   </p>
                 </div>
               </div>
-              <span className="text-gray-600 text-[10px] font-orbitron font-bold uppercase tracking-widest whitespace-nowrap md:ml-6">
+              <span className="text-gray-500 text-[10px] font-inter font-bold bg-[#1A1A1A] px-2 py-1 rounded-md sm:ml-4 whitespace-nowrap">
                 {item.time}
               </span>
             </motion.div>
           ))}
           
           {dashboardData.activities.length === 0 && (
-              <div className="text-center py-10 opacity-30 italic font-orbitron text-sm uppercase tracking-widest">
-                  No activity sequences recorded
+              <div className="text-center py-8 border border-dashed border-white/10 rounded-xl bg-white/5">
+                <span className="opacity-40 italic font-orbitron text-xs uppercase tracking-widest text-white">
+                    No activity recorded recently
+                </span>
               </div>
           )}
         </div>

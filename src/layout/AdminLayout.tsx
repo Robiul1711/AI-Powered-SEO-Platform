@@ -16,6 +16,7 @@ import {
   ServiceIcon,
 } from "@/components/common/DashboardSVG";
 import authBg from "@/assets/images/authBg.png";
+import { Megaphone, CreditCard, History, CircleDollarSign, Zap } from "lucide-react";
 const AdminLayout: React.FC = () => {
   useUserProfile();
   const [open, setOpen] = useState(false);
@@ -53,6 +54,13 @@ const AdminLayout: React.FC = () => {
       activePaths: ["/user/services"],
     },
     {
+      id: 25,
+      icon: <Zap size={20} strokeWidth={1.5} />,
+      text: "My Plan",
+      path: "/dashboard/my-plan",
+      activePaths: ["/dashboard/my-plan"],
+    },
+    {
       id: 3,
       icon: <ReportIcon />,
       text: "Reports",
@@ -75,6 +83,34 @@ const AdminLayout: React.FC = () => {
     },
     {
       id: 6,
+      icon: <Megaphone size={20} strokeWidth={1.5} />,
+      text: "My Campaigns",
+      path: "/dashboard/my-campaigns",
+      activePaths: ["/dashboard/my-campaigns"],
+    },
+    {
+      id: 7,
+      icon: <CreditCard size={20} strokeWidth={1.5} />,
+      text: "Payment History",
+      path: "/dashboard/payment-history",
+      activePaths: ["/dashboard/payment-history"],
+    },
+    {
+      id: 8,
+      icon: <History size={20} strokeWidth={1.5} />,
+      text: "Booking History",
+      path: "/dashboard/booking-history",
+      activePaths: ["/dashboard/booking-history"],
+    },
+    {
+      id: 10,
+      icon: <CircleDollarSign size={20} strokeWidth={1.5} />,
+      text: "Pricing Plans",
+      path: "/pricing",
+      activePaths: ["/pricing"],
+    },
+    {
+      id: 9,
       icon: <AccountIcon />,
       text: "Account",
       path: "/dashboard/account",
@@ -107,3 +143,4 @@ const AdminLayout: React.FC = () => {
 };
 
 export default AdminLayout;
+

@@ -13,6 +13,9 @@ const useAxiosSecure = () => {
   
   const axiosSecure = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    }
   });
 
   axiosSecure.interceptors.request.use((config) => {

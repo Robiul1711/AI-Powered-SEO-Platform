@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import Title from "@/components/common/Title";
 import GlowText from "@/components/common/GlowText";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { encryptId } from "@/lib/encryption";
 
 const SocialMarketing = ({ campaign, isLoading }: { campaign?: any; isLoading?: boolean }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [url, setUrl] = useState("");
+  const [goal, setGoal] = useState("");
+  const [target, setTarget] = useState("");
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <div className="text-center text-white py-20">Loading Campaign...</div>;
@@ -74,6 +81,33 @@ const SocialMarketing = ({ campaign, isLoading }: { campaign?: any; isLoading?: 
       );
     }
     return <GlowText>{title}</GlowText>;
+  };
+
+  const handleCheckout = () => {
+    if (!selectedPackage) return;
+    
+    if (!url.trim()) {
+      toast.error(`Please enter your ${platformName} URL`);
+      return;
+    }
+
+    const tierTitle = campaign.title ? `${campaign.title} - $${selectedPackage.price}` : `Campaign Package - $${selectedPackage.price}`;
+
+    navigate(`/simple-checkout?plan=${encryptId(selectedPackage.id)}&type=campaign`, {
+      state: {
+        plan: {
+          id: selectedPackage.id,
+          name: tierTitle,
+          price: selectedPackage.price,
+          discount: 0,
+        },
+        campaignDetails: {
+          url: url,
+          marketing_goal: goal,
+          target_audience: target
+        }
+      }
+    });
   };
 
   return (
@@ -177,6 +211,8 @@ const SocialMarketing = ({ campaign, isLoading }: { campaign?: any; isLoading?: 
               </label>
               <input
                 type="text"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
                 className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl p-4 text-white font-inter text-sm focus:outline-none focus:border-Primary/50 transition-all"
                 placeholder={urlPlaceholder}
               />
@@ -188,6 +224,8 @@ const SocialMarketing = ({ campaign, isLoading }: { campaign?: any; isLoading?: 
               </label>
               <input
                 type="text"
+                value={goal}
+                onChange={(e) => setGoal(e.target.value)}
                 className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl p-4 text-white font-inter text-sm focus:outline-none focus:border-Primary/50 transition-all"
                 placeholder={marketingGoalPlaceholder}
               />
@@ -198,6 +236,8 @@ const SocialMarketing = ({ campaign, isLoading }: { campaign?: any; isLoading?: 
                 {targetLabel}
               </label>
               <textarea
+                value={target}
+                onChange={(e) => setTarget(e.target.value)}
                 className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl p-4 text-white font-inter text-sm focus:outline-none focus:border-Primary/50 transition-all min-h-[150px] resize-none"
                 placeholder={targetPlaceholder}
               />
@@ -205,7 +245,9 @@ const SocialMarketing = ({ campaign, isLoading }: { campaign?: any; isLoading?: 
           </div>
 
           <div className="mt-8 space-y-4">
-            <button className="w-full py-4 rounded-xl bg-bg-custom text-white font-orbitron font-bold text-base md:text-lg shadow-lg hover:shadow-Primary/20 transition-all transform hover:-translate-y-1">
+            <button 
+              onClick={handleCheckout}
+              className="w-full py-4 rounded-xl bg-bg-custom text-white font-orbitron font-bold text-base md:text-lg shadow-lg hover:shadow-Primary/20 transition-all transform hover:-translate-y-1">
               Submit Monthly
             </button>
             <p className="text-white/30 text-[10px] md:text-xs text-center font-inter uppercase tracking-wider">

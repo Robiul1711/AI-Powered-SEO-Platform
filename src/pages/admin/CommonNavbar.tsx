@@ -71,6 +71,34 @@ const CommonNavbar: React.FC<CommonNavbarProps> = ({ open, setOpen }) => {
       };
     }
 
+    if (path === "/dashboard/my-campaigns") {
+      return {
+        title: "My Campaigns",
+        subtitle: "Manage and monitor your active campaigns",
+      };
+    }
+
+    if (path.startsWith("/dashboard/my-campaigns/")) {
+      return {
+        title: "Campaign Details",
+        subtitle: "Detailed overview of your campaign progress",
+      };
+    }
+
+    if (path === "/dashboard/payment-history") {
+      return {
+        title: "Payment History",
+        subtitle: "Review your past transactions and invoices",
+      };
+    }
+
+    if (path === "/dashboard/booking-history") {
+      return {
+        title: "Booking History",
+        subtitle: "Track all your past service bookings and orders",
+      };
+    }
+
     // Default fallback
     return {
       title: (

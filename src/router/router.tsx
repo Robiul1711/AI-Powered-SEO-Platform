@@ -22,10 +22,15 @@ import FailedPage from "@/pages/failedPage/FailedPage";
 
 import Message from "@/pages/allDashboardPages/messagePage/Message";
 import Account from "@/pages/allDashboardPages/accountPage/Account";
+import MyPlan from "@/pages/allDashboardPages/myPlanPage/MyPlan";
 import ProgressAndTasks from "@/pages/allDashboardPages/progressTasksPage/ProgressAndTasks";
 import MyService from "@/pages/allDashboardPages/servicePage/MyService";
 import Report from "@/pages/allDashboardPages/reportPage/Report";
 import Dashboard from "@/pages/allDashboardPages/dashboardPage/Dashboard";
+import MyCampaigns from "@/pages/allDashboardPages/myCampaignsPage/MyCampaigns";
+import CampaignDetails from "@/pages/allDashboardPages/campaignDetailsPage/CampaignDetails";
+import PaymentHistory from "@/pages/allDashboardPages/paymentHistoryPage/PaymentHistory";
+import BookingHistory from "@/pages/allDashboardPages/bookingHistoryPage/BookingHistory";
 import VerifyEmail from "@/pages/auth/VerifyEmail";
 // import AllServices from "@/components/service-component/AllServices";
 import NotFound from "@/pages/notFoundPage/NotFound";
@@ -50,6 +55,7 @@ const router = createBrowserRouter([
       { path: "about", element: <AboutPage /> },
       { path: "pricing", element: <Pricing /> },
       { path: "simple-checkout", element: <SimpleCheckout /> },
+      { path: "checkout", element: <SimpleCheckout /> },
       { path: "checkout-success", element: <SuccessPage /> },
       { path: "checkout-failed", element: <FailedPage /> },
       { path: "privacy", element: <PrivacyPolicy /> },
@@ -87,10 +93,15 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <Dashboard/> },
       { path: "account", element: <Account /> },
+      { path: "my-plan", element: <MyPlan /> },
       { path: "progress-and-tasks", element: <ProgressAndTasks /> },
       { path: "messages", element: <Message /> },
       { path: "reports", element: <Report/> },
       { path: "my-services", element: <MyService /> },
+      { path: "my-campaigns", element: <MyCampaigns /> },
+      { path: "my-campaigns/:id", element: <CampaignDetails /> },
+      { path: "payment-history", element: <PaymentHistory /> },
+      { path: "booking-history", element: <BookingHistory /> },
     ],
   },
   {

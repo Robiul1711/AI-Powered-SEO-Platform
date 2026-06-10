@@ -184,7 +184,7 @@ const PoweredAnalysis = () => {
           </form>
 
           {/* Footer Features */}
-          <div className="relative z-10 mt-8 pt-6 border-t border-white/5 flex flex-wrap justify-center gap-6 md:gap-10">
+          <div className="relative z-10 mt-8 pt-6  flex flex-wrap justify-center gap-6 md:gap-10">
             <div className="flex items-center gap-2 text-white/60 text-sm font-inter">
               <ShieldCheck size={18} className="text-Primary" />
               100% Secure

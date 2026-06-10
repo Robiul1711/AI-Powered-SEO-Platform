@@ -17,7 +17,7 @@ const NotFound = () => {
         <div className="bg-[#111111]/80 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-6 shadow-2xl text-center relative overflow-hidden group">
           {/* Subtle Top Gradient Line */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1 bg-linear-to-r from-transparent via-[#AC6CFF] to-transparent opacity-50"></div>
-          
+
           {/* 404 Visual Header */}
           <div className="mb-12 relative inline-flex items-center justify-center">
             {/* Animated Glow behind the ghost */}
@@ -25,7 +25,7 @@ const NotFound = () => {
             <div className="relative bg-white/5 border border-white/10 w-32 h-32 rounded-full flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-500">
               <Ghost size={60} className="text-[#AC6CFF] animate-bounce" />
             </div>
-            
+
             {/* 404 Background Text */}
             <div className="absolute -bottom-6 -right-12 text-8xl font-orbitron font-black text-white/5 select-none pointer-events-none group-hover:text-white/10 transition-colors duration-500">
               404
@@ -50,7 +50,7 @@ const NotFound = () => {
               <Home size={18} className="group-hover/btn:-translate-y-0.5 transition-transform" />
               RETRACT TO HOME
             </Link>
-            
+
             <button
               onClick={() => window.history.back()}
               className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 font-orbitron font-bold text-sm flex items-center justify-center gap-3 transition-all active:scale-95"
@@ -61,7 +61,7 @@ const NotFound = () => {
           </div>
 
           {/* Footer Decoration */}
-          <div className="mt-12 pt-8 border-t border-white/5">
+          <div className="mt-12 pt-8 ">
             <div className="flex items-center justify-center gap-2 text-gray-600 text-[10px] font-orbitron tracking-widest uppercase">
               <span className="w-2 h-2 rounded-full bg-red-500/50 animate-pulse"></span>
               Error Code: 0x404_PAGE_NOT_FOUND

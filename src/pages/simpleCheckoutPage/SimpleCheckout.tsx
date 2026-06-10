@@ -5,7 +5,7 @@ import authBg from "@/assets/images/authBg1.png";
 import React, { useMemo, useState } from "react";
 import TagLines from "@/components/common/TagLines";
 import GlowText from "@/components/common/GlowText";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { decryptId } from "@/lib/encryption";
 import useClient from "@/hooks/useClient";
 import { loadStripe } from "@stripe/stripe-js";
@@ -26,7 +26,12 @@ const SimpleCheckout = () => {
   const { token } = useAuthStore();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const type = searchParams.get("type") || "subscription";
   const encryptedPlanId = searchParams.get("plan");
+  const encryptedServiceId = searchParams.get("service");
+  const planFromState = location.state?.plan;
+  const campaignDetails = location.state?.campaignDetails;
   
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [bookingData, setBookingData] = useState<any>(null);
@@ -50,15 +55,30 @@ const SimpleCheckout = () => {
     }
   }, [encryptedPlanId]);
 
+  const serviceId = useMemo(() => {
+    if (!encryptedServiceId) return null;
+    try {
+      return decryptId(encryptedServiceId);
+    } catch (e) {
+      console.error("Failed to decrypt service ID", e);
+      return null;
+    }
+  }, [encryptedServiceId]);
+
   const { data: pricingPlans, isLoading } = useClient({
     queryKey: ["pricing-plans"],
     url: `/pricing-plans`,
   });
 
   const selectedPlan = useMemo(() => {
+    if (type === "campaign" && planFromState) {
+      return planFromState;
+    }
     if (!planId || !(pricingPlans as any)?.data) return null;
     return (pricingPlans as any).data.find((p: any) => p.id.toString() === planId.toString());
-  }, [planId, pricingPlans]);
+  }, [type, planFromState, planId, pricingPlans]);
+
+  const isPlanLoading = type === "subscription" ? isLoading : false;
 
   if (!isAuthenticated) return null;
 
@@ -102,7 +122,7 @@ const SimpleCheckout = () => {
               triggerConfirm={triggerConfirm}
               onConfirmStarted={() => setTriggerConfirm(false)}
               onCardComplete={setIsCardComplete}
-              isLoading={isLoading}
+              isLoading={isPlanLoading}
             />
           </div>
 
@@ -110,7 +130,7 @@ const SimpleCheckout = () => {
           <div className="flex flex-col gap-6 w-full lg:w-[450px]">
             <OrderSummary 
               plan={selectedPlan} 
-              isLoading={isLoading} 
+              isLoading={isPlanLoading} 
               setClientSecret={setClientSecret}
               setBookingData={setBookingData}
               isProcessing={isProcessing}
@@ -118,8 +138,11 @@ const SimpleCheckout = () => {
               onPay={handlePaymentTrigger}
               clientSecret={clientSecret}
               isCardComplete={isCardComplete}
+              type={type}
+              campaignDetails={campaignDetails}
+              serviceId={serviceId ? Number(serviceId) : undefined}
             />
-            <OrderWhatsIncluded plan={selectedPlan} isLoading={isLoading} />
+            <OrderWhatsIncluded plan={selectedPlan} isLoading={isPlanLoading} />
           </div>
         </div>
       </div>

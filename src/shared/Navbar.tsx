@@ -47,7 +47,7 @@ const Navbar = () => {
     url: "/services",
   });
 
-  const servicesData = data?.data || [];
+  const servicesData = Array.isArray(data?.data) ? data.data : (data?.data?.data || []);
 
   const navLinks = [
     { name: "Home", path: "/" },
