@@ -1,14 +1,18 @@
 import Banner from "@/components/homeComponents/Banner";
-import FAQ from "@/components/service-component/seoCampaignComponents/SeoCampignFAQ";
 import FAQHomePage from "@/components/homeComponents/FAQHomePage";
 import PowerfulFeatures from "@/components/homeComponents/PowerfulFeatures";
-import PricingSection from "@/components/common/PricingSection";
 import SimpleProcess from "@/components/homeComponents/SimpleProcess";
 import StartFreeToday from "@/components/homeComponents/StartFreeToday";
 import LightRays from "@/components/LightRays";
 import PricingSectionHome from "@/components/homeComponents/PricingSectionHome";
+import useClient from "@/hooks/useClient";
 
 const Home = () => {
+  const { data: pricingPlans, isLoading } = useClient({
+    queryKey: ["pricing-plans"],
+    url: "/pricing-plans",
+  });
+
   return (
     <div>
       <div className="fixed inset-0">
@@ -17,7 +21,10 @@ const Home = () => {
       <Banner />
       <SimpleProcess />
       <PowerfulFeatures />
-      <PricingSectionHome />
+      <PricingSectionHome
+        pricingPlansData={(pricingPlans as any)?.data}
+        isLoading={isLoading}
+      />
       <FAQHomePage />
       <StartFreeToday />
     </div>

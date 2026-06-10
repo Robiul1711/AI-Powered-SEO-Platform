@@ -4,6 +4,8 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaReact } from "react-icons/fa6";
 import footerLogo from "@/assets/images/footerLogo.png";
+import useClient from "@/hooks/useClient";
+import { Zap, Loader2 } from "lucide-react";
 /* =======================
    Types
 ======================= */
@@ -49,6 +51,15 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
     });
   }, [location.pathname, sidebar]);
 
+  // Fetch active service
+  const { data: serviceResponse, isLoading: isLoadingService } = useClient({
+    queryKey: ["sidebar-active-service"],
+    url: "/user/services",
+    isPrivate: true,
+  }) as any;
+
+  const activeService = serviceResponse?.data?.[0];
+
   const isActive = (paths?: string[] | string) => {
     if (!paths) return false;
     const pathArray = Array.isArray(paths) ? paths : [paths];
@@ -71,7 +82,7 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed font-inter xl:static rounded-4xl top-0 h-full w-[320px] xl:w-[350px] bg-[#151515] backdrop-blur-sm px-4 lg:px-8 py-6 flex flex-col transition-all duration-300 z-[220] shadow-lg
+        className={`fixed font-inter xl:static rounded-[32px] top-0 h-full w-[260px] xl:w-[280px] bg-[#151515] backdrop-blur-sm px-4 lg:px-5 py-5 flex flex-col transition-all duration-300 z-[220] shadow-lg
         ${open ? "left-0" : "-left-full"}`}
       >
         {/* Logo */}
@@ -81,8 +92,10 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
       
         </Link>
 
+
+
         {/* Navigation */}
-        <nav className="flex flex-col gap-3 flex-1 py-5 border-t border-[#EBEBEB]/19">
+        <nav className="flex flex-col gap-1.5 flex-1 py-4 border-t border-[#EBEBEB]/10 overflow-y-auto no-scrollbar">
           {sidebar.map((item, index) => {
             const parentActive =
               item.sublink?.some((sub) => isActive(sub.path)) ||
@@ -100,14 +113,14 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
                     setActiveParentIndex(null);
                     setOpen(false);
                   }}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-300
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300
                   ${
                     isActive(item.activePaths)
-                      ? "bg-[#F7F7F7]/13 text-[#AC6CFF] shadow-md border-l-4 border-[#AC6CFF] hover:bg-[#F7F7F7]/13"
-                      : "text-[#99A1AF] hover:bg-[#F7F7F7]/13 hover:text-[#AC6CFF] "
+                      ? "bg-[#F7F7F7]/10 text-[#AC6CFF] shadow-sm border-l-4 border-[#AC6CFF] hover:bg-[#F7F7F7]/15"
+                      : "text-[#99A1AF] hover:bg-[#F7F7F7]/10 hover:text-[#AC6CFF] "
                   }`}
                 >
-                  {item.icon && <span className="text-lg">{item.icon}</span>}
+                  {item.icon && <span className="text-base">{item.icon}</span>}
                   {item.text}
                 </Link>
               );
@@ -120,15 +133,15 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
               <div key={item.id} className="space-y-1">
                 <div
                   onClick={() => toggleSubmenu(index)}
-                  className={`flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer transition-all duration-300
+                  className={`flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-300 text-sm
                   ${
                     parentActive
-                      ? "bg-[linear-gradient(129deg,#108A00_6.67%,#C8E7A6_116%)] text-white shadow-md"
-                      : "text-gray-700 hover:bg-[#E8F5E1]"
+                      ? "bg-[#F7F7F7]/10 text-white shadow-sm border-l-4 border-[#AC6CFF]"
+                      : "text-[#99A1AF] hover:bg-[#F7F7F7]/10"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    {item.icon && <span className="text-lg">{item.icon}</span>}
+                    {item.icon && <span className="text-base">{item.icon}</span>}
                     <span className="font-medium">{item.text}</span>
                   </div>
 
@@ -142,11 +155,11 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
 
                 {/* Sublinks */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 rounded-lg bg-white
+                  className={`overflow-hidden transition-all duration-300 rounded-lg bg-white/5
                   ${
                     activeParentIndex === index
-                      ? "max-h-[400px] opacity-100 p-2"
-                      : "max-h-0 opacity-0 p-0"
+                      ? "max-h-[400px] opacity-100 p-1.5 mt-1"
+                      : "max-h-0 opacity-0 p-0 m-0"
                   }`}
                 >
                   <div className="flex flex-col gap-1">

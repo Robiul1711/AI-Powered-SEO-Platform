@@ -3,6 +3,7 @@ import TagLines from "../common/TagLines";
 import Title from "../common/Title";
 import GlowText from "../common/GlowText";
 import CommonButton from "../common/CommonButton";
+import { encryptId } from "@/lib/encryption";
 
 interface CheckIconProps {
   className?: string;
@@ -31,6 +32,7 @@ interface PricingCardProps {
 }
 
 const PricingCard = ({
+  id,
   name,
   price,
   subtitle,
@@ -38,6 +40,7 @@ const PricingCard = ({
   is_popular,
   button_text
 }: {
+  id?: string | number;
   name: string;
   price: string;
   subtitle: string;
@@ -73,6 +76,8 @@ const PricingCard = ({
     </div>
 
     <CommonButton
+      as="a"
+      href={id ? `/simple-checkout?plan=${encryptId(id)}` : "#"}
       className={`w-full !py-4 ${is_popular ? "bg-bg-custom" : "bg-white/10!"}`}
     >
       {button_text || "Get Started"}

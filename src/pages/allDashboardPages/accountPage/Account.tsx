@@ -40,9 +40,9 @@ const Account = () => {
     reset: resetProfile,
   } = useForm({
     defaultValues: {
-      name: user?.data?.name || "",
-      phone: user?.data?.phone || "",
-      gender: user?.data?.gender || "",
+      name: user?.data?.name || user?.name || user?.userdata?.name || "",
+      phone: user?.data?.phone || user?.phone || user?.userdata?.phone || "",
+      gender: user?.data?.gender || user?.gender || user?.userdata?.gender || "",
     },
   });
 
@@ -60,14 +60,15 @@ const Account = () => {
   });
 
   useEffect(() => {
-    if (user?.data) {
+    const userData = user?.data || user?.userdata || user;
+    if (userData) {
       resetProfile({
-        name: user.data.name || "",
-        phone: user.data.phone || "",
-        gender: user.data.gender || "",
+        name: userData.name || "",
+        phone: userData.phone || "",
+        gender: userData.gender || "",
       });
-      if (user.data.avatar_url) {
-        setProfileImg(user.data.avatar_url);
+      if (userData.avatar_url) {
+        setProfileImg(userData.avatar_url);
       }
     }
   }, [user, resetProfile]);
@@ -234,7 +235,7 @@ const Account = () => {
                 </label>
                 <input
                   type="email"
-                  value={user?.data?.email || ""}
+                  value={user?.data?.email || user?.email || user?.userdata?.email || ""}
                   disabled
                   className="w-full bg-[#242424] border border-white/5 rounded-2xl px-6 py-4 text-gray-500 cursor-not-allowed font-inter"
                 />

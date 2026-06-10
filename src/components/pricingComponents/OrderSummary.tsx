@@ -13,6 +13,9 @@ interface OrderSummaryProps {
   onPay: () => void;
   clientSecret: string | null;
   isCardComplete: boolean;
+  type?: string;
+  campaignDetails?: any;
+  serviceId?: number;
 }
 
 const OrderSummary = ({
@@ -24,14 +27,19 @@ const OrderSummary = ({
   setIsProcessing,
   onPay,
   clientSecret,
-  isCardComplete
+  isCardComplete,
+  type = "subscription",
+  campaignDetails,
+  serviceId,
 }: OrderSummaryProps) => {
   const subtotal = plan ? parseFloat(plan.price) : 0;
   const discount = plan?.discount ? parseFloat(plan.discount) : 0;
   const total = plan ? Math.max(0, subtotal - discount) : 0;
 
+  const url = type === "campaign" ? "/campaign-bookings/create" : "/subscription-bookings/create";
+
   const { mutate: createBooking, isPending } = useMutationClient({
-    url: "/bookings/create",
+    url,
     method: "post",
     isPrivate: true,
     showToast: false,
@@ -49,12 +57,14 @@ const OrderSummary = ({
     }
 
     setIsProcessing(true);
+
+    const payloadData = type === "campaign"
+      ? { campaign_tier_id: plan.id, campaign_details: campaignDetails }
+      : { pricing_plan_id: plan.id, ...(serviceId ? { service_id: serviceId } : {}) };
+
     createBooking(
       {
-        data: {
-          pricing_plan_id: plan.id,
-          service_id: 1,
-        }
+        data: payloadData
       },
       {
         onSuccess: (res: any) => {
@@ -103,7 +113,7 @@ const OrderSummary = ({
         )}
       </div>
 
-      <div className="space-y-3 pt-6 border-t border-white/5">
+      <div className="space-y-3 pt-6 ">
         <div className="flex justify-between text-white/50 text-sm font-inter">
           <span>Subtotal</span>
           <span>{isLoading ? "..." : `$${subtotal.toLocaleString()}`}</span>
@@ -125,7 +135,7 @@ const OrderSummary = ({
       <button
         onClick={handlePayClick}
         disabled={isLoading || !plan || isProcessing || isPending || !isCardComplete}
-        className="w-full mt-10 py-4 rounded-xl bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] text-white font-inter font-semibold text-sm hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(172,108,255,0.2)] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider"
+        className="w-full mt-10 py-4 rounded-sm bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] text-white font-inter font-semibold text-sm hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(172,108,255,0.2)] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider"
       >
         {isProcessing || isPending ? "Processing..." : `Pay $${total.toLocaleString()} Now`}
       </button>

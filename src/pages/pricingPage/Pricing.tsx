@@ -7,7 +7,7 @@ import PricingSection from "@/components/common/PricingSection";
 import useClient from "@/hooks/useClient";
 
 const Pricing = () => {
-    const { data: pricingPlans, isLoading } = useClient({
+  const { data: pricingPlans, isLoading } = useClient({
     queryKey: ["pricing-plans"], // Add slug to key to refetch on route change
     url: `/pricing-plans`,
   });
@@ -24,7 +24,7 @@ const Pricing = () => {
         <TimelineInvestment />
         <ExpectedResults />
       </div> */}
-      <PricingSection pricingPlansData={(pricingPlans as any)?.data} isLoading={isLoading}/>
+      <PricingSection pricingPlansData={(pricingPlans as any)?.data} isLoading={isLoading} />
     </div>
   );
 };

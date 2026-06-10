@@ -1,32 +1,123 @@
 import React, { useState } from "react";
 import Title from "@/components/common/Title";
 import GlowText from "@/components/common/GlowText";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { encryptId } from "@/lib/encryption";
 
-const FacebookMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[], isLoading?: boolean }) => {
-  const [selectedIndex, setSelectedIndex] = useState(0); 
+const SocialMarketing = ({ campaign, isLoading }: { campaign?: any; isLoading?: boolean }) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [url, setUrl] = useState("");
+  const [goal, setGoal] = useState("");
+  const [target, setTarget] = useState("");
+  const navigate = useNavigate();
 
-  const campaign = serviceData?.find((c: any) => c.title.toLowerCase().includes("facebook"));
-  const tiers = campaign?.tiers || [];
-  
+  if (isLoading) {
+    return <div className="text-center text-white py-20">Loading Campaign...</div>;
+  }
+
+  if (!campaign || !campaign.tiers || campaign.tiers.length === 0) {
+    return null;
+  }
+
+  const tiers = campaign.tiers;
   const selectedPackage = tiers[selectedIndex] || null;
   const prices = tiers.map((p: any) => p.price);
 
-  if (isLoading) {
-    return <div className="text-center text-white py-20">Loading Facebook Marketing...</div>;
-  }
+  const titleLower = campaign.title?.toLowerCase() || "";
+  const isFacebook = titleLower.includes("facebook");
+  const isInstagram = titleLower.includes("instagram");
+  const isYouTube = titleLower.includes("youtube");
 
-  if (!campaign || tiers.length === 0) {
-    return null;
-  }
+  const platformName = isFacebook ? "Facebook" : isInstagram ? "Instagram" : isYouTube ? "YouTube" : "Platform";
+
+  const urlLabel = isFacebook
+    ? "Facebook Page URL"
+    : isInstagram
+    ? "Instagram Account Details (Username/URL)"
+    : isYouTube
+    ? "YouTube Channel URL"
+    : "URL Details";
+
+  const urlPlaceholder = isFacebook
+    ? "Https://Www.Facebook.Com/YourPage"
+    : isInstagram
+    ? "Https://Www.Instagram.Com/YourAccount"
+    : isYouTube
+    ? "Https://Www.Youtube.Com/@YourChannel"
+    : "https://...";
+
+  const targetLabel = isFacebook
+    ? "Target audience / interests (optional)"
+    : isInstagram
+    ? "Target audience / hashtags (optional)"
+    : isYouTube
+    ? "Target audience / keywords (optional)"
+    : "Target audience (optional)";
+
+  const targetPlaceholder = isFacebook
+    ? "Countries, Interests, Age Ranges, Behavior ..."
+    : isInstagram
+    ? "Countries, Interests, Age Ranges, Example Hashtags ..."
+    : isYouTube
+    ? "Countries, Interests, Age Ranges, Focus Keywords ..."
+    : "Countries, Interests, Age Ranges ...";
+    
+  const marketingGoalPlaceholder = isFacebook
+    ? "Engagement (Likes, Comments, Shares)"
+    : isInstagram
+    ? "Engagement (Likes, Comments, Story Views)"
+    : isYouTube
+    ? "Engagement (Likes, Comments, Subscribers)"
+    : "Engagement Goals";
+
+  const renderTitle = (title: string) => {
+    const splitIndex = title.toLowerCase().indexOf("marketing");
+    if (splitIndex !== -1) {
+      return (
+        <>
+          {title.substring(0, splitIndex)} <GlowText>{title.substring(splitIndex)}</GlowText>
+        </>
+      );
+    }
+    return <GlowText>{title}</GlowText>;
+  };
+
+  const handleCheckout = () => {
+    if (!selectedPackage) return;
+    
+    if (!url.trim()) {
+      toast.error(`Please enter your ${platformName} URL`);
+      return;
+    }
+
+    const tierTitle = campaign.title ? `${campaign.title} - $${selectedPackage.price}` : `Campaign Package - $${selectedPackage.price}`;
+
+    navigate(`/simple-checkout?plan=${encryptId(selectedPackage.id)}&type=campaign`, {
+      state: {
+        plan: {
+          id: selectedPackage.id,
+          name: tierTitle,
+          price: selectedPackage.price,
+          discount: 0,
+        },
+        campaignDetails: {
+          url: url,
+          marketing_goal: goal,
+          target_audience: target
+        }
+      }
+    });
+  };
 
   return (
     <div className="section-padding-x section-padding-y">
       <div className="flex flex-col items-center gap-4 max-w-7xl mx-auto text-center mb-10 md:mb-16">
         <Title level="title48" className="text-white font-orbitron">
-          Submit Facebook <GlowText>Marketing Campaign</GlowText>
+          {renderTitle(campaign.title || "Marketing Campaign")}
         </Title>
         <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
-          {campaign.subtitle || "Choose a plan, enter your Page and goals, then checkout securely."}
+          {campaign.subtitle || `Choose a plan, enter your ${platformName} details and goals, then checkout securely.`}
         </p>
 
         <div className="w-full mt-8 sm:mt-12 px-4">
@@ -58,19 +149,18 @@ const FacebookMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[
             />
           </div>
 
-          <div className="flex justify-between mt-2 sm:mt-4">
+          <div className="flex justify-between mt-2 sm:mt-4 overflow-x-auto gap-2 scrollbar-hide py-2">
             {prices.map((price: number, idx: number) => (
               <button
                 key={idx}
                 onClick={() => setSelectedIndex(idx)}
-                className={`text-[9px] sm:text-xs md:text-sm font-orbitron transition-all duration-300 ${
+                className={`text-[9px] sm:text-xs md:text-sm font-orbitron transition-all duration-300 min-w-max ${
                   idx === selectedIndex ? "text-Primary scale-110" : "text-white/40 hover:text-white/60"
                 }`}
               >
                 €{price}
               </button>
             ))}
-            
           </div>
         </div>
       </div>
@@ -94,8 +184,8 @@ const FacebookMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[
                   <ul className="mt-2 space-y-1">
                     {feature.sub_items.map((sub: string, i: number) => (
                       <li key={i} className="text-white/60 text-xs md:text-sm font-inter flex items-start gap-2">
-                         <span className="text-Primary mt-1">•</span>
-                         <span>{sub}</span>
+                        <span className="text-Primary mt-1">•</span>
+                        <span>{sub}</span>
                       </li>
                     ))}
                   </ul>
@@ -103,7 +193,9 @@ const FacebookMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[
               </div>
             ))}
           </div>
-          <p className="text-white/30 text-[10px] md:text-xs text-center font-inter uppercase tracking-wider mt-5">Note: Ad spend on Meta/Facebook is separate from our service fee unless otherwise agreed.</p>
+          <p className="text-white/30 text-[10px] md:text-xs text-center font-inter uppercase tracking-wider mt-5">
+            Note: Ad spend on {platformName} is separate from our service fee unless otherwise agreed.
+          </p>
         </div>
 
         {/* Order Details */}
@@ -115,12 +207,14 @@ const FacebookMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[
           <div className="space-y-6 flex-grow">
             <div className="space-y-3">
               <label className="text-white/80 font-inter text-sm md:text-base block">
-                Facebook Page URL
+                {urlLabel}
               </label>
               <input
                 type="text"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
                 className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl p-4 text-white font-inter text-sm focus:outline-none focus:border-Primary/50 transition-all"
-                placeholder="Https://Www.Facebook.Com/YourPage"
+                placeholder={urlPlaceholder}
               />
             </div>
 
@@ -130,24 +224,30 @@ const FacebookMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[
               </label>
               <input
                 type="text"
+                value={goal}
+                onChange={(e) => setGoal(e.target.value)}
                 className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl p-4 text-white font-inter text-sm focus:outline-none focus:border-Primary/50 transition-all"
-                placeholder="Engagement (Likes, Comments, Shares)"
+                placeholder={marketingGoalPlaceholder}
               />
             </div>
 
             <div className="space-y-3">
               <label className="text-white/80 font-inter text-sm md:text-base block">
-                Target audience / interests (optional)
+                {targetLabel}
               </label>
               <textarea
+                value={target}
+                onChange={(e) => setTarget(e.target.value)}
                 className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl p-4 text-white font-inter text-sm focus:outline-none focus:border-Primary/50 transition-all min-h-[150px] resize-none"
-                placeholder="Countries, Interests, Age Ranges, Behavior ..."
+                placeholder={targetPlaceholder}
               />
             </div>
           </div>
 
           <div className="mt-8 space-y-4">
-            <button className="w-full py-4 rounded-xl bg-bg-custom text-white font-orbitron font-bold text-base md:text-lg shadow-lg hover:shadow-Primary/20 transition-all transform hover:-translate-y-1">
+            <button 
+              onClick={handleCheckout}
+              className="w-full py-4 rounded-xl bg-bg-custom text-white font-orbitron font-bold text-base md:text-lg shadow-lg hover:shadow-Primary/20 transition-all transform hover:-translate-y-1">
               Submit Monthly
             </button>
             <p className="text-white/30 text-[10px] md:text-xs text-center font-inter uppercase tracking-wider">
@@ -160,4 +260,4 @@ const FacebookMarketing = ({ serviceData = [], isLoading }: { serviceData?: any[
   );
 };
 
-export default FacebookMarketing;
+export default SocialMarketing;

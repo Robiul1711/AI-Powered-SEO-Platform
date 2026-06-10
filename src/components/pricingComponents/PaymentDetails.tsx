@@ -65,13 +65,7 @@ const PaymentDetails = ({
     }));
   };
 
-  const { mutate: verifyPayment } = useMutationClient({
-    url: "/payments/verify",
-    method: "post",
-    isPrivate: true,
-    showErrorToast: false,
-    showToast: false,
-  });
+
 
   useEffect(() => {
     if (user) {
@@ -124,42 +118,8 @@ const PaymentDetails = ({
       if (processingPayment.current) return;
       processingPayment.current = true;
 
-      verifyPayment(
-        {
-          data: {
-            booking_id: bookingData.id,
-            transaction_id: paymentIntent.id,
-            amount: paymentIntent?.amount ? paymentIntent.amount / 100 : plan?.price || 0,
-            payment_method: "stripe",
-            status: "paid",
-          },
-        },
-        {
-          onSuccess: (res: any) => {
-            if (res.data.success) {
-              toast.success("Payment Successful!", { id: "payment-success" });
-              navigate("/checkout-success");
-            } else {
-              // Fallback to error page if success flag is false
-              navigate("/checkout-failed");
-            }
-          },
-          onError: (err: any) => {
-            const errorMsg = err?.response?.data?.message || err?.message || "";
-            
-            // If the transaction is already recorded, it means it's a success
-            if (errorMsg.toLowerCase().includes("transaction id") || errorMsg.toLowerCase().includes("already recorded")) {
-              toast.success("Payment Confirmed!", { id: "payment-success" });
-              navigate("/checkout-success");
-            } else {
-              processingPayment.current = false;
-              setIsProcessing(false);
-              toast.error(errorMsg || "Payment verification failed");
-              navigate("/checkout-failed");
-            }
-          }
-        }
-      );
+      toast.success("Payment Successful!", { id: "payment-success" });
+      navigate("/checkout-success");
     }
   };
 
@@ -258,8 +218,8 @@ const PaymentDetails = ({
                 size={18}
               />
               <div className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
-                <CardNumberElement 
-                  options={ELEMENT_OPTIONS} 
+                <CardNumberElement
+                  options={ELEMENT_OPTIONS}
                   onChange={(e) => handleCardChange(e, 'number')}
                 />
               </div>
@@ -277,8 +237,8 @@ const PaymentDetails = ({
                   size={18}
                 />
                 <div className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
-                  <CardExpiryElement 
-                    options={ELEMENT_OPTIONS} 
+                  <CardExpiryElement
+                    options={ELEMENT_OPTIONS}
                     onChange={(e) => handleCardChange(e, 'expiry')}
                   />
                 </div>
@@ -294,8 +254,8 @@ const PaymentDetails = ({
                   size={18}
                 />
                 <div className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
-                  <CardCvcElement 
-                    options={ELEMENT_OPTIONS} 
+                  <CardCvcElement
+                    options={ELEMENT_OPTIONS}
                     onChange={(e) => handleCardChange(e, 'cvc')}
                   />
                 </div>
@@ -314,7 +274,7 @@ const PaymentDetails = ({
         </div>
       )}
 
-      <div className="mt-12 pt-8 border-t border-white/5 flex flex-wrap items-center justify-center gap-8 text-white/30">
+      <div className="mt-12 pt-8  flex flex-wrap items-center justify-center gap-8 text-white/30">
         <div className="flex items-center gap-2">
           <ShieldCheck size={16} />
           <span className="text-[10px] uppercase tracking-widest">

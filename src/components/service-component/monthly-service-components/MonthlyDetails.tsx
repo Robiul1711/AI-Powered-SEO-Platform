@@ -9,25 +9,28 @@ interface DetailItem {
 
 interface MonthlyDetailsProps {
   details: DetailItem[];
+  hideTitle?: boolean;
 }
 
-const MonthlyDetails: React.FC<MonthlyDetailsProps> = ({ details }) => {
+const MonthlyDetails: React.FC<MonthlyDetailsProps> = ({ details, hideTitle = false }) => {
   return (
-    <div className="bg-[#111111] border border-white/10 rounded-[30px] p-6 h-full flex flex-col">
-      <Title level="title32" className="text-white mb-8">
-        Monthly Details
-      </Title>
+    <div className={`${hideTitle ? '' : 'bg-[#111111] border border-white/10 rounded-[30px] p-6'} h-full flex flex-col`}>
+      {!hideTitle && (
+        <Title level="title32" className="text-white mb-8">
+          Monthly Details
+        </Title>
+      )}
 
-      <div className="flex-grow overflow-y-auto pr-2 space-y-4 max-h-[600px] custom-scrollbar">
+      <div className={`flex-grow ${hideTitle ? 'space-y-2' : 'overflow-y-auto pr-2 space-y-4 max-h-[450px] custom-scrollbar'}`}>
         {details.map((item, index) => (
-          <div key={index} className="space-y-3">
+          <div key={index} className={hideTitle ? "space-y-1" : "space-y-3"}>
             {/* Main Item Card */}
-            <div className="bg-[#1a1a1a] border border-white/5 rounded-xl p-4 transition-all duration-300 hover:border-Primary/30 group">
-              <h4 className="text-white/90 font-inter text-sm md:text-base font-medium">
+            <div className={`bg-[#1a1a1a] border border-white/5 ${hideTitle ? 'rounded-lg p-3' : 'rounded-xl p-4'} transition-all duration-300 hover:border-Primary/30 group`}>
+              <h4 className={`text-white/90 font-inter font-medium ${hideTitle ? 'text-xs md:text-sm' : 'text-sm md:text-base'}`}>
                 {item.title}
               </h4>
               {item.description && (
-                <p className="text-white/40 text-xs md:text-sm mt-2 leading-relaxed">
+                <p className={`text-white/40 mt-1 leading-relaxed ${hideTitle ? 'text-[10px] md:text-xs' : 'text-xs md:text-sm mt-2'}`}>
                   {item.description}
                 </p>
               )}
@@ -35,16 +38,16 @@ const MonthlyDetails: React.FC<MonthlyDetailsProps> = ({ details }) => {
 
             {/* Sub Items */}
             {item.subItems && item.subItems.length > 0 && (
-              <div className="pl-6 space-y-2">
+              <div className={`${hideTitle ? 'pl-4 space-y-1' : 'pl-6 space-y-2'}`}>
                 {item.subItems.map((sub, sIdx) => (
                   <div
                     key={sIdx}
-                    className="flex items-start gap-2 bg-[#1a1a1a]/50 border border-white/5 rounded-lg p-3 transition-all duration-300 hover:border-Primary/20"
+                    className={`flex items-start gap-2 bg-[#1a1a1a]/50 border border-white/5 rounded-lg transition-all duration-300 hover:border-Primary/20 ${hideTitle ? 'p-2' : 'p-3'}`}
                   >
-                    <span className="text-Primary">
-                <MdOutlineSubdirectoryArrowRight />
+                    <span className={`text-Primary ${hideTitle ? 'mt-0.5 text-xs' : ''}`}>
+                      <MdOutlineSubdirectoryArrowRight />
                     </span>
-                    <span className="text-white/60 text-xs md:text-sm">
+                    <span className={`text-white/60 ${hideTitle ? 'text-[10px] md:text-xs' : 'text-xs md:text-sm'}`}>
                       {sub}
                     </span>
                   </div>

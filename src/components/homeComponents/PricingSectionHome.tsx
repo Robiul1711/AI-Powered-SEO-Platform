@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TagLines from "../common/TagLines";
 import Title from "../common/Title";
 import GlowText from "../common/GlowText";
 import CommonButton from "../common/CommonButton";
+import ServiceSelectModal from "../common/ServiceSelectModal";
+import { encryptId } from "@/lib/encryption";
 
 interface CheckIconProps {
   className?: string;
@@ -23,6 +26,7 @@ const CheckIcon = ({ className = "w-4 h-4" }: CheckIconProps) => (
 
 const dummyPricingPlans = [
   {
+    id: 1,
     name: "Starter",
     price: "99",
     subtitle: "Perfect for small businesses just getting started with SEO",
@@ -37,6 +41,7 @@ const dummyPricingPlans = [
     button_text: "Get Started"
   },
   {
+    id: 2,
     name: "Professional",
     price: "299",
     subtitle: "Ideal for growing businesses needing comprehensive SEO",
@@ -52,6 +57,7 @@ const dummyPricingPlans = [
     button_text: "Choose Professional"
   },
   {
+    id: 3,
     name: "Enterprise",
     price: "599",
     subtitle: "Full-service SEO for large businesses and agencies",
@@ -69,21 +75,26 @@ const dummyPricingPlans = [
 ];
 
 interface PricingCardProps {
+  id?: string | number;
   name: string;
   price: string;
   subtitle: string;
   features: string[];
+  services?: { id: number; title: string; slug?: string }[];
   is_popular?: boolean;
   button_text?: string;
+  onGetStarted: (plan: any) => void;
 }
 
 const PricingCard = ({
+  id,
   name,
   price,
   subtitle,
   features,
   is_popular = false,
   button_text = "Get Started Now",
+  onGetStarted,
 }: PricingCardProps) => (
   <div
     className={`relative md:p-8 p-6 
@@ -93,11 +104,10 @@ const PricingCard = ({
   flex flex-col h-full group
 
   bg-[linear-gradient(162deg,#2D2D2D_0.9%,#060606_99.1%)] 
-  ${
-    is_popular
-      ? "border-[4.991px]   border-[#B57CFF]"
-      : "  border-[4.991px]   border-white/20 "
-  }`}
+  ${is_popular
+        ? "border-[4.991px]   border-[#B57CFF]"
+        : "  border-[4.991px]   border-white/20 "
+      }`}
   >
     {is_popular && (
       <div className="absolute -top-4 left-1/2 -translate-x-1/2">
@@ -120,9 +130,10 @@ const PricingCard = ({
       <p className="text-white/40 text-sm mt-4 leading-relaxed">{subtitle}</p>
     </div>
     <CommonButton
-      className={`w-full !py-4  ${
-        is_popular ? "bg-bg-custom " : "!bg-white/10 "
-      }`}
+      as="button"
+      onClick={() => onGetStarted({ id, name, price, subtitle, features, is_popular, button_text })}
+      className={`w-full !py-4 text-center block ${is_popular ? "bg-bg-custom " : "!bg-white/10 "
+        }`}
     >
       {button_text}
     </CommonButton>
@@ -194,30 +205,80 @@ const PricingSectionHome = ({
   pricingPlansData?: any;
   isLoading?: boolean;
 } = {}) => {
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [activePlan, setActivePlan] = useState<any>(null);
+
+  const getFullPlan = (planId: any) =>
+    (pricingPlansData || dummyPricingPlans).find((p: any) => p.id === planId);
+
+  const handleGetStarted = (plan: any) => {
+    const fullPlan = getFullPlan(plan.id);
+    const services: any[] = fullPlan?.services ?? [];
+
+    if (services.length > 1) {
+      setActivePlan(fullPlan);
+      setModalOpen(true);
+    } else {
+      const encryptedPlanId = encryptId(plan.id);
+      const serviceId = services[0]?.id;
+      navigate(
+        `/checkout?type=subscription&plan=${encryptedPlanId}${serviceId ? `&service=${encryptId(serviceId)}` : ""}`
+      );
+    }
+  };
+
+  const handleServiceConfirm = (serviceId: number) => {
+    setModalOpen(false);
+    if (!activePlan) return;
+    const encryptedPlanId = encryptId(activePlan.id);
+    const encryptedServiceId = encryptId(serviceId);
+    navigate(
+      `/checkout?type=subscription&plan=${encryptedPlanId}&service=${encryptedServiceId}`
+    );
+  };
+
   return (
-    <section className="section-padding-x section-padding-y relative overflow-hidden">
-      {/* Background Glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#AC6CFF]/10 blur-[120px] rounded-full -z-10" />
+    <>
+      <section className="section-padding-x section-padding-y relative overflow-hidden">
+        {/* Background Glows */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#AC6CFF]/10 blur-[120px] rounded-full -z-10" />
 
-      <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center mb-16">
-        <TagLines>Simple, Transparent Pricing</TagLines>
-        <Title level="title48" className="text-white">
-          Choose Your <GlowText>Growth Plan</GlowText>
-        </Title>
-        <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
-          AI automation + human expertise. Pick the plan that matches your goals
-          and scale your presence globally.
-        </p>
-      </div>
+        <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center mb-16">
+          <TagLines>Simple, Transparent Pricing</TagLines>
+          <Title level="title48" className="text-white">
+            Choose Your <GlowText>Growth Plan</GlowText>
+          </Title>
+          <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
+            AI automation + human expertise. Pick the plan that matches your goals
+            and scale your presence globally.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
-        {isLoading
-          ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
-          : (pricingPlansData || dummyPricingPlans)?.map((plan: any, index: number) => (
-              <PricingCard key={index} {...plan} />
-            ))}
-      </div>
-    </section>
+        <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
+          {isLoading
+            ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
+            : (pricingPlansData || dummyPricingPlans)?.map(
+                (plan: any, index: number) => (
+                  <PricingCard
+                    key={index}
+                    {...plan}
+                    onGetStarted={handleGetStarted}
+                  />
+                )
+              )}
+        </div>
+      </section>
+
+      {/* Service Selection Modal */}
+      <ServiceSelectModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        services={activePlan?.services ?? []}
+        plan={activePlan}
+        onConfirm={handleServiceConfirm}
+      />
+    </>
   );
 };
 

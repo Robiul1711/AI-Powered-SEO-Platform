@@ -19,11 +19,11 @@ const Message = () => {
   useEffect(() => {
     // Universal ID detection for channel subscription
     const currentId = currentUser?.id || currentUser?.data?.id || currentUser?.user_id || currentUser?.userdata?.id || currentUser?.userdata?.user_id;
-    
+
     if (echo && currentId) {
       const channelName = `user.${currentId}`;
       const channel = echo.private(channelName);
-      
+
       channel.listen(".message.sent", (e: any) => {
         refetchConversations();
         if (selectedConversationId) {
@@ -42,6 +42,7 @@ const Message = () => {
     queryKey: ["conversations"],
     url: "/conversations",
     isPrivate: true,
+    options: { refetchInterval: 500 }
   }) as any;
 
   const conversations = conversationsResponse?.data || [];
@@ -82,7 +83,7 @@ const Message = () => {
     url: selectedConversationId ? `/conversations/${selectedConversationId}/messages` : "",
     isPrivate: true,
     enabled: !!selectedConversationId,
-    options: { refetchInterval: false }
+    options: { refetchInterval: 500 }
   }) as any;
 
   // Handle 404 or other errors for messages
@@ -125,12 +126,13 @@ const Message = () => {
 
   const { register, handleSubmit, reset } = useForm();
 
-  // Auto-scroll to bottom when messages change
+  // Auto-scroll to bottom only when a new message arrives or conversation changes
+  const messagesLength = messages.length;
   useEffect(() => {
     if (scrollBottomRef.current) {
       scrollBottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, isMessagesLoading, newChatUser, sendMessageMutation.isPending]);
+  }, [messagesLength, selectedConversationId, newChatUser]);
 
   const onSendMessage = (data: any) => {
     if (!data.message?.trim()) return;
@@ -165,9 +167,9 @@ const Message = () => {
 
   const getOtherUser = (conversation: any) => {
     if (conversation.other_user) return conversation.other_user;
-    
+
     const myId = currentUser?.id || currentUser?.data?.id || currentUser?.user_id || currentUser?.userdata?.id;
-    
+
     if (Number(conversation.sender?.id) === Number(myId)) {
       return conversation.receiver;
     }
@@ -263,7 +265,7 @@ const Message = () => {
 
             {/* Search Results Section - Only shows when searching */}
             {searchQuery.trim() && filteredMembers.length > 0 && (
-              <div className="pt-4 mt-4 border-t border-white/5">
+              <div className="pt-4 mt-4 ">
                 <h3 className="text-xs font-orbitron font-bold text-gray-500 uppercase tracking-widest px-2 mb-4">
                   Search Results
                 </h3>
@@ -337,7 +339,7 @@ const Message = () => {
 
               {/* Messages Area */}
               <div
-                className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-4 sm:space-y-6 custom-scrollbar"
+                className="flex-1 overflow-y-auto p-4 sm:px-6 sm:py-6 flex flex-col gap-1.5 custom-scrollbar"
               >
                 {isMessagesLoading && messages.length === 0 ? (
                   <div className="flex justify-center py-10">
@@ -348,11 +350,11 @@ const Message = () => {
                     let lastDate = "";
                     return messages.map((msg: any, index: number) => {
                       const msgDate = new Date(msg.created_at).toLocaleDateString();
-                      
+
                       // Debug: Check why alignment might be failing
                       const currentId = currentUser?.id || currentUser?.data?.id || currentUser?.user_id || currentUser?.userdata?.id || currentUser?.userdata?.user_id;
                       const isMe = Number(msg.sender_id) === Number(currentId);
-                      
+
 
                       const showDivider = msgDate !== lastDate;
                       lastDate = msgDate;
@@ -362,25 +364,27 @@ const Message = () => {
                       return (
                         <React.Fragment key={msg.id}>
                           {showDivider && (
-                            <div className="flex justify-center my-6">
-                              <span className="bg-white/5 border border-white/10 px-4 py-1.5 rounded-xl text-[10px] font-orbitron font-bold text-gray-400 capitalize">
+                            <div className="flex justify-center my-4 mt-6 first:mt-0">
+                              <span className="bg-white/5 border border-white/10 px-3 py-1 rounded-lg text-[10px] font-orbitron font-bold text-gray-400 capitalize shadow-sm">
                                 {isToday ? "Today" : msgDate}
                               </span>
                             </div>
                           )}
-                          <div className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-                            <div
-                              className={`max-w-[85%] sm:max-w-[70%] px-4 py-3 rounded-3xl relative ${isMe
-                                ? "bg-linear-to-r from-[#AC6CFF] to-[#674199] text-white shadow-[0_4px_15px_rgba(172,108,255,0.2)]"
-                                : "bg-[#242424] border border-white/5 text-gray-200"
-                                }`}
-                            >
-                              <p className="text-xs sm:text-[13px] leading-relaxed">
-                                {msg.message}
-                              </p>
-                              <span className={`text-[9px] sm:text-[10px] mt-2 block opacity-50 ${isMe ? "text-right" : "text-left"}`}>
-                                {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                              </span>
+                          <div className={`flex w-full ${isMe ? "justify-end" : "justify-start"} mt-0.5`}>
+                            <div className="flex flex-col max-w-[85%] sm:max-w-[65%]">
+                              <div
+                                className={`px-3 py-2 relative group flex flex-col sm:flex-row sm:items-end gap-x-3 gap-y-1 ${isMe
+                                  ? "bg-gradient-to-r from-[#AC6CFF] to-[#674199] text-white rounded-t-[16px] rounded-bl-[16px] rounded-br-[4px] shadow-sm"
+                                  : "bg-[#242424] border border-white/5 text-gray-200 rounded-t-[16px] rounded-br-[16px] rounded-bl-[4px]"
+                                  }`}
+                              >
+                                <p className="text-[13px] sm:text-[14px] leading-snug whitespace-pre-wrap break-words">
+                                  {msg.message}
+                                </p>
+                                <span className={`text-[10px] font-medium shrink-0 self-end opacity-70 ${isMe ? "text-white" : "text-gray-400"}`}>
+                                  {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </React.Fragment>
@@ -400,25 +404,25 @@ const Message = () => {
               {/* Input Area */}
               <form
                 onSubmit={handleSubmit(onSendMessage)}
-                className="p-4 sm:p-6 pt-0"
+                className="p-4 sm:px-6 sm:pb-6 pt-2 bg-[#1A1A1A]"
               >
-                <div className="relative">
+                <div className="relative flex items-center bg-[#242424] border border-white/10 rounded-2xl p-1.5 focus-within:border-purple-500/50 transition-colors shadow-sm">
                   <input
                     {...register("message")}
                     autoComplete="off"
                     disabled={sendMessageMutation.isPending}
-                    placeholder="Type Your Message..."
-                    className="w-full bg-[#242424] border border-white/5 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-xs sm:text-sm focus:outline-none focus:border-purple-500/50 transition-all pr-14 disabled:opacity-50"
+                    placeholder="Type your message..."
+                    className="w-full bg-transparent px-4 py-3 text-[13px] text-white focus:outline-none placeholder:text-gray-500 disabled:opacity-50"
                   />
                   <button
                     type="submit"
                     disabled={sendMessageMutation.isPending}
-                    className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 bg-[#AC6CFF] p-2 sm:p-3 rounded-xl hover:opacity-90 transition-all shadow-lg disabled:opacity-50"
+                    className="shrink-0 flex items-center justify-center w-[40px] h-[40px] bg-[#673ab7] rounded-xl hover:bg-[#5e35b1] transition-all disabled:opacity-50 text-white mr-0.5"
                   >
                     {sendMessageMutation.isPending ? (
                       <Loader2 size={16} className="animate-spin" />
                     ) : (
-                      <Send size={16} className="sm:size-[18px]" />
+                      <Send size={16} className="ml-0.5" />
                     )}
                   </button>
                 </div>

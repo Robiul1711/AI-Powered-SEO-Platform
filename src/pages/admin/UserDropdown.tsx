@@ -29,10 +29,10 @@ const UserDropdown: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const userName = user?.data?.name || user?.name || "John Doe";
-  const userEmail = user?.data?.email || "johndoe@example.com";
+  const userName = user?.data?.name || user?.name || user?.userdata?.name || "John Doe";
+  const userEmail = user?.data?.email || user?.email || user?.userdata?.email || "johndoe@example.com";
   const userAvatar =
-    user?.data?.avatar_url ||
+    user?.data?.avatar_url || user?.avatar_url || user?.userdata?.avatar_url ||
     "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1760&auto=format&fit=crop";
 
   return (
@@ -91,7 +91,7 @@ const UserDropdown: React.FC = () => {
               </Link> */}
             </div>
 
-            <div className="mt-2 pt-2 border-t border-white/5">
+            <div className="mt-2 pt-2 ">
               <button
                 className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-lg transition-colors cursor-pointer"
                 onClick={() => {

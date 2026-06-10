@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TagLines from "./TagLines";
 import Title from "./Title";
 import GlowText from "./GlowText";
 import CommonButton from "./CommonButton";
-import useMutationClient from "@/hooks/useMutationClient";
+import ServiceSelectModal from "./ServiceSelectModal";
 import { encryptId } from "@/lib/encryption";
 
 interface CheckIconProps {
@@ -29,8 +30,10 @@ interface PricingCardProps {
   price: string;
   subtitle: string;
   features: string[];
+  services?: { id: number; title: string; slug?: string }[];
   is_popular?: boolean;
   button_text?: string;
+  onGetStarted: (plan: any) => void;
 }
 
 // Fallback dummy data when no plans are provided
@@ -47,6 +50,7 @@ const dummyPricingPlans = [
       "Basic technical SEO audit",
       "Email support",
     ],
+    services: [],
     is_popular: false,
     button_text: "Get Started",
   },
@@ -63,6 +67,7 @@ const dummyPricingPlans = [
       "Advanced analytics dashboard",
       "Priority support",
     ],
+    services: [],
     is_popular: true,
     button_text: "Choose Professional",
   },
@@ -79,6 +84,7 @@ const dummyPricingPlans = [
       "Dedicated account manager",
       "24/7 phone support",
     ],
+    services: [],
     is_popular: false,
     button_text: "Contact Sales",
   },
@@ -92,6 +98,7 @@ const PricingCard = ({
   features,
   is_popular = false,
   button_text = "Get Started Now",
+  onGetStarted,
 }: PricingCardProps) => (
   <div
     className={`relative md:p-8 p-6 
@@ -101,11 +108,10 @@ const PricingCard = ({
   flex flex-col h-full group
 
   bg-[linear-gradient(162deg,#2D2D2D_0.9%,#060606_99.1%)] 
-  ${
-    is_popular
-      ? "border-[4.991px]   border-[#B57CFF]"
-      : "  border-[4.991px]   border-white/20 "
-  }`}
+  ${is_popular
+        ? "border-[4.991px]   border-[#B57CFF]"
+        : "  border-[4.991px]   border-white/20 "
+      }`}
   >
     {is_popular && (
       <div className="absolute -top-4 left-1/2 -translate-x-1/2">
@@ -127,10 +133,11 @@ const PricingCard = ({
       </div>
       <p className="text-white/40 text-sm mt-4 leading-relaxed">{subtitle}</p>
     </div>
-    <CommonButton href={`/simple-checkout?plan=${encryptId(id)}`} as="a"
-      className={`w-full !py-4 text-center ${
-        is_popular ? "bg-bg-custom " : "!bg-white/10 "
-      }`}
+    <CommonButton
+      as="button"
+      onClick={() => onGetStarted({ id, name, price, subtitle, features, is_popular, button_text })}
+      className={`w-full !py-4 text-center block ${is_popular ? "bg-bg-custom " : "!bg-white/10 "
+        }`}
     >
       {button_text}
     </CommonButton>
@@ -202,43 +209,85 @@ const PricingSection = ({
   pricingPlansData?: any;
   isLoading?: boolean;
 } = {}) => {
-  console.log(pricingPlansData);
-  const { mutate, isPending } = useMutationClient({
-    url: "/bookings/create",
-    method: "post",
-  });
-  const { mutate: verifyPayment, isPending: isPendingVerifyPayment } =
-    useMutationClient({
-      url: "/payments/verify",
-      method: "post",
-    });
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [activePlan, setActivePlan] = useState<any>(null);
+
+  // Find the full plan data (with services) by id
+  const getFullPlan = (planId: any) =>
+    (pricingPlansData || dummyPricingPlans).find(
+      (p: any) => p.id === planId
+    );
+
+  const handleGetStarted = (plan: any) => {
+    const fullPlan = getFullPlan(plan.id);
+    const services: any[] = fullPlan?.services ?? [];
+
+    if (services.length > 1) {
+      // Multiple services → show modal
+      setActivePlan(fullPlan);
+      setModalOpen(true);
+    } else {
+      // 0 or 1 service → go straight to checkout
+      const encryptedPlanId = encryptId(plan.id);
+      const serviceId = services[0]?.id;
+      navigate(
+        `/checkout?type=subscription&plan=${encryptedPlanId}${serviceId ? `&service=${encryptId(serviceId)}` : ""}`
+      );
+    }
+  };
+
+  const handleServiceConfirm = (serviceId: number) => {
+    setModalOpen(false);
+    if (!activePlan) return;
+    const encryptedPlanId = encryptId(activePlan.id);
+    const encryptedServiceId = encryptId(serviceId);
+    navigate(
+      `/checkout?type=subscription&plan=${encryptedPlanId}&service=${encryptedServiceId}`
+    );
+  };
 
   return (
-    <section className="section-padding-x section-padding-y relative overflow-hidden">
-      {/* Background Glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#AC6CFF]/10 blur-[120px] rounded-full -z-10" />
+    <>
+      <section className="section-padding-x section-padding-y relative overflow-hidden">
+        {/* Background Glows */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#AC6CFF]/10 blur-[120px] rounded-full -z-10" />
 
-      <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center mb-16">
-        <TagLines>Simple, Transparent Pricing</TagLines>
-        <Title level="title48" className="text-white">
-          Choose Your <GlowText>Growth Plan</GlowText>
-        </Title>
-        <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
-          AI automation + human expertise. Pick the plan that matches your goals
-          and scale your presence globally.
-        </p>
-      </div>
+        <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center mb-16">
+          <TagLines>Simple, Transparent Pricing</TagLines>
+          <Title level="title48" className="text-white">
+            Choose Your <GlowText>Growth Plan</GlowText>
+          </Title>
+          <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
+            AI automation + human expertise. Pick the plan that matches your goals
+            and scale your presence globally.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
-        {isLoading
-          ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
-          : (pricingPlansData || dummyPricingPlans).map(
-              (plan: any, index: number) => (
-                <PricingCard key={index} {...plan} />
-              ),
-            )}
-      </div>
-    </section>
+        <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
+          {isLoading
+            ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
+            : (pricingPlansData || dummyPricingPlans).map(
+                (plan: any, index: number) => (
+                  <PricingCard
+                    key={index}
+                    {...plan}
+                    onGetStarted={handleGetStarted}
+                  />
+                )
+              )}
+        </div>
+      </section>
+
+      {/* Service Selection Modal */}
+      <ServiceSelectModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        services={activePlan?.services ?? []}
+        plan={activePlan}
+        onConfirm={handleServiceConfirm}
+      />
+    </>
   );
 };
 

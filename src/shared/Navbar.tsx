@@ -42,22 +42,30 @@ const Navbar = () => {
       document.body.style.overflow = "unset";
     };
   }, [isMobileMenuOpen]);
-  // const { data, refetch, isFetching } = useClient({
-  //   queryKey: ["services"],
-  //   url: "/services",
-  // });
+  const { data } = useClient({
+    queryKey: ["services"],
+    url: "/services",
+  });
+
+  const servicesData = Array.isArray(data?.data) ? data.data : (data?.data?.data || []);
 
   const navLinks = [
     { name: "Home", path: "/" },
     {
       name: "Services",
       path: "/services",
-      subLinks: [
-        { name: "SEO Campaign", path: "/services/seo-campaign" },
-        { name: "Guest Posting", path: "/services/guest-posting" },
-        { name: "Link Building", path: "/services/link-building" },
-        { name: "SMM Marketing", path: "/services/smm-marketing" },
-      ],
+      subLinks: servicesData.length > 0 
+        ? servicesData.map((service: any) => ({
+            name: service.title,
+            path: `/services/${service.slug}`,
+            is_campaign: service.is_campaign
+          }))
+        : [
+            { name: "SEO Campaign", path: "/services/seo-campaign", is_campaign: true },
+            { name: "Guest Posting", path: "/services/guest-posting", is_campaign: false },
+            { name: "Link Building", path: "/services/link-building", is_campaign: false },
+            { name: "SMM Marketing", path: "/services/smm-marketing", is_campaign: false },
+          ],
     },
     { name: "AI SEO Audit", path: "/ai-seo-audit" },
     { name: "Pricing", path: "/pricing" },
@@ -167,23 +175,28 @@ const Navbar = () => {
 
                 {/* Desktop Dropdown Menu */}
                 {link.subLinks && isServicesOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-72 z-[100]">
-                    <div className="bg-[#1A1A1A] rounded-2xl p-4 shadow-2xl border border-white/5 animate-in fade-in zoom-in duration-200">
-                      <div className="flex flex-col gap-2">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-80 z-[100]">
+                    <div className="bg-[#1A1A1A] rounded-2xl p-3 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 animate-in fade-in zoom-in duration-300">
+                      <div className="flex flex-col gap-1.5">
                         {link.subLinks.map((subLink: any) => (
                           <NavLink
                             key={subLink.name}
                             to={subLink.path}
                             onClick={() => setIsServicesOpen(false)}
                             className={({ isActive }) =>
-                              `px-6 py-3 rounded-full text-sm  font-medium transition-all duration-300 ${
+                              `group/item flex items-center justify-between px-5 py-3.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                                 isActive
-                                  ? "bg-transparent border border-[#AC6CFF] text-white"
-                                  : "text-white/90 hover:bg-white/10"
+                                  ? "bg-white/10 text-[#AC6CFF] border border-[#AC6CFF]/30"
+                                  : "text-white/80 hover:bg-white/5 hover:text-white"
                               }`
                             }
                           >
-                            {subLink.name}
+                            <span>{subLink.name}</span>
+                            {subLink.is_campaign && (
+                              <span className="text-[10px] bg-gradient-to-r from-[#AC6CFF] to-[#8E37FF] text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(172,108,255,0.4)]">
+                                Campaign
+                              </span>
+                            )}
                           </NavLink>
                         ))}
                       </div>
@@ -373,21 +386,26 @@ const Navbar = () => {
                           isMobileServicesOpen ? "max-h-96 mt-2" : "max-h-0"
                         }`}
                       >
-                        <div className="flex flex-col gap-1 pl-4">
+                        <div className="flex flex-col gap-1.5 pl-4">
                           {link.subLinks.map((subLink: any) => (
                             <NavLink
                               key={subLink.name}
                               to={subLink.path}
                               onClick={closeMobileMenu}
                               className={({ isActive }) =>
-                                `py-3 px-4 text-sm font-medium rounded-xl transition-all ${
+                                `flex items-center justify-between py-3.5 px-5 text-sm font-medium rounded-xl transition-all ${
                                   isActive
                                     ? "bg-[#AC6CFF]/10 text-[#AC6CFF] border border-[#AC6CFF]/20"
-                                    : "text-white hover:bg-gray-50 hover:text-[#AC6CFF]"
+                                    : "text-white/70 hover:bg-white/5 hover:text-white"
                                 }`
                               }
                             >
-                              {subLink.name}
+                              <span>{subLink.name}</span>
+                              {subLink.is_campaign && (
+                                <span className="text-[9px] bg-[#AC6CFF] text-white px-2 py-0.5 rounded-full font-bold uppercase">
+                                  Campaign
+                                </span>
+                              )}
                             </NavLink>
                           ))}
                         </div>

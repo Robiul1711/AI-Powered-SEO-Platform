@@ -9,7 +9,7 @@ const packagesData = [
   {
     price: 5,
     details: [
-      { title: "20 Web 2.0 Blogs", description: "Dedicated accounts.", subItems: ["Indexer #2 (Very High Indexer Rate)"] },
+      { title: "20 Web 2.0 Blogs", description: "Dedicated accounts.", subItems: ["Indexer #2 (Very High Indexer Ratesssssss)"] },
       { title: "10 DA 50+ Backlinks", subItems: ["Indexer #2 (Very High Indexer Rate)"] },
       { title: "2030 Mix Profiles Backlinks", subItems: ["Forum & Social Networks", "Indexer #1 (95%+ Crawled Rate)"] },
       { title: "Tier Project for 1, 2", subItems: [] },
@@ -147,21 +147,54 @@ const packagesData = [
   },
 ];
 
-const SEOPackages = () => {
-  const [selectedIndex, setSelectedIndex] = useState(5); // Default to €100 (index 5)
+const SEOPackages = ({
+  serviceData = [],
+  isLoading = false
+}: {
+  serviceData?: any[];
+  isLoading?: boolean;
+} = {}) => {
+  const currentCampaign = serviceData[0] || {};
+  const tiers = currentCampaign.tiers || [];
 
-  const prices = packagesData.map((pkg) => pkg.price);
-  const selectedPackage = packagesData[selectedIndex];
+  const dynamicPackagesData = tiers.length > 0 
+    ? tiers.map((tier: any) => ({
+        id: tier.id,
+        price: tier.price,
+        details: tier.features?.map((feature: any) => ({
+          title: feature.text,
+          subItems: feature.sub_items || [],
+        })) || [],
+      }))
+    : packagesData;
+
+  const [selectedIndex, setSelectedIndex] = useState(() => {
+    // Try to find index of 100, or default to middle or first
+    const index100 = dynamicPackagesData.findIndex((p: any) => p.price === 100);
+    if (index100 !== -1) return index100;
+    return Math.min(5, dynamicPackagesData.length - 1);
+  });
+
+  const prices = dynamicPackagesData.map((pkg: any) => pkg.price);
+  const selectedPackage = dynamicPackagesData[selectedIndex] || dynamicPackagesData[0];
 
   return (
     <div className="section-padding-x section-padding-y">
       <div className="flex flex-col items-center gap-4 max-w-7xl mx-auto text-center mb-10 md:mb-16">
         <TagLines>Packages</TagLines>
         <Title level="title48" className="text-white">
-          Choose Package and <GlowText>Submit SEO Campaign</GlowText>
+          {currentCampaign.title ? (
+            <>
+              Choose Package and <GlowText>{currentCampaign.title}</GlowText>
+            </>
+          ) : (
+            <>
+              Choose Package and <GlowText>Submit SEO Campaign</GlowText>
+            </>
+          )}
         </Title>
         <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
-          Capture More Traffic & Revenue From Search
+          {currentCampaign.subtitle || "Capture More Traffic & Revenue From Search"}
         </p>
      {/* <div className="my-8">
           <Title level="title32" className="text-white">
@@ -209,7 +242,7 @@ const SEOPackages = () => {
 
           {/* Labels */}
           <div className="flex justify-between mt-2 sm:mt-4">
-            {prices.map((price, idx) => (
+            {prices.map((price: number, idx: number) => (
               <button
                 key={price}
                 onClick={() => setSelectedIndex(idx)}
@@ -230,7 +263,12 @@ const SEOPackages = () => {
         </div>
 
         <div className="h-full">
-          <OrderDetails price={selectedPackage.price} />
+          <OrderDetails 
+            price={selectedPackage.price} 
+            tierId={selectedPackage.id}
+            tierTitle={currentCampaign.title ? `${currentCampaign.title} - €${selectedPackage.price}` : `Campaign Package - €${selectedPackage.price}`}
+            features={selectedPackage.details}
+          />
         </div>
       </div>
     </div>
