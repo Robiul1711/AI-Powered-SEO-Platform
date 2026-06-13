@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Title from "@/components/common/Title";
 import { FaArrowUp } from "react-icons/fa";
 
@@ -47,9 +48,9 @@ const DrivingRealResults = ({ serviceData, isLoading }: any) => {
                 <p className="text-white/40 font-inter text-sm md:text-base">
                   Leads generated so far...
                 </p>
-                <button className="bg-bg-custom text-white font-inter font-semibold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_#ac6cff] active:scale-95 text-xs uppercase tracking-widest mt-4">
+                <Link to="/contact" className="bg-bg-custom text-white font-inter font-semibold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_#ac6cff] active:scale-95 text-xs uppercase tracking-widest mt-4 inline-block">
                   Contact Us
-                </button>
+                </Link>
               </div>
             </div>
           </div>

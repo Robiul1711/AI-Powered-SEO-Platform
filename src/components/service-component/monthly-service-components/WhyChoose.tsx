@@ -63,7 +63,7 @@ const WhyChoose = ({ serviceData }: { serviceData: any }) => {
           </div>
 
           <div className="pt-4">
-            <CommonButton className="bg-bg-custom">
+            <CommonButton as="link" to="/contact" className="bg-bg-custom inline-block text-center">
               {dynamicWhyChoose?.button_text || "Contact Us"}
             </CommonButton>
           </div>

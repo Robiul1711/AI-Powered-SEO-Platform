@@ -12,8 +12,8 @@ import GuesstOurBenefit from "./guestPostingcomponents/GuesstOurBenefit";
 import useClient from "@/hooks/useClient";
 export default function GuestPostingServices() {
       const { data:localSeoData, isLoading } = useClient({
-    queryKey: ["local-seo"],
-    url: "/services/local-seo",
+    queryKey: ["guest-posting"],
+    url: "/services/guest-posting",
   });
   return (
     <>

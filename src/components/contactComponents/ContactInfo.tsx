@@ -79,13 +79,6 @@ const ContactInfo = () => {
             Tauentzienstraße 1, 10789 Berlin
           </span>
         </div>
-
-        <a
-          href="#"
-          className="flex cursor-pointer text-gray-400 hover:text-white text-xs uppercase font-semibold underline decoration-gray-600 hover:decoration-white underline-offset-4 transition-all shrink-0"
-        >
-          View On Map
-        </a>
       </div>
     </div>
   );
