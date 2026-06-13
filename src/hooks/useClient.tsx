@@ -27,6 +27,8 @@ const useClient = <T = any>({
     queryKey: [...queryKey, params],
     enabled,
     retry: 1,
+    staleTime: 5 * 60 * 1000, // 5 minutes cache
+    refetchOnWindowFocus: false, // Prevent refetching when switching tabs
     ...options,
 
     queryFn: async () => {

@@ -69,9 +69,8 @@ const GuesstOurBenefit = ({
           <div className="pt-4">
             
             <CommonButton  
-              className="bg-bg-custom hover:opacity-90 transition-all"
-              // Optional: link to the button_url from API if it exists
-              onClick={() => benefits?.button_url && window.open(benefits.button_url, '_blank')}
+              as="link" to="/contact"
+              className="bg-bg-custom hover:opacity-90 transition-all inline-block text-center"
             >
               {benefits?.button_text || "Contact Us"}
             </CommonButton>

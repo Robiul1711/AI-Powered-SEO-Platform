@@ -54,18 +54,18 @@ const Navbar = () => {
     {
       name: "Services",
       path: "/services",
-      subLinks: servicesData.length > 0 
+      subLinks: servicesData.length > 0
         ? servicesData.map((service: any) => ({
-            name: service.title,
-            path: `/services/${service.slug}`,
-            is_campaign: service.is_campaign
-          }))
+          name: service.title,
+          path: `/services/${service.slug}`,
+          is_campaign: service.is_campaign
+        }))
         : [
-            { name: "SEO Campaign", path: "/services/seo-campaign", is_campaign: true },
-            { name: "Guest Posting", path: "/services/guest-posting", is_campaign: false },
-            { name: "Link Building", path: "/services/link-building", is_campaign: false },
-            { name: "SMM Marketing", path: "/services/smm-marketing", is_campaign: false },
-          ],
+          { name: "SEO Campaign", path: "/services/seo-campaign", is_campaign: true },
+          { name: "Guest Posting", path: "/services/guest-posting", is_campaign: false },
+          { name: "Link Building", path: "/services/link-building", is_campaign: false },
+          { name: "SMM Marketing", path: "/services/smm-marketing", is_campaign: false },
+        ],
     },
     { name: "AI SEO Audit", path: "/ai-seo-audit" },
     { name: "Pricing", path: "/pricing" },
@@ -110,16 +110,14 @@ const Navbar = () => {
   return (
     <>
       <div
-        className={`section-padding-x w-full z-50 fixed transition-all duration-300 left-0 right-0 ${
-          isScrolled ? "top-2" : "top-4 sm:top-6"
-        }`}
+        className={`section-padding-x w-full z-50 fixed transition-all duration-300 left-0 right-0 ${isScrolled ? "top-2" : "top-4 sm:top-6"
+          }`}
       >
         <div
-          className={`flex justify-between items-center px-4 sm:px-6 lg:px-8 rounded-full shadow-custom animate-fade-in-down transition-all duration-300 ${
-            isScrolled
+          className={`flex justify-between items-center px-4 sm:px-6 lg:px-8 rounded-full shadow-custom animate-fade-in-down transition-all duration-300 ${isScrolled
               ? "py-3 bg-white backdrop-blur-lg border border-white/20"
               : " py-3 sm:py-4 bg-white"
-          }`}
+            }`}
         >
           {/* Logo Section */}
           <NavLink to="/" className="shrink-0 z-50">
@@ -139,9 +137,8 @@ const Navbar = () => {
                 {link.subLinks ? (
                   <button
                     onClick={() => setIsServicesOpen(!isServicesOpen)}
-                    className={`flex items-center gap-1 text-sm xl:text-base font-medium transition-all duration-300 hover:text-[#AC6CFF] ${
-                      isServicesOpen ? "text-[#AC6CFF]" : "text-black/80"
-                    }`}
+                    className={`flex items-center gap-1 text-sm xl:text-base font-medium transition-all duration-300 hover:text-[#AC6CFF] ${isServicesOpen ? "text-[#AC6CFF]" : "text-black/80"
+                      }`}
                   >
                     <div className="flex flex-col items-center">
                       <span className="flex items-center gap-1 ">
@@ -157,8 +154,7 @@ const Navbar = () => {
                   <NavLink
                     to={link.path}
                     className={({ isActive }) =>
-                      `relative text-sm xl:text-base font-medium transition-all duration-300 hover:text-[#AC6CFF] ${
-                        isActive ? "text-[#AC6CFF]" : "text-black/80"
+                      `relative text-sm xl:text-base font-medium transition-all duration-300 hover:text-[#AC6CFF] ${isActive ? "text-[#AC6CFF]" : "text-black/80"
                       }`
                     }
                   >
@@ -184,10 +180,9 @@ const Navbar = () => {
                             to={subLink.path}
                             onClick={() => setIsServicesOpen(false)}
                             className={({ isActive }) =>
-                              `group/item flex items-center justify-between px-5 py-3.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                                isActive
-                                  ? "bg-white/10 text-[#AC6CFF] border border-[#AC6CFF]/30"
-                                  : "text-white/80 hover:bg-white/5 hover:text-white"
+                              `group/item flex items-center justify-between px-5 py-3.5 rounded-xl text-sm font-medium transition-all duration-300 ${isActive
+                                ? "bg-white/10 text-[#AC6CFF] border border-[#AC6CFF]/30"
+                                : "text-white/80 hover:bg-white/5 hover:text-white"
                               }`
                             }
                           >
@@ -214,7 +209,7 @@ const Navbar = () => {
                 <button
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                   className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition-all duration-300"
-                  >
+                >
                   <div className="w-10 h-10 rounded-full bg-bg-custom flex items-center justify-center text-white overflow-hidden border-2 border-[#AC6CFF]/20">
                     {user?.data?.avatar_url ? (
                       <img
@@ -301,9 +296,8 @@ const Navbar = () => {
 
       {/* Mobile Menu Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-[85%] max-w-sm text-white bg-black/60 backdrop-blur-sm z-50 lg:hidden transform transition-transform duration-300 ease-in-out ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-[85%] max-w-sm text-white bg-black/60 backdrop-blur-sm z-50 lg:hidden transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Mobile Menu Header */}
@@ -375,16 +369,14 @@ const Navbar = () => {
                         <span>{link.name}</span>
                         <ChevronDown
                           size={18}
-                          className={`transition-transform duration-300 ${
-                            isMobileServicesOpen ? "rotate-180" : ""
-                          }`}
+                          className={`transition-transform duration-300 ${isMobileServicesOpen ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
                       {/* Mobile Submenu */}
                       <div
-                        className={`overflow-hidden transition-all duration-300 ${
-                          isMobileServicesOpen ? "max-h-96 mt-2" : "max-h-0"
-                        }`}
+                        className={`overflow-hidden transition-all duration-300 ${isMobileServicesOpen ? "max-h-96 mt-2" : "max-h-0"
+                          }`}
                       >
                         <div className="flex flex-col gap-1.5 pl-4">
                           {link.subLinks.map((subLink: any) => (
@@ -393,10 +385,9 @@ const Navbar = () => {
                               to={subLink.path}
                               onClick={closeMobileMenu}
                               className={({ isActive }) =>
-                                `flex items-center justify-between py-3.5 px-5 text-sm font-medium rounded-xl transition-all ${
-                                  isActive
-                                    ? "bg-[#AC6CFF]/10 text-[#AC6CFF] border border-[#AC6CFF]/20"
-                                    : "text-white/70 hover:bg-white/5 hover:text-white"
+                                `flex items-center justify-between py-3.5 px-5 text-sm font-medium rounded-xl transition-all ${isActive
+                                  ? "bg-[#AC6CFF]/10 text-[#AC6CFF] border border-[#AC6CFF]/20"
+                                  : "text-white/70 hover:bg-white/5 hover:text-white"
                                 }`
                               }
                             >
@@ -416,10 +407,9 @@ const Navbar = () => {
                       to={link.path}
                       onClick={closeMobileMenu}
                       className={({ isActive }) =>
-                        `block py-3 px-4 text-base font-medium rounded-xl transition-all ${
-                          isActive
-                            ? "bg-[#AC6CFF]/10 text-[#AC6CFF] border border-[#AC6CFF]/20"
-                            : "text-white hover:bg-gray-50 hover:text-[#AC6CFF]"
+                        `block py-3 px-4 text-base font-medium rounded-xl transition-all ${isActive
+                          ? "bg-[#AC6CFF]/10 text-[#AC6CFF] border border-[#AC6CFF]/20"
+                          : "text-white hover:bg-gray-50 hover:text-[#AC6CFF]"
                         }`
                       }
                     >

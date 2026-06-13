@@ -10,8 +10,8 @@ import useClient from "@/hooks/useClient";
 
 export default function MarketingSolutions() {
   const { data: contentWritingData, isLoading } = useClient({
-    queryKey: ["content-writing"],
-    url: "/services/content-writing",
+    queryKey: ["smm-marketing"],
+    url: "/services/smm-marketing",
   });
   console.log(contentWritingData?.data);
   return (
@@ -28,7 +28,7 @@ export default function MarketingSolutions() {
         //   { label: "services", href: "/services" },
         // ]}
       />
-      <ContentBusiness />
+      <ContentBusiness serviceData={contentWritingData?.data?.what_include || []} sectionData={contentWritingData?.data?.banifite} isLoading={isLoading} />
       {isLoading ? (
          <div className="text-center text-white py-20">Loading Campaigns...</div>
       ) : (

@@ -12,21 +12,16 @@ import { ImageProvider } from "../common/ImageProvider";
 import useClient from "@/hooks/useClient";
 
 export default function SEOCampaign() {
-    const { data:monthlySeoData, isLoading } = useClient({
+  const { data: monthlySeoData, isLoading } = useClient({
     queryKey: ["seo-campaign"],
-    url: "/services/monthly-seo",
+    url: "/services/seo-campaign",
   });
-  console.log(monthlySeoData?.data)
   return (
     <>
-     <CommonBanner
+      <CommonBanner
         title={monthlySeoData?.data?.title || "Monthly SEO Service"}
         subtitle={monthlySeoData?.data?.subtitle || "Unlock Sustainable Growth with Our Expert-Crafted SEO Packages. Every Strategy is a Promise: Visible, Measurable, and Built for Real Business Impact."}
         image={monthlySeoData?.data?.thumbnail || ImageProvider.monthlyService}
-        // breadcrumbs={[
-        //   { label: "Home", href: "/" },
-        //   { label: "SEO Campaign", href: `/services/seo-campaign` },
-        // ]}
       />
       <SEOPackages serviceData={monthlySeoData?.data?.campaigns || []} isLoading={isLoading}/>
       <SeoCapaignPrice serviceData={monthlySeoData?.data?.pricing || []} isLoading={isLoading} />

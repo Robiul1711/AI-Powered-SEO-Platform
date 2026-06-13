@@ -12,8 +12,8 @@ import useClient from "@/hooks/useClient";
 
 export default function LinkBuilding() {
         const { data:PPCSeoData, isLoading } = useClient({
-    queryKey: ["ppc-campaigns"],
-    url: "/services/ppc-campaigns",
+    queryKey: ["link-building"],
+    url: "/services/link-building",
   });
   return (
     <>

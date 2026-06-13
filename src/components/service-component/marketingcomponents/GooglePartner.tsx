@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Title from "@/components/common/Title";
 
 const GooglePartner = () => {
@@ -49,9 +50,9 @@ const GooglePartner = () => {
           </Title>
 
           {/* Button */}
-          <button className="bg-bg-custom text-white font-inter font-semibold py-4 px-10 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_#ac6cff] active:scale-95 text-sm uppercase tracking-widest">
+          <Link to="/contact" className="bg-bg-custom text-white font-inter font-semibold py-4 px-10 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_#ac6cff] active:scale-95 text-sm uppercase tracking-widest inline-block">
             Get A Proposal
-          </button>
+          </Link>
         </div>
       </div>
     </div>
