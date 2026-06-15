@@ -42,7 +42,7 @@ const Navbar = () => {
       document.body.style.overflow = "unset";
     };
   }, [isMobileMenuOpen]);
-  const { data } = useClient({
+  const { data , isLoading} = useClient({
     queryKey: ["services"],
     url: "/services",
   });
@@ -174,26 +174,40 @@ const Navbar = () => {
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-80 z-[100]">
                     <div className="bg-[#1A1A1A] rounded-2xl p-3 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 animate-in fade-in zoom-in duration-300">
                       <div className="flex flex-col gap-1.5">
-                        {link.subLinks.map((subLink: any) => (
-                          <NavLink
-                            key={subLink.name}
-                            to={subLink.path}
-                            onClick={() => setIsServicesOpen(false)}
-                            className={({ isActive }) =>
-                              `group/item flex items-center justify-between px-5 py-3.5 rounded-xl text-sm font-medium transition-all duration-300 ${isActive
-                                ? "bg-white/10 text-[#AC6CFF] border border-[#AC6CFF]/30"
-                                : "text-white/80 hover:bg-white/5 hover:text-white"
-                              }`
-                            }
-                          >
-                            <span>{subLink.name}</span>
-                            {subLink.is_campaign && (
-                              <span className="text-[10px] bg-gradient-to-r from-[#AC6CFF] to-[#8E37FF] text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(172,108,255,0.4)]">
-                                Campaign
-                              </span>
-                            )}
-                          </NavLink>
-                        ))}
+                        {isLoading ? (
+                          Array.from({ length: 4 }).map((_, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center justify-between px-5 py-3.5 rounded-xl bg-white/5 animate-pulse"
+                            >
+                              <div className="h-4 bg-white/10 rounded w-28"></div>
+                              {index === 0 && (
+                                <div className="h-4 bg-white/10 rounded-full w-14"></div>
+                              )}
+                            </div>
+                          ))
+                        ) : (
+                          link.subLinks.map((subLink: any) => (
+                            <NavLink
+                              key={subLink.name}
+                              to={subLink.path}
+                              onClick={() => setIsServicesOpen(false)}
+                              className={({ isActive }) =>
+                                `group/item flex items-center justify-between px-5 py-3.5 rounded-xl text-sm font-medium transition-all duration-300 ${isActive
+                                  ? "bg-white/10 text-[#AC6CFF] border border-[#AC6CFF]/30"
+                                  : "text-white/80 hover:bg-white/5 hover:text-white"
+                                }`
+                              }
+                            >
+                              <span>{subLink.name}</span>
+                              {subLink.is_campaign && (
+                                <span className="text-[10px] bg-gradient-to-r from-[#AC6CFF] to-[#8E37FF] text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(172,108,255,0.4)]">
+                                  Campaign
+                                </span>
+                              )}
+                            </NavLink>
+                          ))
+                        )}
                       </div>
                     </div>
                   </div>
@@ -379,26 +393,40 @@ const Navbar = () => {
                           }`}
                       >
                         <div className="flex flex-col gap-1.5 pl-4">
-                          {link.subLinks.map((subLink: any) => (
-                            <NavLink
-                              key={subLink.name}
-                              to={subLink.path}
-                              onClick={closeMobileMenu}
-                              className={({ isActive }) =>
-                                `flex items-center justify-between py-3.5 px-5 text-sm font-medium rounded-xl transition-all ${isActive
-                                  ? "bg-[#AC6CFF]/10 text-[#AC6CFF] border border-[#AC6CFF]/20"
-                                  : "text-white/70 hover:bg-white/5 hover:text-white"
-                                }`
-                              }
-                            >
-                              <span>{subLink.name}</span>
-                              {subLink.is_campaign && (
-                                <span className="text-[9px] bg-[#AC6CFF] text-white px-2 py-0.5 rounded-full font-bold uppercase">
-                                  Campaign
-                                </span>
-                              )}
-                            </NavLink>
-                          ))}
+                          {isLoading ? (
+                            Array.from({ length: 4 }).map((_, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between px-5 py-3.5 rounded-xl bg-white/5 animate-pulse"
+                              >
+                                <div className="h-4 bg-white/10 rounded w-28"></div>
+                                {index === 0 && (
+                                  <div className="h-4 bg-white/10 rounded-full w-14"></div>
+                                )}
+                              </div>
+                            ))
+                          ) : (
+                            link.subLinks.map((subLink: any) => (
+                              <NavLink
+                                key={subLink.name}
+                                to={subLink.path}
+                                onClick={closeMobileMenu}
+                                className={({ isActive }) =>
+                                  `flex items-center justify-between py-3.5 px-5 text-sm font-medium rounded-xl transition-all ${isActive
+                                    ? "bg-[#AC6CFF]/10 text-[#AC6CFF] border border-[#AC6CFF]/20"
+                                    : "text-white/70 hover:bg-white/5 hover:text-white"
+                                  }`
+                                }
+                              >
+                                <span>{subLink.name}</span>
+                                {subLink.is_campaign && (
+                                  <span className="text-[9px] bg-[#AC6CFF] text-white px-2 py-0.5 rounded-full font-bold uppercase">
+                                    Campaign
+                                  </span>
+                                )}
+                              </NavLink>
+                            ))
+                          )}
                         </div>
                       </div>
                     </div>
