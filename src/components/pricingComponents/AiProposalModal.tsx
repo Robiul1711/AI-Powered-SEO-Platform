@@ -27,7 +27,7 @@ const AiProposalModal = ({ isOpen, onClose, serviceSlug = "monthly-seo-campaign"
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    generateProposal(formData, {
+    generateProposal({ data: formData }, {
       onSuccess: (res: any) => {
         setProposalData(res?.data);
         setStep(2);
