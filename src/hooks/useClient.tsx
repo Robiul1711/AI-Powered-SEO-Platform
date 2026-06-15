@@ -3,7 +3,7 @@ import useAxiosPublic from "./useAxiosPublic";
 import useAxiosSecure from "./useAxiosSecure";
 
 type UseClientProps = {
-  queryKey: string[];
+  queryKey: any[];
   url: string;
   isPrivate?: boolean;
   params?: Record<string, any>;
