@@ -5,7 +5,9 @@ import Title from "./Title";
 import GlowText from "./GlowText";
 import CommonButton from "./CommonButton";
 import ServiceSelectModal from "./ServiceSelectModal";
+import AiProposalModal from "../pricingComponents/AiProposalModal";
 import { encryptId } from "@/lib/encryption";
+import { Sparkles } from "lucide-react";
 
 interface CheckIconProps {
   className?: string;
@@ -211,6 +213,7 @@ const PricingSection = ({
 } = {}) => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [proposalModalOpen, setProposalModalOpen] = useState(false);
   const [activePlan, setActivePlan] = useState<any>(null);
 
   // Find the full plan data (with services) by id
@@ -262,6 +265,13 @@ const PricingSection = ({
             AI automation + human expertise. Pick the plan that matches your goals
             and scale your presence globally.
           </p>
+          <button
+            onClick={() => setProposalModalOpen(true)}
+            className="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-[#AC6CFF]/20 to-[#6C9AFF]/20 border border-[#AC6CFF]/50 text-white font-orbitron text-sm uppercase tracking-widest hover:bg-[#AC6CFF] hover:text-black transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(172,108,255,0.2)]"
+          >
+            <Sparkles size={16} />
+            Generate Custom AI Proposal
+          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
@@ -286,6 +296,12 @@ const PricingSection = ({
         services={activePlan?.services ?? []}
         plan={activePlan}
         onConfirm={handleServiceConfirm}
+      />
+
+      {/* AI Proposal Modal */}
+      <AiProposalModal
+        isOpen={proposalModalOpen}
+        onClose={() => setProposalModalOpen(false)}
       />
     </>
   );

@@ -7,6 +7,7 @@ import GridBackgroundView from "../components/common/GridBackgroundView";
 import authBg from "@/assets/images/authBg1.png";
 import Preloader from "@/components/common/Preloader";
 import { AnimatePresence } from "motion/react";
+import AiChatbotWidget from "@/components/common/AiChatbotWidget";
 
 const Layout: React.FC = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const Layout: React.FC = () => {
         <Navbar />
         <Outlet />
         <Footer />
+        <AiChatbotWidget />
       </div>
     </div>
   );

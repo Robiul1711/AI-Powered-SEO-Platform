@@ -12,6 +12,7 @@ import {
 import { useSelector } from "react-redux";
 import useClient from "@/hooks/useClient";
 import { motion } from "framer-motion";
+import { Sparkles, ArrowRight } from "lucide-react";
 
 const Dashboard = () => {
   const user = useSelector((state: any) => state.ui.user);
@@ -19,6 +20,12 @@ const Dashboard = () => {
   const { data: response, isLoading } = useClient({
     queryKey: ["user-dashboard"],
     url: "/user/dashboard",
+    isPrivate: true,
+  }) as any;
+
+  const { data: aiInsightsResponse, isLoading: aiLoading } = useClient({
+    queryKey: ["user-dashboard-ai-insights"],
+    url: "/user/dashboard/ai-insights",
     isPrivate: true,
   }) as any;
 
@@ -125,6 +132,67 @@ const Dashboard = () => {
               </div>
           )}
         </div>
+      </motion.div>
+      {/* AI Insights Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.4 }}
+        className="bg-gradient-to-br from-[#1A1A1A] to-[#241A3A] border border-[#AC6CFF]/30 p-5 sm:p-8 rounded-2xl shadow-[0_0_30px_rgba(172,108,255,0.1)] overflow-hidden relative mt-8"
+      >
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/noise.png')] opacity-20 pointer-events-none mix-blend-overlay"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#AC6CFF]/10 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none" />
+        
+        <h2 className="text-lg sm:text-xl font-orbitron font-bold mb-6 text-white uppercase tracking-tight flex items-center gap-3">
+          <div className="p-2 bg-[#AC6CFF]/20 rounded-lg text-[#AC6CFF]">
+            <Sparkles size={20} className={aiLoading ? "animate-pulse" : ""} />
+          </div>
+          AI Dashboard Insights
+        </h2>
+
+        {aiLoading ? (
+          <div className="py-8 flex flex-col items-center justify-center">
+            <Loader2 className="w-8 h-8 text-[#AC6CFF] animate-spin mb-3" />
+            <p className="text-gray-400 font-inter text-sm animate-pulse">Our AI is analyzing your progress...</p>
+          </div>
+        ) : aiInsightsResponse?.data ? (
+          <div className="space-y-6 relative z-10">
+            <div className="bg-black/40 border border-white/5 p-4 rounded-xl">
+              <p className="text-[#AC6CFF] font-inter text-lg font-medium leading-relaxed">
+                "{aiInsightsResponse.data.summary}"
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-orbitron text-xs text-gray-400 uppercase tracking-widest mb-4">Key Insights</h3>
+                <ul className="space-y-3">
+                  {aiInsightsResponse.data.insights?.map((insight: string, idx: number) => (
+                    <li key={idx} className="flex items-start gap-3 text-sm text-gray-300 font-inter">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#AC6CFF] mt-1.5 shrink-0" />
+                      {insight}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-orbitron text-xs text-gray-400 uppercase tracking-widest mb-4">Recommended Next Steps</h3>
+                <ul className="space-y-3">
+                  {aiInsightsResponse.data.next_steps?.map((step: string, idx: number) => (
+                    <li key={idx} className="flex items-start gap-3 text-sm text-gray-300 font-inter bg-white/5 p-3 rounded-lg border border-white/5 hover:border-[#AC6CFF]/30 transition-colors">
+                      <ArrowRight size={16} className="text-[#AC6CFF] shrink-0 mt-0.5" />
+                      {step}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-6 text-gray-500 font-inter">
+            Unable to generate insights at this moment.
+          </div>
+        )}
       </motion.div>
     </div>
   );

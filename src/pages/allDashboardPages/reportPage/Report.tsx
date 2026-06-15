@@ -1,14 +1,23 @@
 import React, { useState } from "react";
-import { Download, FileText, ArrowUpRight, BarChart3, Clock, Loader2 } from "lucide-react";
+import { Download, FileText, ArrowUpRight, BarChart3, Clock, Loader2, Sparkles } from "lucide-react";
 import useClient from "@/hooks/useClient";
 import ResultModal from "@/components/aiSeoAuditComponents/ResultModal";
 
 const Report = () => {
   const [selectedAuditData, setSelectedAuditData] = useState<any>(null);
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
+
   const { data: response, isLoading } = useClient({
     queryKey: ["user-reports"],
     url: "/user/reports",
     isPrivate: true,
+  }) as any;
+
+  const { data: aiSummaryResponse, isLoading: aiSummaryLoading } = useClient({
+    queryKey: ["ai-report-summary", selectedBookingId],
+    url: `/user/reports/ai-summary?booking_id=${selectedBookingId}`,
+    isPrivate: true,
+    enabled: !!selectedBookingId
   }) as any;
 
   if (isLoading) {
@@ -43,7 +52,7 @@ const Report = () => {
             <span className="text-[10px] uppercase tracking-wider font-bold">Avg. Growth</span>
           </div>
           <div className="flex items-end gap-2">
-            <span className="text-2xl font-bold text-white">+14</span>
+            <span className="text-2xl font-bold text-white">+{response?.avg_growth || 0}</span>
             <span className="text-xs text-[#AC6CFF] font-medium mb-1">%</span>
           </div>
         </div>
@@ -156,10 +165,18 @@ const Report = () => {
                         View
                       </a>
 
+                      <button
+                        onClick={(e) => { e.preventDefault(); setSelectedBookingId(report.id.replace('bkg_', '')); }}
+                        className="flex-1 md:flex-none w-full md:w-auto flex items-center justify-center gap-1.5 px-4 py-2 rounded-sm bg-[#AC6CFF]/10 hover:bg-[#AC6CFF] text-[#AC6CFF] hover:text-black transition-colors text-[10px] font-bold uppercase tracking-wider border border-[#AC6CFF]/30"
+                      >
+                        <Sparkles size={12} />
+                        AI Summary
+                      </button>
+
                       <a
                         href={report.download_link || "#"}
                         download
-                        className="flex-1 md:flex-none w-full md:w-auto flex items-center justify-center gap-1.5 px-4 py-2 rounded-sm bg-[#AC6CFF]/10 hover:bg-[#AC6CFF] text-[#AC6CFF] hover:text-black transition-colors text-[10px] font-bold uppercase tracking-wider border border-[#AC6CFF]/30"
+                        className="flex-1 md:flex-none w-full md:w-auto flex items-center justify-center gap-1.5 px-4 py-2 rounded-sm bg-[#242424] hover:bg-white/10 text-gray-300 transition-colors text-[10px] font-bold uppercase tracking-wider border border-white/5"
                       >
                         <Download size={12} />
                         PDF
@@ -185,6 +202,50 @@ const Report = () => {
           onClose={() => setSelectedAuditData(null)}
           data={selectedAuditData}
         />
+      )}
+
+      {selectedBookingId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-[#1A1A1A] border border-[#AC6CFF]/30 rounded-2xl p-6 w-full max-w-2xl shadow-2xl relative">
+            <button 
+              onClick={() => setSelectedBookingId(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white"
+            >
+              ✕
+            </button>
+            <h3 className="text-xl font-orbitron font-bold text-white mb-4 flex items-center gap-2">
+              <Sparkles className="text-[#AC6CFF]" />
+              AI Report Summary
+            </h3>
+            
+            {aiSummaryLoading ? (
+              <div className="flex flex-col items-center justify-center py-10">
+                <Loader2 className="w-8 h-8 text-[#AC6CFF] animate-spin mb-3" />
+                <p className="text-gray-400 text-sm animate-pulse">Generating insights...</p>
+              </div>
+            ) : aiSummaryResponse?.data ? (
+              <div className="space-y-4">
+                <p className="text-gray-300 font-inter">{aiSummaryResponse.data.executive_summary}</p>
+                
+                <div>
+                  <h4 className="text-[#AC6CFF] font-bold mb-2">Key Achievements</h4>
+                  <ul className="list-disc pl-5 text-sm text-gray-400 space-y-1">
+                    {aiSummaryResponse.data.key_achievements?.map((a: string, i: number) => <li key={i}>{a}</li>)}
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="text-[#AC6CFF] font-bold mb-2">Suggested Actions</h4>
+                  <ul className="list-disc pl-5 text-sm text-gray-400 space-y-1">
+                    {aiSummaryResponse.data.suggested_actions?.map((a: string, i: number) => <li key={i}>{a}</li>)}
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <p className="text-red-400">Failed to load AI summary.</p>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

@@ -28,6 +28,15 @@ const ProgressAndTasks = () => {
     isPrivate: true,
   }) as any;
 
+  const services: ServiceData[] = response?.data || [];
+
+  // Initially expand all projects if there are few, otherwise expand first
+  React.useEffect(() => {
+    if (services.length > 0 && expandedProjects.length === 0) {
+      setExpandedProjects(services.length <= 3 ? services.map(s => s.booking_id) : [services[0].booking_id]);
+    }
+  }, [services]);
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
@@ -40,8 +49,6 @@ const ProgressAndTasks = () => {
     );
   }
 
-  const services: ServiceData[] = response?.data || [];
-  
   const getStatusStyle = (s: string) => {
       const status = (s || "").toLowerCase();
       if (status === "ongoing" || status === "active") return "bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_10px_rgba(59,130,246,0.1)]";
@@ -54,13 +61,6 @@ const ProgressAndTasks = () => {
       prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
     );
   };
-
-  // Initially expand all projects if there are few, otherwise expand first
-  React.useEffect(() => {
-    if (services.length > 0 && expandedProjects.length === 0) {
-      setExpandedProjects(services.length <= 3 ? services.map(s => s.booking_id) : [services[0].booking_id]);
-    }
-  }, [services]);
 
   return (
     <div className="font-inter pb-12 max-w-8xl mx-auto w-full">
