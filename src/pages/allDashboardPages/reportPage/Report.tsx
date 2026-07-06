@@ -14,8 +14,8 @@ const Report = () => {
   }) as any;
 
   const { data: aiSummaryResponse, isLoading: aiSummaryLoading } = useClient({
-    queryKey: ["ai-report-summary", selectedBookingId],
-    url: `/user/reports/ai-summary?booking_id=${selectedBookingId}`,
+    queryKey: ["ai-report-summary", selectedBookingId || ""],
+    url: `/user/reports/ai-summary?booking_id=${selectedBookingId || ""}`,
     isPrivate: true,
     enabled: !!selectedBookingId
   }) as any;
