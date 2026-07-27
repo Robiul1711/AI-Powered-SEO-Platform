@@ -15,6 +15,7 @@ const VerifyEmail = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -76,6 +77,24 @@ const VerifyEmail = () => {
     }
   };
 
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").trim();
+    const otpValue = pastedData.replace(/[^a-zA-Z0-9]/g, "").slice(0, 5);
+
+    if (otpValue.length > 0) {
+      otpValue.split("").forEach((char, index) => {
+        setValue(`otp${index}`, char);
+      });
+
+      const lastFocusedIndex = Math.min(otpValue.length - 1, 4);
+      const nextInput = document.querySelector(`input[name="otp${lastFocusedIndex}"]`) as HTMLInputElement;
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -97,6 +116,7 @@ const VerifyEmail = () => {
               maxLength={1}
               onInput={handleInput}
               onKeyDown={handleKeyDown}
+              onPaste={handlePaste}
               autoComplete="off"
               className={`w-12 h-16 bg-[#1E1E1E] border focus:border-Primary rounded-2xl text-center text-2xl font-bold text-white outline-none transition-all px-0 ${errors[`otp${i}`] ? "border-red-500" : "border-transparent"}`}
             />
