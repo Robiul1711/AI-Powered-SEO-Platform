@@ -19,6 +19,7 @@ export default function SEOCampaign() {
   return (
     <>
       <CommonBanner
+        isLoading={isLoading}
         title={monthlySeoData?.data?.title || "Monthly SEO Service"}
         subtitle={monthlySeoData?.data?.subtitle || "Unlock Sustainable Growth with Our Expert-Crafted SEO Packages. Every Strategy is a Promise: Visible, Measurable, and Built for Real Business Impact."}
         image={monthlySeoData?.data?.thumbnail || ImageProvider.monthlyService}
