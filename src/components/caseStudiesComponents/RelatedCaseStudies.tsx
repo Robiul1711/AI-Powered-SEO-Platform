@@ -22,7 +22,7 @@ const caseStudies = [
     category: "E-commerce",
     subtitle: "SEO Monthly + Content Writing",
     title: "+120% Organic Traffic In 6 Months",
-    link: "/case-studies/ecommerce",
+    link: "/case-studies-details/1",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const caseStudies = [
     category: "Local Business",
     subtitle: "Local SEO",
     title: "Ranked #1 For 12 Local Keywords",
-    link: "/case-studies/local-business",
+    link: "/case-studies-details/2",
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const caseStudies = [
     category: "Real Estate",
     subtitle: "PPC + SEO Monthly",
     title: "340% ROI On Ad Spend In 90 Days",
-    link: "/case-studies/real-estate",
+    link: "/case-studies-details/3",
   },
   {
     id: 4,
@@ -46,7 +46,7 @@ const caseStudies = [
     category: "E-commerce",
     subtitle: "SEO Monthly + Content Writing",
     title: "+120% Organic Traffic In 6 Months",
-    link: "/case-studies/digital-marketing",
+    link: "/case-studies-details/4",
   },
   {
     id: 1,
@@ -54,7 +54,7 @@ const caseStudies = [
     category: "E-commerce",
     subtitle: "SEO Monthly + Content Writing",
     title: "+120% Organic Traffic In 6 Months",
-    link: "/case-studies/ecommerce",
+    link: "/case-studies-details/1",
   },
   {
     id: 2,
@@ -62,7 +62,7 @@ const caseStudies = [
     category: "Local Business",
     subtitle: "Local SEO",
     title: "Ranked #1 For 12 Local Keywords",
-    link: "/case-studies/local-business",
+    link: "/case-studies-details/2",
   },
   {
     id: 3,
@@ -70,7 +70,7 @@ const caseStudies = [
     category: "Real Estate",
     subtitle: "PPC + SEO Monthly",
     title: "340% ROI On Ad Spend In 90 Days",
-    link: "/case-studies/real-estate",
+    link: "/case-studies-details/3",
   },
   {
     id: 4,
@@ -78,7 +78,7 @@ const caseStudies = [
     category: "E-commerce",
     subtitle: "SEO Monthly + Content Writing",
     title: "+120% Organic Traffic In 6 Months",
-    link: "/case-studies/digital-marketing",
+    link: "/case-studies-details/4",
   },
 ];
 

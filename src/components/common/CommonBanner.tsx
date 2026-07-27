@@ -52,38 +52,70 @@ export default function CommonBanner({
 
       {/* Content */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center">
-        
-        {/* Dynamic Breadcrumbs */}
-        {breadcrumbs.length > 0 && (
-          <nav className="flex items-center gap-1 mb-4 text-white/90 text-sm font-inter">
-            {breadcrumbs.map((crumb, index) => (
-              <div key={index} className="flex items-center gap-1">
-                <Link to={crumb.href} className="hover:underline">
-                  {crumb.label}
-                </Link>
-                {index < breadcrumbs.length - 1 && <ChevronRight size={14} />}
+        {isLoading ? (
+          <>
+            {/* Breadcrumb Skeleton */}
+            {breadcrumbs.length > 0 && (
+              <div className="h-4 w-40 bg-white/20 animate-pulse rounded-md mb-4" />
+            )}
+
+            {/* Title Skeleton */}
+            <div className="flex flex-col items-center gap-2 mb-2 w-full max-w-2xl">
+              <div className="h-10 w-full bg-white/20 animate-pulse rounded-md" />
+              <div className="h-10 w-2/3 bg-white/20 animate-pulse rounded-md" />
+            </div>
+
+            {/* Subtitle Skeleton */}
+            {subtitle && (
+              <div className="flex flex-col items-center gap-2 mt-4 w-full max-w-xl">
+                <div className="h-4 w-full bg-white/10 animate-pulse rounded-md" />
+                <div className="h-4 w-5/6 bg-white/10 animate-pulse rounded-md" />
               </div>
-            ))}
-          </nav>
-        )}
+            )}
 
-        <Title
-          level="title48"
-          className="text-white leading-tight font-semibold max-w-7xl"
-        >
-          {title}
-        </Title>
+            {/* Action Buttons Skeleton */}
+            {(buttonOne || buttonTwo) && (
+              <div className="flex gap-4 mt-6">
+                {buttonOne && <div className="h-11 w-32 bg-white/15 animate-pulse rounded-full" />}
+                {buttonTwo && <div className="h-11 w-32 bg-white/15 animate-pulse rounded-full" />}
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {/* Dynamic Breadcrumbs */}
+            {breadcrumbs.length > 0 && (
+              <nav className="flex items-center gap-1 mb-4 text-white/90 text-sm font-inter">
+                {breadcrumbs.map((crumb, index) => (
+                  <div key={index} className="flex items-center gap-1">
+                    <Link to={crumb.href} className="hover:underline">
+                      {crumb.label}
+                    </Link>
+                    {index < breadcrumbs.length - 1 && <ChevronRight size={14} />}
+                  </div>
+                ))}
+              </nav>
+            )}
 
-        {subtitle && (
-          <p className="text-white/80 mt-4 max-w-6xl">{subtitle}</p>
-        )}
+            <Title
+              level="title48"
+              className="text-white leading-tight font-semibold max-w-7xl"
+            >
+              {title}
+            </Title>
 
-        {/* Action Buttons */}
-        {(buttonOne || buttonTwo) && (
-          <div className="flex gap-4 mt-6">
-            {buttonOne && <CommonButton>{buttonOne}</CommonButton>}
-            {buttonTwo && <CommonButton className="bg-white/40!">{buttonTwo}</CommonButton>}
-          </div>
+            {subtitle && (
+              <p className="text-white/80 mt-4 max-w-6xl">{subtitle}</p>
+            )}
+
+            {/* Action Buttons */}
+            {(buttonOne || buttonTwo) && (
+              <div className="flex gap-4 mt-6">
+                {buttonOne && <CommonButton>{buttonOne}</CommonButton>}
+                {buttonTwo && <CommonButton className="bg-white/40!">{buttonTwo}</CommonButton>}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
