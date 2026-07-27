@@ -81,7 +81,7 @@ const ForgotPassword = () => {
           disabled={isPending}
           className="w-full bg-linear-to-r from-[#AC6CFF] to-[#6C9AFF] hover:opacity-90 text-white font-orbitron font-bold py-4 rounded-2xl transition-all shadow-[0_4px_15px_rgba(172,108,255,0.3)] active:scale-[0.98] text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isPending ? "Sending..." : "Send Reset Link"}
+          {isPending ? "Sending..." : "Send Reset OTP"}
         </button>
       </form>
 

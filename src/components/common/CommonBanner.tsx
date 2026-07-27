@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Title from "@/components/common/Title";
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -15,6 +16,7 @@ interface CommonBannerProps {
   breadcrumbs?: Breadcrumb[];
   buttonOne?: string;
   buttonTwo?: string;
+  isLoading?: boolean;
 }
 
 export default function CommonBanner({
@@ -23,19 +25,30 @@ export default function CommonBanner({
   subtitle,
   breadcrumbs = [], // Default to empty array
   buttonOne,
-  buttonTwo
+  buttonTwo,
+  isLoading = false
 }: CommonBannerProps) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <div className="relative w-full overflow-hidden">
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/40 z-10" />
 
-      {/* Banner Image */}
-      <img
-        src={image}
-        alt={title}
-        className="w-full h-[350px] md:h-[400px] lg:h-[500px] object-cover"
-      />
+      {/* Banner Image Wrapper */}
+      <div className="relative w-full h-[350px] md:h-[400px] lg:h-[500px] bg-black overflow-hidden">
+        {(!imageLoaded || isLoading) && (
+          <div className="absolute inset-0 bg-black animate-pulse" />
+        )}
+        <img
+          src={image}
+          alt={title}
+          onLoad={() => setImageLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            imageLoaded && !isLoading ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      </div>
 
       {/* Content */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center">
