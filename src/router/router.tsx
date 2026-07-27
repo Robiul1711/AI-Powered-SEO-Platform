@@ -32,7 +32,7 @@ import CampaignDetails from "@/pages/allDashboardPages/campaignDetailsPage/Campa
 import PaymentHistory from "@/pages/allDashboardPages/paymentHistoryPage/PaymentHistory";
 import BookingHistory from "@/pages/allDashboardPages/bookingHistoryPage/BookingHistory";
 import VerifyEmail from "@/pages/auth/VerifyEmail";
-// import AllServices from "@/components/service-component/AllServices";
+import AllServices from "@/components/service-component/AllServices";
 import NotFound from "@/pages/notFoundPage/NotFound";
 import PrivacyPolicy from "@/pages/policyPages/PrivacyPolicy";
 import TermsAndConditions from "@/pages/policyPages/TermsAndConditions";
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
         path: "services",
         element: <Service />,
         children: [
-          // { path: ":slug", element: <AllServices /> },
+          { path: ":slug", element: <AllServices /> },
 
           { path: "seo-campaign", element: <SEOCampaign /> },
           { path: "guest-posting", element: <GuestPostingServices /> },

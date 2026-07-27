@@ -17,6 +17,7 @@ export default function MarketingSolutions() {
   return (
     <div>
       <CommonBanner
+        isLoading={isLoading}
         title={contentWritingData?.data?.title || "Solutions for business growth"}
         subtitle={contentWritingData?.data?.subtitle || "Social Media Marketing is the intersection between creative and performance. Our team delivers the perfect combination of creative and paid media expertise to maximize results."}
         image={

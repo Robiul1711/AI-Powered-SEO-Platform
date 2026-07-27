@@ -18,6 +18,7 @@ export default function GuestPostingServices() {
   return (
     <>
       <CommonBanner
+        isLoading={isLoading}
         title={localSeoData?.data?.title || "Guest Posting Services"}
         subtitle={localSeoData?.data?.subtitle || "Guest posting is a great way to build backlinks and improve your website's SEO. Our team can help you get high-quality guest posts on authoritative websites in your niche. We offer a range of guest posting packages to suit your needs and budget."}
         image={localSeoData?.data?.thumbnail || ImageProvider.localService}

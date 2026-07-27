@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaReact } from "react-icons/fa6";
 import footerLogo from "@/assets/images/footerLogo.png";
 import useClient from "@/hooks/useClient";
 import { Zap, Loader2 } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { clearAuth } from "@/redux/slices/authSlice";
+import { setUser } from "@/redux/slices/uiSlice";
+import { useAuthStore } from "@/providers/useAuthStore";
 /* =======================
    Types
 ======================= */
@@ -35,6 +39,9 @@ interface SideBarProps {
 ======================= */
 const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { logout } = useAuthStore();
   const [activeParentIndex, setActiveParentIndex] = useState<number | null>(null);
 
   /* =======================
@@ -188,8 +195,14 @@ const SideBar: React.FC<SideBarProps> = ({ sidebar, open, setOpen }) => {
         {/* Logout (Fixed & Clean) */}
         <div className="mt-auto pt-6 border-t border-[#EBEBEB]/19">
           <button
+            onClick={() => {
+              dispatch(clearAuth());
+              dispatch(setUser(null));
+              logout();
+              navigate("/auth/login");
+            }}
             className="flex items-center gap-3 w-full px-4 py-2 rounded-lg transition-all duration-300
-            text-[#AC6CFF]   hover:bg-[#AC6CFF]/13 hover:text-[#AC6CFF]"
+            text-[#AC6CFF]   hover:bg-[#AC6CFF]/13 hover:text-[#AC6CFF] cursor-pointer"
           >
             <IoLogOutOutline size={20} />
             <span className="font-medium">Log Out</span>
