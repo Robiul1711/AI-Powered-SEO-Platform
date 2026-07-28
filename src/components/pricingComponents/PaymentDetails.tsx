@@ -142,40 +142,40 @@ const PaymentDetails = ({
   };
 
   return (
-    <div className="p-8 rounded-2xl bg-[#111111]/80 border border-white/5 backdrop-blur-md shadow-2xl">
-      <h2 className="text-2xl font-orbitron font-bold text-white mb-8">
+    <div className="p-5 rounded-md bg-[#1A1A1A] border border-white/10 shadow-2xl">
+      <h2 className="text-lg font-orbitron font-bold text-white mb-5">
         Payment Details
       </h2>
 
       {isLoading ? (
-        <div className="space-y-6 animate-pulse">
+        <div className="space-y-4 animate-pulse">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="space-y-2">
-              <div className="h-4 bg-white/10 rounded w-20 ml-1"></div>
-              <div className="h-14 bg-white/5 border border-white/10 rounded-xl w-full"></div>
+            <div key={i} className="space-y-1.5">
+              <div className="h-3 bg-white/10 rounded w-20"></div>
+              <div className="h-10 bg-white/5 border border-white/10 rounded-md w-full"></div>
             </div>
           ))}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <div className="h-4 bg-white/10 rounded w-20 ml-1"></div>
-              <div className="h-14 bg-white/5 border border-white/10 rounded-xl w-full"></div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <div className="h-3 bg-white/10 rounded w-20"></div>
+              <div className="h-10 bg-white/5 border border-white/10 rounded-md w-full"></div>
             </div>
-            <div className="space-y-2">
-              <div className="h-4 bg-white/10 rounded w-20 ml-1"></div>
-              <div className="h-14 bg-white/5 border border-white/10 rounded-xl w-full"></div>
+            <div className="space-y-1.5">
+              <div className="h-3 bg-white/10 rounded w-20"></div>
+              <div className="h-10 bg-white/5 border border-white/10 rounded-md w-full"></div>
             </div>
           </div>
         </div>
       ) : (
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-sm font-inter text-white/70 block ml-1">
+        <div className="space-y-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-inter font-medium text-white/70 block">
               Full Name
             </label>
             <div className="relative group">
               <User
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
-                size={18}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
+                size={15}
               />
               <input
                 type="text"
@@ -183,19 +183,19 @@ const PaymentDetails = ({
                 readOnly
                 value={formData.name}
                 placeholder="John Smith"
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-inter focus:outline-none focus:border-[#AC6CFF]/50 transition-all opacity-70"
+                className="w-full bg-white/5 border border-white/10 rounded-md py-2.5 pl-10 pr-3 text-xs text-white font-inter focus:outline-none focus:border-[#AC6CFF]/50 transition-all opacity-70"
               />
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-inter text-white/70 block ml-1">
+          <div className="space-y-1.5">
+            <label className="text-xs font-inter font-medium text-white/70 block">
               Email Address
             </label>
             <div className="relative group">
               <Mail
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
-                size={18}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
+                size={15}
               />
               <input
                 type="email"
@@ -203,21 +203,21 @@ const PaymentDetails = ({
                 readOnly
                 value={formData.email}
                 placeholder="john@company.com"
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-inter focus:outline-none focus:border-[#AC6CFF]/50 transition-all opacity-70"
+                className="w-full bg-white/5 border border-white/10 rounded-md py-2.5 pl-10 pr-3 text-xs text-white font-inter focus:outline-none focus:border-[#AC6CFF]/50 transition-all opacity-70"
               />
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-inter text-white/70 block ml-1">
+          <div className="space-y-1.5">
+            <label className="text-xs font-inter font-medium text-white/70 block">
               Card Number
             </label>
             <div className="relative group">
               <CreditCard
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
-                size={18}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
+                size={15}
               />
-              <div className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
+              <div className="w-full bg-white/5 border border-white/10 rounded-md py-2.5 pl-10 pr-3 text-xs text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
                 <CardNumberElement
                   options={ELEMENT_OPTIONS}
                   onChange={(e) => handleCardChange(e, 'number')}
@@ -226,17 +226,17 @@ const PaymentDetails = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-inter text-white/70 block ml-1">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs font-inter font-medium text-white/70 block">
                 Expiry Date
               </label>
               <div className="relative group">
                 <Calendar
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
-                  size={18}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
+                  size={15}
                 />
-                <div className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
+                <div className="w-full bg-white/5 border border-white/10 rounded-md py-2.5 pl-10 pr-3 text-xs text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
                   <CardExpiryElement
                     options={ELEMENT_OPTIONS}
                     onChange={(e) => handleCardChange(e, 'expiry')}
@@ -244,16 +244,16 @@ const PaymentDetails = ({
                 </div>
               </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-inter text-white/70 block ml-1">
+            <div className="space-y-1.5">
+              <label className="text-xs font-inter font-medium text-white/70 block">
                 CVC
               </label>
               <div className="relative group">
                 <Hash
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
-                  size={18}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#AC6CFF] transition-colors"
+                  size={15}
                 />
-                <div className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
+                <div className="w-full bg-white/5 border border-white/10 rounded-md py-2.5 pl-10 pr-3 text-xs text-white font-inter focus-within:border-[#AC6CFF]/50 transition-all">
                   <CardCvcElement
                     options={ELEMENT_OPTIONS}
                     onChange={(e) => handleCardChange(e, 'cvc')}
@@ -266,24 +266,24 @@ const PaymentDetails = ({
       )}
 
       {isProcessing && (
-        <div className="mt-8 text-center text-[#AC6CFF] font-inter text-sm animate-pulse flex items-center justify-center gap-2">
-          <span className="w-2 h-2 bg-[#AC6CFF] rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-          <span className="w-2 h-2 bg-[#AC6CFF] rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-          <span className="w-2 h-2 bg-[#AC6CFF] rounded-full animate-bounce"></span>
+        <div className="mt-6 text-center text-[#AC6CFF] font-inter text-xs animate-pulse flex items-center justify-center gap-2">
+          <span className="w-1.5 h-1.5 bg-[#AC6CFF] rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+          <span className="w-1.5 h-1.5 bg-[#AC6CFF] rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+          <span className="w-1.5 h-1.5 bg-[#AC6CFF] rounded-full animate-bounce"></span>
           Securely processing payment...
         </div>
       )}
 
-      <div className="mt-12 pt-8  flex flex-wrap items-center justify-center gap-8 text-white/30">
-        <div className="flex items-center gap-2">
-          <ShieldCheck size={16} />
-          <span className="text-[10px] uppercase tracking-widest">
+      <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-white/40">
+        <div className="flex items-center gap-1.5">
+          <ShieldCheck size={14} />
+          <span className="text-[10px] uppercase tracking-widest font-bold">
             SSL Secured
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <Lock size={16} />
-          <span className="text-[10px] uppercase tracking-widest">
+        <div className="flex items-center gap-1.5">
+          <Lock size={14} />
+          <span className="text-[10px] uppercase tracking-widest font-bold">
             256-Bit Encryption
           </span>
         </div>

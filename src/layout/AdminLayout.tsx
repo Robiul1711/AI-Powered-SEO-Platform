@@ -17,6 +17,7 @@ import {
 } from "@/components/common/DashboardSVG";
 import authBg from "@/assets/images/authBg.png";
 import { Megaphone, CreditCard, History, CircleDollarSign, Zap } from "lucide-react";
+
 const AdminLayout: React.FC = () => {
   useUserProfile();
   const [open, setOpen] = useState(false);
@@ -131,8 +132,8 @@ const AdminLayout: React.FC = () => {
         }}
       >
         <SideBar open={open} setOpen={setOpen} sidebar={sideBar} />
-        <div className="flex-1 bg-dark text-white flex flex-col overflow-auto custom-scrollbar">
-          <div className="flex flex-col lg:gap-10 gap-5 lg:py-6  lg:px-[30px]  ">
+        <div className="flex-1 bg-dark text-white flex flex-col overflow-auto no-scrollbar">
+          <div className="flex flex-col lg:gap-10 gap-5 lg:py-6 lg:px-[30px]">
             <CommonNavbar open={open} setOpen={setOpen} />
             <Outlet />
           </div>
@@ -143,4 +144,3 @@ const AdminLayout: React.FC = () => {
 };
 
 export default AdminLayout;
-

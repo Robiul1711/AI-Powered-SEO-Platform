@@ -6,8 +6,8 @@
 
 @theme {
   /* font */
-  --font-orbitron: "Orbitron", sans-serif;
   --font-inter: "Inter", sans-serif;
+  --font-orbitron: "Orbitron", sans-serif;
 
   /* color */
 
@@ -195,7 +195,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-orbitron);
+    font-family: var(--font-inter);
   }
 }
 
@@ -301,4 +301,13 @@ button {
 * {
   scrollbar-width: thin;
   scrollbar-color: #ac6cff transparent;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
