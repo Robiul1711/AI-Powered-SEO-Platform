@@ -83,50 +83,50 @@ const OrderSummary = ({
   };
 
   return (
-    <div className="p-8 rounded-3xl bg-[#111111]/80 border border-white/5 backdrop-blur-md min-h-[400px] flex flex-col shadow-2xl">
-      <h2 className="text-xl font-orbitron font-bold text-white mb-8 underline underline-offset-8 decoration-[#AC6CFF]/30">
+    <div className="p-5 rounded-md bg-[#1A1A1A] border border-white/10 min-h-[340px] flex flex-col shadow-2xl">
+      <h2 className="text-base font-orbitron font-bold text-white mb-4 underline underline-offset-4 decoration-[#AC6CFF]/40">
         Order Summary
       </h2>
 
-      <div className="space-y-6 mb-8 flex-grow">
+      <div className="space-y-4 mb-4 flex-grow">
         {isLoading ? (
-          <div className="animate-pulse space-y-4">
-            <div className="h-6 bg-white/5 rounded w-full"></div>
-            <div className="h-6 bg-white/5 rounded w-2/3"></div>
+          <div className="animate-pulse space-y-3">
+            <div className="h-5 bg-white/5 rounded w-full"></div>
+            <div className="h-5 bg-white/5 rounded w-2/3"></div>
           </div>
         ) : plan ? (
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <CheckCircle2 size={16} className="text-[#AC6CFF]" />
-              <span className="text-sm font-inter text-white/70">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={15} className="text-[#AC6CFF]" />
+              <span className="text-xs font-inter text-white/80">
                 {plan.name} Plan
               </span>
             </div>
-            <span className="text-sm font-orbitron text-white">
+            <span className="text-xs font-orbitron text-white font-bold">
               ${subtotal.toLocaleString()}
             </span>
           </div>
         ) : (
-          <p className="text-white/30 text-sm font-inter text-center mt-10">
+          <p className="text-white/40 text-xs font-inter text-center mt-6">
             Select a plan to see order summary
           </p>
         )}
       </div>
 
-      <div className="space-y-3 pt-6 ">
-        <div className="flex justify-between text-white/50 text-sm font-inter">
+      <div className="space-y-2 pt-4 border-t border-white/10">
+        <div className="flex justify-between text-white/60 text-xs font-inter">
           <span>Subtotal</span>
           <span>{isLoading ? "..." : `$${subtotal.toLocaleString()}`}</span>
         </div>
-        <div className="flex justify-between text-green-500/80 text-sm font-inter">
+        <div className="flex justify-between text-emerald-400 text-xs font-inter">
           <span>Setup Discount</span>
           <span>{isLoading ? "..." : `-$${discount.toLocaleString()}`}</span>
         </div>
-        <div className="flex justify-between items-end pt-4">
-          <span className="text-white font-inter text-base">
+        <div className="flex justify-between items-end pt-3 border-t border-white/5">
+          <span className="text-white font-inter text-xs font-bold">
             Total Due Today
           </span>
-          <span className="text-2xl font-orbitron font-bold text-white">
+          <span className="text-xl font-orbitron font-bold text-white">
             {isLoading ? "..." : `$${total.toLocaleString()}`}
           </span>
         </div>
@@ -135,12 +135,12 @@ const OrderSummary = ({
       <button
         onClick={handlePayClick}
         disabled={isLoading || !plan || isProcessing || isPending || !isCardComplete}
-        className="w-full mt-10 py-4 rounded-sm bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] text-white font-inter font-semibold text-sm hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(172,108,255,0.2)] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider"
+        className="w-full mt-6 py-3 rounded-md bg-gradient-to-r from-[#AC6CFF] to-[#6C9AFF] text-white font-inter font-bold text-xs hover:opacity-90 transition-all shadow-[0_4px_15px_rgba(172,108,255,0.25)] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider"
       >
         {isProcessing || isPending ? "Processing..." : `Pay $${total.toLocaleString()} Now`}
       </button>
 
-      <p className="mt-6 text-center text-[10px] text-white/30 font-inter uppercase tracking-wider">
+      <p className="mt-4 text-center text-[10px] text-white/40 font-inter uppercase tracking-wider font-bold">
         Secure encrypted payment processing
       </p>
     </div>

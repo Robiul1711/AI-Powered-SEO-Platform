@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { Send, MoreHorizontal, Loader2, Search } from "lucide-react";
+import { Send, MoreHorizontal, Loader2, Search, MessageSquareOff, MessageCircle, UserX, X } from "lucide-react";
 import useClient from "@/hooks/useClient";
 import useMutationClient from "@/hooks/useMutationClient";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "@/redux/slices/uiSlice";
-
+import useAxiosSecure from "@/hooks/useAxiosSecure";
 import useEcho from "@/hooks/useEcho";
 
 const Message = () => {
   const currentUser = useSelector(selectCurrentUser);
+  const axiosSecure = useAxiosSecure();
   const scrollBottomRef = useRef<HTMLDivElement>(null);
   const [selectedConversationId, setSelectedConversationId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchTimeoutRef = useRef<any>(null);
   const echo = useEcho();
 
   // 1. Real-time Message Listener
@@ -37,53 +41,48 @@ const Message = () => {
     }
   }, [echo, currentUser, selectedConversationId]);
 
-  // 1. Fetch Conversations
+  // 1. Fetch Conversations (no polling — Reverb handles real-time)
   const { data: conversationsResponse, isLoading: isConversationsLoading, refetch: refetchConversations } = useClient({
     queryKey: ["conversations"],
     url: "/conversations",
     isPrivate: true,
-    options: { refetchInterval: 500 }
   }) as any;
 
   const conversations = conversationsResponse?.data || [];
 
-  const allMembers = useMemo(() => {
-    // If the API provides all_users directly, use it
-    if (conversationsResponse?.all_users) {
-      return conversationsResponse.all_users.filter((u: any) => u.id !== currentUser?.id);
+  // Debounced user search via API
+  useEffect(() => {
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
     }
+    setIsSearching(true);
+    searchTimeoutRef.current = setTimeout(async () => {
+      try {
+        const res = await axiosSecure.get(`/users/search?q=${encodeURIComponent(searchQuery)}`);
+        const users = res.data?.data || [];
+        const currentId = currentUser?.id || currentUser?.data?.id;
+        setSearchResults(users.filter((u: any) => u.id !== currentId));
+      } catch {
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 400);
+    return () => clearTimeout(searchTimeoutRef.current);
+  }, [searchQuery]);
 
-    const usersMap = new Map();
-    conversations.forEach((conv: any) => {
-      // Support new other_user property
-      if (conv.other_user) usersMap.set(conv.other_user.id, conv.other_user);
-      if (conv.sender) usersMap.set(conv.sender.id, conv.sender);
-      if (conv.receiver) usersMap.set(conv.receiver.id, conv.receiver);
-    });
-    const extraUsers = conversationsResponse?.users || conversationsResponse?.members || [];
-    extraUsers.forEach((u: any) => usersMap.set(u.id, u));
-
-    return Array.from(usersMap.values()).filter(u => u.id !== currentUser?.id);
-  }, [conversations, conversationsResponse, currentUser]);
-
-  const filteredMembers = useMemo(() => {
-    if (!searchQuery.trim()) return allMembers;
-    const query = searchQuery.toLowerCase();
-    return allMembers.filter((user: any) =>
-      user.name?.toLowerCase().includes(query) ||
-      user.email?.toLowerCase().includes(query)
-    );
-  }, [allMembers, searchQuery]);
+  const filteredMembers = searchResults;
 
   const activeConversation = conversations.find((c: any) => c.id === selectedConversationId);
 
-  // 2. Fetch Messages for active conversation
+  // 2. Fetch Messages for active conversation (no polling — Reverb handles real-time)
   const { data: messagesResponse, isLoading: isMessagesLoading, error: messagesError, refetch: refetchMessages } = useClient({
     queryKey: ["messages", selectedConversationId?.toString() || ""],
     url: selectedConversationId ? `/conversations/${selectedConversationId}/messages` : "",
     isPrivate: true,
     enabled: !!selectedConversationId,
-    options: { refetchInterval: 500 }
   }) as any;
 
   // Handle 404 or other errors for messages
@@ -100,6 +99,8 @@ const Message = () => {
   const [newChatUser, setNewChatUser] = useState<any>(null);
 
   const onSelectUser = (user: any) => {
+    setSearchQuery(""); // Clear search query on member selection
+    
     // Check if a conversation already exists with this user
     const existingConv = conversations.find((c: any) => {
       const otherUser = c.other_user || (Number(c.sender_id) === Number(currentUser?.id) ? c.receiver : c.sender);
@@ -117,7 +118,7 @@ const Message = () => {
 
   // 3. Setup Send Message Mutation
   const sendMessageMutation = useMutationClient({
-    url: "/messages/send",
+    url: "/conversations/send",
     method: "post",
     isPrivate: true,
     showToast: false,
@@ -137,8 +138,6 @@ const Message = () => {
   const onSendMessage = (data: any) => {
     if (!data.message?.trim()) return;
 
-    // Use universal ID detection for currentUser
-    const myId = currentUser?.id || currentUser?.data?.id || currentUser?.user_id || currentUser?.userdata?.id;
     const receiverId = currentChatUser?.id;
 
     if (!receiverId) return;
@@ -179,23 +178,20 @@ const Message = () => {
   const currentChatUser = activeConversation ? getOtherUser(activeConversation) : newChatUser;
 
   return (
-    <div className="font-inter text-white pb-6">
-      <div className="flex flex-col lg:flex-row gap-6 h-[600px] sm:h-[700px] lg:h-[700px] relative">
-        {/* Sidebar: Conversion List */}
+    <div className="font-inter pb-8 w-full">
+      <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 h-[calc(100vh-140px)] min-h-[580px]">
+        {/* Left Sidebar: Conversations & Search */}
         <div
-          className={`w-full lg:w-1/3 bg-[#1A1A1A] border border-white/5 rounded-3xl sm:rounded-xl overflow-hidden flex flex-col ${(selectedConversationId !== null || newChatUser !== null) && "hidden lg:flex"}`}
+          className={`w-full lg:w-80 xl:w-96 bg-[#1A1A1A] border border-white/5 rounded-3xl sm:rounded-xl flex flex-col overflow-hidden ${selectedConversationId !== null || newChatUser !== null ? "hidden lg:flex" : "flex"
+            }`}
         >
-          <div className="p-5 sm:p-6 border-b border-white/5 flex justify-between items-center">
-            <h2 className="text-lg sm:text-xl font-orbitron font-bold">
-              Recent Chats
-            </h2>
-            {isConversationsLoading && <Loader2 size={16} className="animate-spin text-purple-500" />}
-          </div>
+          {/* Header */}
+          <div className="p-4 sm:p-6 border-b border-white/5">
+            <h2 className="text-lg sm:text-xl font-bold font-inter mb-4">Messages</h2>
 
-          {/* Search Area */}
-          <div className="p-4 border-b border-white/5">
-            <div className="relative group">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-purple-500 transition-colors">
+            {/* Search Input */}
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none">
                 <Search size={16} />
               </div>
               <input
@@ -203,16 +199,26 @@ const Message = () => {
                 placeholder="Search Here..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/3 border border-white/10 rounded-full pl-11 pr-14 py-2.5 text-xs focus:outline-none focus:border-purple-500/50 focus:bg-white/5 transition-all font-orbitron placeholder:text-white/20"
+                className="w-full bg-white/3 border border-white/10 rounded-full pl-11 pr-10 py-2.5 text-xs focus:outline-none focus:border-purple-500/50 focus:bg-white/5 transition-all font-inter placeholder:text-white/20"
               />
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-2 py-1 bg-white/5 border border-white/10 rounded-lg pointer-events-none">
-                <span className="text-[10px] text-white/40 font-inter">⌘</span>
-                <span className="text-[10px] text-white/40 font-inter">K</span>
-              </div>
+              {searchQuery ? (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-white rounded-full bg-white/10 transition-colors"
+                  title="Clear Search"
+                >
+                  <X size={13} />
+                </button>
+              ) : (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-2 py-1 bg-white/5 border border-white/10 rounded-lg pointer-events-none">
+                  <span className="text-[10px] text-white/40 font-inter">⌘</span>
+                  <span className="text-[10px] text-white/40 font-inter">K</span>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 no-scrollbar">
             {isConversationsLoading && conversations.length === 0 ? (
               <div className="flex justify-center py-10">
                 <Loader2 className="animate-spin text-purple-500" />
@@ -230,6 +236,7 @@ const Message = () => {
                     onClick={() => {
                       setSelectedConversationId(conversation.id);
                       setNewChatUser(null);
+                      setSearchQuery(""); // Clear search when selecting existing conversation
                     }}
                     className={`p-3 sm:p-4 rounded-xl cursor-pointer transition-all flex gap-3 sm:gap-4 items-center ${selectedConversationId === conversation.id
                       ? "bg-linear-to-b from-[#AC6CFF] to-[#674199] text-white shadow-[0_0_20px_rgba(172,108,255,0.3)]"
@@ -243,7 +250,7 @@ const Message = () => {
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-start">
-                        <h4 className="text-[13px] sm:text-sm font-bold font-orbitron truncate">
+                        <h4 className="text-[13px] sm:text-sm font-bold font-inter truncate">
                           {otherUser?.name || "Support"}
                         </h4>
                         <span className="text-[9px] sm:text-[10px] opacity-60 whitespace-nowrap">
@@ -258,15 +265,22 @@ const Message = () => {
                 );
               })
             ) : conversations.length === 0 && !searchQuery.trim() ? (
-              <div className="text-center py-5 text-gray-500 text-sm font-orbitron">
-                No conversations found
+              /* NO CONVERSATIONS EMPTY STATE WITH ICON */
+              <div className="flex flex-col items-center justify-center py-10 px-4 text-center space-y-2.5">
+                <div className="w-12 h-12 rounded-xl bg-[#AC6CFF]/10 text-[#AC6CFF] border border-[#AC6CFF]/20 flex items-center justify-center shadow-[0_0_12px_rgba(172,108,255,0.15)]">
+                  <MessageSquareOff size={22} />
+                </div>
+                <h4 className="text-xs font-bold text-white font-inter">No Conversations Found</h4>
+                <p className="text-[11px] text-gray-400 font-inter max-w-[200px]">
+                  Search for a team member or start a new message to begin chatting.
+                </p>
               </div>
             ) : null}
 
             {/* Search Results Section - Only shows when searching */}
             {searchQuery.trim() && filteredMembers.length > 0 && (
-              <div className="pt-4 mt-4 ">
-                <h3 className="text-xs font-orbitron font-bold text-gray-500 uppercase tracking-widest px-2 mb-4">
+              <div className="pt-4 mt-4">
+                <h3 className="text-xs font-inter font-bold text-gray-500 uppercase tracking-widest px-2 mb-4">
                   Search Results
                 </h3>
                 <div className="space-y-2">
@@ -283,7 +297,7 @@ const Message = () => {
                           alt="avatar"
                         />
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-xs font-bold font-orbitron truncate">
+                          <h4 className="text-xs font-bold font-inter truncate">
                             {user.name}
                           </h4>
                           <p className="text-[10px] opacity-50 truncate">
@@ -297,9 +311,21 @@ const Message = () => {
               </div>
             )}
 
-            {searchQuery.trim() && filteredMembers.length === 0 && (
-              <div className="text-center py-5 text-gray-500 text-sm font-orbitron">
-                No users found for "{searchQuery}"
+            {searchQuery.trim() && isSearching && (
+              <div className="flex justify-center py-6">
+                <Loader2 className="animate-spin text-purple-500 w-5 h-5" />
+              </div>
+            )}
+
+            {searchQuery.trim() && !isSearching && filteredMembers.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-10 px-4 text-center space-y-2.5">
+                <div className="w-12 h-12 rounded-xl bg-white/5 text-gray-400 border border-white/10 flex items-center justify-center">
+                  <UserX size={22} />
+                </div>
+                <h4 className="text-xs font-bold text-gray-300 font-inter">No Users Found</h4>
+                <p className="text-[11px] text-gray-400 font-inter">
+                  No members matched "{searchQuery}"
+                </p>
               </div>
             )}
           </div>
@@ -328,7 +354,7 @@ const Message = () => {
                   alt="avatar"
                 />
                 <div>
-                  <h3 className="font-orbitron font-bold text-base sm:text-lg">
+                  <h3 className="font-inter font-bold text-base sm:text-lg">
                     {currentChatUser?.name || "Support"}
                   </h3>
                   <p className="text-[10px] sm:text-xs text-green-500">
@@ -339,7 +365,7 @@ const Message = () => {
 
               {/* Messages Area */}
               <div
-                className="flex-1 overflow-y-auto p-4 sm:px-6 sm:py-6 flex flex-col gap-1.5 custom-scrollbar"
+                className="flex-1 overflow-y-auto p-4 sm:px-6 sm:py-6 flex flex-col gap-1.5 no-scrollbar"
               >
                 {isMessagesLoading && messages.length === 0 ? (
                   <div className="flex justify-center py-10">
@@ -350,22 +376,18 @@ const Message = () => {
                     let lastDate = "";
                     return messages.map((msg: any, index: number) => {
                       const msgDate = new Date(msg.created_at).toLocaleDateString();
-
-                      // Debug: Check why alignment might be failing
                       const currentId = currentUser?.id || currentUser?.data?.id || currentUser?.user_id || currentUser?.userdata?.id || currentUser?.userdata?.user_id;
                       const isMe = Number(msg.sender_id) === Number(currentId);
 
-
                       const showDivider = msgDate !== lastDate;
                       lastDate = msgDate;
-
                       const isToday = msgDate === new Date().toLocaleDateString();
 
                       return (
                         <React.Fragment key={msg.id}>
                           {showDivider && (
                             <div className="flex justify-center my-4 mt-6 first:mt-0">
-                              <span className="bg-white/5 border border-white/10 px-3 py-1 rounded-lg text-[10px] font-orbitron font-bold text-gray-400 capitalize shadow-sm">
+                              <span className="bg-white/5 border border-white/10 px-3 py-1 rounded-lg text-[10px] font-inter font-bold text-gray-400 capitalize shadow-sm">
                                 {isToday ? "Today" : msgDate}
                               </span>
                             </div>
@@ -392,11 +414,10 @@ const Message = () => {
                     });
                   })()
                 ) : (
-                  <div className="text-center py-10 text-gray-500 text-sm font-orbitron">
+                  <div className="text-center py-10 text-gray-500 text-sm font-inter">
                     {newChatUser ? `Say hi to ${newChatUser.name}!` : "Start your conversation"}
                   </div>
                 )}
-
 
                 <div ref={scrollBottomRef} />
               </div>
@@ -429,12 +450,14 @@ const Message = () => {
               </form>
             </>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-gray-500 p-8 h-full">
-              <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
-                <MoreHorizontal size={32} opacity={0.2} />
+            /* NO CONVERSATION SELECTED MAIN WINDOW EMPTY STATE */
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 h-full space-y-3">
+              <div className="w-16 h-16 rounded-2xl bg-[#AC6CFF]/15 text-[#AC6CFF] border border-[#AC6CFF]/30 flex items-center justify-center shadow-[0_0_20px_rgba(172,108,255,0.2)]">
+                <MessageCircle size={30} />
               </div>
-              <p className="font-orbitron text-sm font-bold">
-                Select a conversation or member to start chatting
+              <h3 className="text-base font-bold text-white font-inter">Your Messages</h3>
+              <p className="text-xs text-gray-400 font-inter max-w-sm leading-relaxed">
+                Select a conversation from the left sidebar or search for a member to start real-time messaging.
               </p>
             </div>
           )}

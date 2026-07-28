@@ -123,7 +123,9 @@ const PricingCard = ({
         <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">
           ${price}
         </span>
-        <span className="text-white/40 text-sm font-medium">/month</span>
+        <span className="text-white/40 text-xs font-medium border border-white/10 px-2 py-0.5 rounded bg-white/5 ml-1">
+          {subtitle?.toLowerCase().includes('month') ? '/month' : 'One-time Payment'}
+        </span>
       </div>
       <p className="text-white/40 text-sm mt-4 leading-relaxed">{subtitle}</p>
     </div>

@@ -11,12 +11,12 @@ const OrderWhatsIncluded = ({ plan, isLoading }: OrderWhatsIncludedProps) => {
   const features = plan?.features || [];
 
   return (
-    <div className="p-8 rounded-3xl bg-[#111111]/80 border border-white/5 backdrop-blur-md min-h-[300px] shadow-xl">
-      <h2 className="text-xl font-orbitron font-bold text-white mb-8">
+    <div className="p-5 rounded-md bg-[#1A1A1A] border border-white/10 min-h-[250px] shadow-xl">
+      <h2 className="text-base font-orbitron font-bold text-white mb-4">
         Order What's Included
       </h2>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {isLoading ? (
           <div className="animate-pulse space-y-4">
             {[1, 2, 3, 4].map((i) => (
