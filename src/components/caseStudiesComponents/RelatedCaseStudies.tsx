@@ -10,10 +10,10 @@ import TagLines from "../common/TagLines";
 import CommonButton from "../common/CommonButton";
 
 // Import generated images
-import caseStudy1 from "@/assets/images/p1.png";
-import caseStudy2 from "@/assets/images/p2.png";
-import caseStudy3 from "@/assets/images/p3.png";
-import caseStudy4 from "@/assets/images/p4.png";
+import caseStudy1 from "@/assets/images/p1.webp";
+import caseStudy2 from "@/assets/images/p2.webp";
+import caseStudy3 from "@/assets/images/p3.webp";
+import caseStudy4 from "@/assets/images/p4.webp";
 
 const caseStudies = [
   {

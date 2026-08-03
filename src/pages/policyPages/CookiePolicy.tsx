@@ -1,6 +1,6 @@
 import React from "react";
 import CommonBanner from "@/components/common/CommonBanner";
-import bgImage from "@/assets/images/biograph.png";
+import bgImage from "@/assets/images/biograph.webp";
 
 const CookiePolicy = () => {
   return (

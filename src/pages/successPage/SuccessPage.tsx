@@ -1,7 +1,7 @@
 import React from "react";
 import { CheckCircle2, ArrowRight, Download, Calendar, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import authBg from "@/assets/images/authBg1.png";
+import authBg from "@/assets/images/authBg1.webp";
 import GlowText from "@/components/common/GlowText";
 
 const SuccessPage = () => {

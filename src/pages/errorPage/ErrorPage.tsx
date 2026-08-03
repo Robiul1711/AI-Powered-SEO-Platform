@@ -1,7 +1,7 @@
 import React from "react";
 import { AlertCircle, ArrowLeft, RefreshCw, Home } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import authBg from "@/assets/images/authBg1.png";
+import authBg from "@/assets/images/authBg1.webp";
 import GlowText from "@/components/common/GlowText";
 
 const ErrorPage = () => {

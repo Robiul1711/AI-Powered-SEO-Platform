@@ -1,4 +1,4 @@
-import aboutme from "@/assets/images/oyrBenifit.png";
+import aboutme from "@/assets/images/oyrBenifit.webp";
 import CommonButton from "@/components/common/CommonButton";
 import TagLines from "@/components/common/TagLines";
 import Title from "@/components/common/Title";

@@ -64,7 +64,7 @@ const AiChatbotWidget = () => {
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white transition-colors">
+                <button onClick={() => setIsOpen(false)} aria-label="Close Chat" className="text-gray-400 hover:text-white transition-colors">
                   <X size={20} />
                 </button>
               </div>
@@ -116,6 +116,7 @@ const AiChatbotWidget = () => {
                   />
                   <button 
                     type="submit"
+                    aria-label="Send message"
                     disabled={!input.trim() || isLoading}
                     className="absolute right-2 w-8 h-8 flex items-center justify-center bg-[#AC6CFF] text-black rounded-full hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
@@ -129,6 +130,7 @@ const AiChatbotWidget = () => {
 
         <button
           onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle AI Assistant Chat"
           className={`w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(172,108,255,0.4)] transition-transform hover:scale-110 active:scale-95 ${
             isOpen ? 'bg-[#2A2A2A] text-white border border-white/10' : 'bg-[#AC6CFF] text-black'
           }`}

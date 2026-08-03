@@ -1,4 +1,4 @@
-import dummy from "@/assets/images/blog.png";
+import dummy from "@/assets/images/blog.webp";
 
 export const ImageProvider = {
   dummy

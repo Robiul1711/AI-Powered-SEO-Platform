@@ -1,5 +1,5 @@
 import React from "react";
-import authBg from "@/assets/images/authBg1.png";
+import authBg from "@/assets/images/authBg1.webp";
 import PoweredAnalysis from "@/components/aiSeoAuditComponents/PoweredAnalysis";
 
 const SEOAudit = () => {

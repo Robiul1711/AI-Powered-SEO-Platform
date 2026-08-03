@@ -85,7 +85,7 @@ export default function CommonBanner({
           <>
             {/* Dynamic Breadcrumbs */}
             {breadcrumbs.length > 0 && (
-              <nav className="flex items-center gap-1 mb-4 text-white/90 text-sm font-inter">
+              <nav className="flex items-center gap-1 mb-3 sm:mb-4 text-white/90 text-xs sm:text-sm font-inter">
                 {breadcrumbs.map((crumb, index) => (
                   <div key={index} className="flex items-center gap-1">
                     <Link to={crumb.href} className="hover:underline">
@@ -99,18 +99,18 @@ export default function CommonBanner({
 
             <Title
               level="title48"
-              className="text-white leading-tight font-semibold max-w-7xl"
+              className="text-white text-2xl sm:text-4xl md:text-5xl leading-tight font-semibold max-w-4xl"
             >
               {title}
             </Title>
 
             {subtitle && (
-              <p className="text-white/80 mt-4 max-w-6xl">{subtitle}</p>
+              <p className="text-white/80 mt-3 sm:mt-4 max-w-3xl text-xs sm:text-sm md:text-base line-clamp-3 sm:line-clamp-none font-inter">{subtitle}</p>
             )}
 
             {/* Action Buttons */}
             {(buttonOne || buttonTwo) && (
-              <div className="flex gap-4 mt-6">
+              <div className="flex gap-4 mt-5 sm:mt-6">
                 {buttonOne && <CommonButton>{buttonOne}</CommonButton>}
                 {buttonTwo && <CommonButton className="bg-white/40!">{buttonTwo}</CommonButton>}
               </div>

@@ -1,5 +1,5 @@
 import CommonBanner from "@/components/common/CommonBanner";
-import aboutBg from "@/assets/images/aboutBg.png";
+import aboutBg from "@/assets/images/aboutBg.webp";
 import TrustedBy from "@/components/aboutComponents/TrustedBy";
 import AboutMe from "@/components/aboutComponents/AboutMe";
 import OurValues from "@/components/aboutComponents/OurValues";

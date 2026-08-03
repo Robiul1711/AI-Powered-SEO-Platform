@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 
 import TagLines from "../common/TagLines";
 import Title from "../common/Title";
-import aboutme from "@/assets/images/t1.png"; // Keeping existing import, will use as fallback or placeholders
+import aboutme from "@/assets/images/t1.webp"; // Keeping existing import, will use as fallback or placeholders
 
 const testimonialsData = [
   {

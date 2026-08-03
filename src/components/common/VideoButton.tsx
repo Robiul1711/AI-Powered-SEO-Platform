@@ -5,7 +5,7 @@ const VideoButton = ({ onClick, className }: { onClick: () => void, className?: 
 
       <div className={`relative inline-block ${className}`}>
         {/* Play Button */}
-        <button onClick={onClick} className="w-[50px] h-[50px] rounded-full bg-white text-primary text-center z-10 relative flex items-center justify-center">
+        <button onClick={onClick} aria-label="Play video" className="w-[50px] h-[50px] rounded-full bg-white text-primary text-center z-10 relative flex items-center justify-center">
           <FaPlay className="text-md text-Primary" />
         </button>
 

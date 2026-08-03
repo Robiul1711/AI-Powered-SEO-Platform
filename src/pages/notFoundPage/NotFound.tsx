@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Home, ArrowLeft, Ghost } from "lucide-react";
-import authBg from "@/assets/images/authBg1.png";
+import authBg from "@/assets/images/authBg1.webp";
 import GlowText from "@/components/common/GlowText";
 
 const NotFound = () => {

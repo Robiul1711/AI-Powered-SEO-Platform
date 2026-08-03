@@ -1,6 +1,6 @@
 import CommonBanner from "@/components/common/CommonBanner";
 import React from "react";
-import contactBg from "@/assets/images/contactBg.png";
+import contactBg from "@/assets/images/contactBg.webp";
 import ContactInfo from "@/components/contactComponents/ContactInfo";
 import ContactForm from "@/components/contactComponents/ContactForm";
 

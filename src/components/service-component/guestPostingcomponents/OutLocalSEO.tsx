@@ -1,5 +1,5 @@
 import React from "react";
-import bannerShadow from "@/assets/images/bannerShadow.png";
+import bannerShadow from "@/assets/images/bannerShadow.webp";
 import {
   Website,
   Proposal,

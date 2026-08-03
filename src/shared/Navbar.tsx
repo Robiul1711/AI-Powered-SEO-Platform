@@ -121,7 +121,7 @@ const Navbar = () => {
         >
           {/* Logo Section */}
           <NavLink to="/" className="shrink-0 z-50">
-            <img src={logo} alt="Logo" className="h-8 sm:h-10 w-auto" />
+            <img src={logo} alt="Logo" width="160" height="40" className="h-8 sm:h-10 w-auto" />
           </NavLink>
 
           {/* Desktop Navigation Links */}
@@ -304,14 +304,14 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-black/70 backdrop-blur-md z-999 lg:hidden"
           onClick={closeMobileMenu}
         />
       )}
 
       {/* Mobile Menu Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-[85%] max-w-sm text-white bg-black/60 backdrop-blur-sm z-50 lg:hidden transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 h-full w-[85%] max-w-sm text-white bg-black/60 backdrop-blur-sm z-1000 lg:hidden transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
         <div className="flex flex-col h-full">

@@ -4,7 +4,7 @@ import Navbar from "../shared/Navbar";
 import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import useUserProfile from "@/hooks/fetchUserProfile";
 import GridBackgroundView from "../components/common/GridBackgroundView";
-import authBg from "@/assets/images/authBg1.png";
+import authBg from "@/assets/images/authBg1.webp";
 import Preloader from "@/components/common/Preloader";
 import { AnimatePresence } from "motion/react";
 import AiChatbotWidget from "@/components/common/AiChatbotWidget";
@@ -35,7 +35,7 @@ const Layout: React.FC = () => {
         <Navbar />
         <Outlet />
         <Footer />
-        <AiChatbotWidget />
+        {/* <AiChatbotWidget /> */}
       </div>
     </div>
   );
@@ -48,7 +48,7 @@ export default Layout;
 // import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 // import useUserProfile from "@/hooks/fetchUserProfile";
 // import GridBackgroundView from "../components/common/GridBackgroundView";
-// import authBg from "@/assets/images/authBg1.png";
+// import authBg from "@/assets/images/authBg1.webp";
 // import Preloader from "@/components/common/Preloader";
 // import { AnimatePresence } from "motion/react";
 

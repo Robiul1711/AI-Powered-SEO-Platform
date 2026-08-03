@@ -15,7 +15,7 @@ import {
   ReportIcon,
   ServiceIcon,
 } from "@/components/common/DashboardSVG";
-import authBg from "@/assets/images/authBg.png";
+import authBg from "@/assets/images/authBg.webp";
 import { Megaphone, CreditCard, History, CircleDollarSign, Zap } from "lucide-react";
 
 const AdminLayout: React.FC = () => {
