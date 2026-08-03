@@ -1,7 +1,7 @@
 import React from "react";
 import TagLines from "../common/TagLines";
 import Title from "../common/Title";
-import bannerShadow from "@/assets/images/bannerShadow.png";
+import bannerShadow from "@/assets/images/bannerShadow.webp";
 import {
   Website,
   Proposal,
@@ -54,7 +54,7 @@ const SimpleProcess = () => {
   return (
     <section className="relative">
       <div className="absolute -top-28 -z-30">
-        <img src={bannerShadow} alt="" className="w-full h-auto " />
+        <img src={bannerShadow} alt="" width="1920" height="300" decoding="async" loading="lazy" className="w-full h-auto " />
       </div>
       <div className="section-padding-x section-padding-y ">
         <div className="flex flex-col items-center gap-4 font-inter">

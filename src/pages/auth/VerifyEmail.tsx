@@ -98,7 +98,7 @@ const VerifyEmail = () => {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h1 className="text-3xl font-orbitron font-semibold text-white">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-orbitron font-semibold text-white">
           Verify Email
         </h1>
         <p className="text-gray-400 text-sm mt-2">

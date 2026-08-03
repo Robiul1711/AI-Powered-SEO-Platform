@@ -11,7 +11,7 @@ import {
 } from "../common/SVG";
 import GlowText from "../common/GlowText";
 import iconBg from "@/assets/images/iconBg.png";
-import featureCardBg from "@/assets/images/featureCardBg.png";
+import featureCardBg from "@/assets/images/featureCardBg.webp";
 
 import VideoBannr from "../common/VideoBannr";
 

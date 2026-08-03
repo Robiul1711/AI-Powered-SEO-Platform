@@ -1,4 +1,4 @@
-import whychoose from "@/assets/images/whychoose.png";
+import whychoose from "@/assets/images/whychoose.webp";
 import CommonButton from "@/components/common/CommonButton";
 import TagLines from "@/components/common/TagLines";
 import Title from "@/components/common/Title";

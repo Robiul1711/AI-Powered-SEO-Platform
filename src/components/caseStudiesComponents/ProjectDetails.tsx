@@ -1,6 +1,6 @@
 import React from "react";
-import videoBg from "@/assets/images/videoBg.png";
-import p3 from "@/assets/images/p3.png";
+import videoBg from "@/assets/images/videoBg.webp";
+import p3 from "@/assets/images/p3.webp";
 import VideoButton from "../common/VideoButton";
 import Title from "../common/Title";
 import {

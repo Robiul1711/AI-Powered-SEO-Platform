@@ -1,9 +1,9 @@
 import React from "react";
-import p1 from "@/assets/images/p1.png";
-import p2 from "@/assets/images/p2.png";
-import p3 from "@/assets/images/p3.png";
-import p4 from "@/assets/images/p4.png";
-import p5 from "@/assets/images/p5.png";
+import p1 from "@/assets/images/p1.webp";
+import p2 from "@/assets/images/p2.webp";
+import p3 from "@/assets/images/p3.webp";
+import p4 from "@/assets/images/p4.webp";
+import p5 from "@/assets/images/p5.webp";
 import Title from "../common/Title";
 import CommonButton from "../common/CommonButton";
 import { Link } from "react-router-dom";

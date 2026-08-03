@@ -1,11 +1,11 @@
 import { Link, Outlet } from "react-router-dom";
-import authBg from "@/assets/images/authBg1.png";
+import authBg from "@/assets/images/authBg1.webp";
 import logo from "@/assets/images/footerLogo.png";
 
 const AuthLayout = () => {
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center justify-center p-4  font-inter"
+      className="min-h-screen w-full flex flex-col items-center justify-center p-4"
       style={{
         backgroundImage: `url(${authBg})`,
         backgroundSize: "cover",
@@ -20,7 +20,7 @@ const AuthLayout = () => {
         </Link>
 
         {/* Auth Card */}
-        <div className="w-full border border-white/5 rounded-3xl p-8 md:p-12 backdrop-blur-sm shadow-2xl">
+        <div className="w-full border border-white/5 rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 backdrop-blur-sm shadow-2xl">
           <Outlet />
         </div>
       </div>

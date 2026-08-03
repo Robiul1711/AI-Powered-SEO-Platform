@@ -1,4 +1,4 @@
-import aboutme from "@/assets/images/biograph.png";
+import aboutme from "@/assets/images/biograph.webp";
 import TagLines from "../common/TagLines";
 import Title from "../common/Title";
 

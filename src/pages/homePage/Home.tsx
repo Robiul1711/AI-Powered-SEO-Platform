@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Banner from "@/components/homeComponents/Banner";
 import FAQHomePage from "@/components/homeComponents/FAQHomePage";
 import PowerfulFeatures from "@/components/homeComponents/PowerfulFeatures";
@@ -8,16 +9,24 @@ import PricingSectionHome from "@/components/homeComponents/PricingSectionHome";
 import useClient from "@/hooks/useClient";
 
 const Home = () => {
+  const [showRays, setShowRays] = useState(false);
   const { data: pricingPlans, isLoading } = useClient({
     queryKey: ["pricing-plans"],
     url: "/pricing-plans",
   });
 
+  useEffect(() => {
+    const timer = setTimeout(() => setShowRays(true), 250);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div>
-      <div className="fixed inset-0">
-        <LightRays raysColor="#B57CFF" />
-      </div>
+      {showRays && (
+        <div className="fixed inset-0 hidden md:block">
+          <LightRays raysColor="#B57CFF" />
+        </div>
+      )}
       <Banner />
       <SimpleProcess />
       <PowerfulFeatures />

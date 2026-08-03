@@ -1,7 +1,7 @@
 import OrderSummary from "@/components/pricingComponents/OrderSummary";
 import PaymentDetails from "@/components/pricingComponents/PaymentDetails";
 import OrderWhatsIncluded from "@/components/pricingComponents/OrderWhatsIncluded";
-import authBg from "@/assets/images/authBg1.png";
+import authBg from "@/assets/images/authBg1.webp";
 import React, { useMemo, useState } from "react";
 import TagLines from "@/components/common/TagLines";
 import GlowText from "@/components/common/GlowText";
@@ -17,8 +17,17 @@ import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "@/redux/slices/authSlice";
 import { selectCurrentUser } from "@/redux/slices/uiSlice";
 
-// Load Stripe
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_test_51Pq3HnRvN5gEyL4xv8jY5Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y");
+// Lazy Load Stripe only when checkout page is rendered
+let stripePromise: Promise<any> | null = null;
+const getStripe = () => {
+  if (!stripePromise) {
+    stripePromise = loadStripe(
+      import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ||
+        "pk_test_51Pq3HnRvN5gEyL4xv8jY5Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y8Y"
+    );
+  }
+  return stripePromise;
+};
 
 const SimpleCheckout = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -87,7 +96,7 @@ const SimpleCheckout = () => {
   };
 
   return (
-    <Elements stripe={stripePromise}>
+    <Elements stripe={getStripe()}>
       <div className="relative w-full pt-40 pb-20 overflow-hidden min-h-screen">
         {/* Background Image */}
         <div className="fixed inset-0 -z-10">
