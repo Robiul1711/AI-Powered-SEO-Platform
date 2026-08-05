@@ -91,6 +91,14 @@ const Banner = () => {
             Access Client Dashboard
           </CommonButton>
         </div>
+
+        {/* Small Trust Line under CTA */}
+        <p className="mt-5 text-xs sm:text-sm text-white/70 max-w-2xl font-inter flex items-center justify-center gap-2 px-4 py-2 ">
+          {/* <span className="w-2 h-2 rounded-full bg-[#AC6CFF] animate-pulse shrink-0"></span> */}
+          <span>
+            Led by <strong className="text-white font-medium">Constantin Gajura</strong>, an SEO, Link-Building and Digital PR Specialist with more than 17 years of hands-on experience.
+          </span>
+        </p>
       </div>
 
       {/* Bottom Centered Image */}
