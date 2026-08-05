@@ -7,20 +7,20 @@ import CommonButton from "./CommonButton";
 import ServiceSelectModal from "./ServiceSelectModal";
 import AiProposalModal from "../pricingComponents/AiProposalModal";
 import { encryptId } from "@/lib/encryption";
-import { Sparkles } from "lucide-react";
+import { Sparkles, CheckCircle2 } from "lucide-react";
 
 interface CheckIconProps {
   className?: string;
 }
 
-const CheckIcon = ({ className = "w-4 h-4" }: CheckIconProps) => (
+const CheckIcon = ({ className = "w-3.5 h-3.5" }: CheckIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={className}
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
-    strokeWidth={3}
+    strokeWidth={2.5}
   >
     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
   </svg>
@@ -42,7 +42,7 @@ interface PricingCardProps {
 const dummyPricingPlans = [
   {
     id: 1,
-    name: "Starter",
+    name: "Starter SEO",
     price: "99",
     subtitle: "Perfect for small businesses just getting started with SEO",
     features: [
@@ -92,6 +92,20 @@ const dummyPricingPlans = [
   },
 ];
 
+const parseFeatures = (features: any): string[] => {
+  if (!features) return [];
+  if (Array.isArray(features)) return features;
+  if (typeof features === "string") {
+    try {
+      const parsed = JSON.parse(features);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {
+      return features.split(",").map((f: string) => f.trim()).filter(Boolean);
+    }
+  }
+  return [];
+};
+
 const PricingCard = ({
   id,
   name,
@@ -101,102 +115,113 @@ const PricingCard = ({
   is_popular = false,
   button_text = "Get Started Now",
   onGetStarted,
-}: PricingCardProps) => (
-  <div
-    className={`relative md:p-8 p-6 
-  rounded-[22px] sm:rounded-[30px] 
+}: PricingCardProps) => {
+  const featureList = parseFeatures(features);
 
-  transition-all duration-500 
-  flex flex-col h-full group
-
-  bg-[linear-gradient(162deg,#2D2D2D_0.9%,#060606_99.1%)] 
-  ${is_popular
-        ? "border-[4.991px]   border-[#B57CFF]"
-        : "  border-[4.991px]   border-white/20 "
+  return (
+    <div
+      className={`relative p-5 sm:p-6 rounded-2xl transition-all duration-300 flex flex-col h-full group bg-gradient-to-b from-[#242424] via-[#1A1A1A] to-[#121212] ${
+        is_popular
+          ? "border-2 border-[#AC6CFF] shadow-[0_0_25px_rgba(172,108,255,0.2)] scale-[1.01] z-10"
+          : "border border-white/10 hover:border-[#AC6CFF]/40 hover:bg-[#1D1D1D]"
       }`}
-  >
-    {is_popular && (
-      <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-        <span className="bg-[#AC6CFF] text-white text-[12px] font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-[0_0_20px_rgba(172,108,255,0.5)]">
-          Most Popular
-        </span>
-      </div>
-    )}
-
-    <div className="mb-8">
-      <h3 className="text-white text-sm sm:text-base md:text-lg lg:text-2xl font-orbitron font-bold uppercase tracking-[2px] mb-4">
-        {name}
-      </h3>
-      <div className="flex items-baseline gap-1">
-        <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-          ${price}
-        </span>
-        <span className="text-white/40 text-sm font-medium">/month</span>
-      </div>
-      <p className="text-white/40 text-sm mt-4 leading-relaxed">{subtitle}</p>
-    </div>
-    <CommonButton
-      as="button"
-      onClick={() => onGetStarted({ id, name, price, subtitle, features, is_popular, button_text })}
-      className={`w-full !py-4 text-center block ${is_popular ? "bg-bg-custom " : "!bg-white/10 "
-        }`}
     >
-      {button_text}
-    </CommonButton>
-    <div className="mt-8 p-4 flex-grow rounded-2xl bg-[rgba(40,40,40,0.70)]">
-      <p className="text-white text-sm sm:text-base md:text-lg  font-bold uppercase tracking-[2px] mb-4">
-        What's Included
-      </p>
-      <ul className="space-y-4">
-        {features?.map((feature, index) => (
-          <li key={index} className="flex items-start gap-3">
-            <div
-              className={`mt-0.5 p-0.5 rounded-full ${is_popular ? "bg-[#AC6CFF]/20 text-[#AC6CFF]" : "bg-white/10 text-white/80"}`}
-            >
-              <CheckIcon />
-            </div>
-            <span className="text-white/80 text-sm">{feature}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+      {is_popular && (
+        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
+          <span className="bg-gradient-to-r from-[#AC6CFF] to-[#8E37FF] text-white text-[10px] font-bold px-3.5 py-0.5 rounded-full uppercase tracking-wider shadow-md border border-purple-400/30 flex items-center gap-1">
+            <Sparkles size={11} />
+            Most Popular
+          </span>
+        </div>
+      )}
 
-    {/* Decorative glow for featured card */}
-    {is_popular && (
-      <div className="absolute -inset-1 bg-[#AC6CFF]/20 blur-[40px] -z-10 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    )}
-  </div>
-);
-
-// Skeleton card that mirrors the PricingCard layout
-const PricingCardSkeleton = () => (
-  <div className="relative md:p-8 p-6 rounded-[22px] sm:rounded-[30px] flex flex-col h-full bg-[linear-gradient(162deg,#2D2D2D_0.9%,#060606_99.1%)] border-[4.991px] border-white/10 animate-pulse">
-    {/* Title */}
-    <div className="mb-8">
-      <div className="h-6 w-36 bg-white/10 rounded-lg mb-4" />
-      {/* Price */}
-      <div className="flex items-baseline gap-2">
-        <div className="h-12 w-28 bg-white/10 rounded-lg" />
-        <div className="h-4 w-14 bg-white/5 rounded" />
+      {/* Title & Price Header */}
+      <div className="mb-4">
+        <h3 className="text-white text-base sm:text-lg font-orbitron font-bold uppercase tracking-[1.5px] mb-2 leading-snug">
+          {name}
+        </h3>
+        <div className="flex items-baseline justify-between gap-1 pb-2 border-b border-white/10">
+          <div className="flex items-baseline gap-1">
+            <span className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              ${price}
+            </span>
+            <span className="text-white/40 text-[11px] font-medium ml-0.5">
+              {subtitle?.toLowerCase().includes("month") ? "/month" : "/one-time"}
+            </span>
+          </div>
+          <span className="text-white/50 text-[10px] uppercase font-bold border border-white/10 px-2 py-0.5 rounded bg-white/5">
+            {subtitle?.toLowerCase().includes("month") ? "Subscription" : "One-time"}
+          </span>
+        </div>
+        <p className="text-white/50 text-xs mt-2 leading-relaxed min-h-[32px] line-clamp-2">
+          {subtitle}
+        </p>
       </div>
-      {/* Subtitle */}
-      <div className="h-4 w-full bg-white/5 rounded mt-4" />
+
+      {/* Action Button */}
+      <CommonButton
+        as="button"
+        onClick={() =>
+          onGetStarted({ id, name, price, subtitle, features: featureList, is_popular, button_text })
+        }
+        className={`w-full !py-3 text-center block text-xs font-bold uppercase tracking-wider rounded-xl ${
+          is_popular ? "bg-bg-custom shadow-[0_0_15px_rgba(172,108,255,0.25)]" : "!bg-white/10 hover:!bg-[#AC6CFF] hover:!text-black"
+        }`}
+      >
+        {button_text}
+      </CommonButton>
+
+      {/* Compact Features List */}
+      <div className="mt-4 p-3.5 flex-grow rounded-xl bg-white/[0.03] border border-white/5">
+        <p className="text-white/80 text-[11px] font-bold uppercase tracking-[1.5px] mb-2.5 flex items-center gap-1.5">
+          <Sparkles size={12} className="text-[#AC6CFF]" />
+          What's Included ({featureList.length})
+        </p>
+        <ul className="space-y-2">
+          {featureList.map((feature, index) => (
+            <li key={index} className="flex items-start gap-2.5 text-xs">
+              <div
+                className={`mt-0.5 p-0.5 rounded-full shrink-0 ${
+                  is_popular ? "bg-[#AC6CFF]/20 text-[#AC6CFF]" : "bg-emerald-500/15 text-emerald-400"
+                }`}
+              >
+                <CheckIcon />
+              </div>
+              <span className="text-white/75 leading-tight">{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Decorative glow for featured card */}
+      {is_popular && (
+        <div className="absolute -inset-1 bg-[#AC6CFF]/15 blur-[35px] -z-10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      )}
+    </div>
+  );
+};
+
+// Compact Skeleton Card
+const PricingCardSkeleton = () => (
+  <div className="relative p-5 sm:p-6 rounded-2xl flex flex-col h-full bg-[#1A1A1A] border border-white/10 animate-pulse">
+    <div className="mb-4">
+      <div className="h-5 w-32 bg-white/10 rounded-lg mb-2" />
+      <div className="flex items-baseline gap-2">
+        <div className="h-10 w-24 bg-white/10 rounded-lg" />
+        <div className="h-4 w-12 bg-white/5 rounded" />
+      </div>
+      <div className="h-3 w-full bg-white/5 rounded mt-3" />
     </div>
 
-    {/* Button */}
-    <div className="h-14 w-full bg-white/10 rounded-full" />
+    <div className="h-10 w-full bg-white/10 rounded-xl mb-4" />
 
-    {/* Features box */}
-    <div className="mt-8 p-4 flex-grow rounded-2xl bg-[rgba(40,40,40,0.70)]">
-      <div className="h-5 w-40 bg-white/10 rounded mb-4" />
-      <div className="space-y-4">
+    <div className="p-3.5 flex-grow rounded-xl bg-white/[0.03]">
+      <div className="h-4 w-32 bg-white/10 rounded mb-3" />
+      <div className="space-y-2.5">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="flex items-center gap-3">
-            <div className="w-5 h-5 rounded-full bg-white/10 shrink-0" />
-            <div
-              className="h-4 bg-white/5 rounded"
-              style={{ width: `${60 + i * 8}%` }}
-            />
+          <div key={i} className="flex items-center gap-2.5">
+            <div className="w-4 h-4 rounded-full bg-white/10 shrink-0" />
+            <div className="h-3 bg-white/5 rounded w-3/4" />
           </div>
         ))}
       </div>
@@ -216,7 +241,6 @@ const PricingSection = ({
   const [proposalModalOpen, setProposalModalOpen] = useState(false);
   const [activePlan, setActivePlan] = useState<any>(null);
 
-  // Find the full plan data (with services) by id
   const getFullPlan = (planId: any) =>
     (pricingPlansData || dummyPricingPlans).find(
       (p: any) => p.id === planId
@@ -227,11 +251,9 @@ const PricingSection = ({
     const services: any[] = fullPlan?.services ?? [];
 
     if (services.length > 1) {
-      // Multiple services → show modal
       setActivePlan(fullPlan);
       setModalOpen(true);
     } else {
-      // 0 or 1 service → go straight to checkout
       const encryptedPlanId = encryptId(plan.id);
       const serviceId = services[0]?.id;
       navigate(
@@ -254,27 +276,27 @@ const PricingSection = ({
     <>
       <section className="section-padding-x section-padding-y relative overflow-hidden">
         {/* Background Glows */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#AC6CFF]/10 blur-[120px] rounded-full -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#AC6CFF]/10 blur-[120px] rounded-full -z-10" />
 
-        <div className="flex flex-col items-center gap-4 font-inter max-w-4xl mx-auto text-center mb-16">
+        <div className="flex flex-col items-center gap-3 font-inter max-w-3xl mx-auto text-center mb-10 md:mb-12">
           <TagLines>Simple, Transparent Pricing</TagLines>
           <Title level="title48" className="text-white">
             Choose Your <GlowText>Growth Plan</GlowText>
           </Title>
-          <p className="text-base sm:text-lg text-white/60 max-w-2xl font-inter">
+          <p className="text-sm sm:text-base text-white/60 max-w-xl font-inter leading-relaxed">
             AI automation + human expertise. Pick the plan that matches your goals
             and scale your presence globally.
           </p>
           <button
             onClick={() => setProposalModalOpen(true)}
-            className="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-[#AC6CFF]/20 to-[#6C9AFF]/20 border border-[#AC6CFF]/50 text-white font-orbitron text-sm uppercase tracking-widest hover:bg-[#AC6CFF] hover:text-black transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(172,108,255,0.2)]"
+            className="mt-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#AC6CFF]/20 to-[#6C9AFF]/20 border border-[#AC6CFF]/50 text-white font-orbitron text-xs uppercase tracking-wider hover:bg-[#AC6CFF] hover:text-black transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(172,108,255,0.2)]"
           >
-            <Sparkles size={16} />
+            <Sparkles size={14} />
             Generate Custom AI Proposal
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xmd:grid-cols-3 gap-8 max-w-7xl mx-auto font-inter">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 max-w-7xl mx-auto font-inter">
           {isLoading
             ? [1, 2, 3].map((i) => <PricingCardSkeleton key={i} />)
             : (pricingPlansData || dummyPricingPlans).map(

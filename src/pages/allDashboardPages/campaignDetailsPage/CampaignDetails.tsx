@@ -35,7 +35,7 @@ const CampaignDetails = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <Loader2 className="w-10 h-10 text-[#AC6CFF] animate-spin" />
-        <p className="mt-4 text-gray-400 font-orbitron animate-pulse text-sm">Loading Details...</p>
+        <p className="mt-4 text-gray-400 font-inter animate-pulse text-sm">Loading Details...</p>
       </div>
     );
   }
@@ -92,7 +92,7 @@ const CampaignDetails = () => {
         {/* ── Header Card ── */}
         <div className="bg-[#1A1A1A] border border-white/5 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h2 className="text-xl font-orbitron font-bold text-white mb-1">{campaignName}</h2>
+            <h2 className="text-xl font-inter font-bold text-white mb-1">{campaignName}</h2>
             <p className="text-gray-500 text-xs font-mono">Booking ID: BKG-{booking.id}</p>
           </div>
           <div className="flex items-center gap-3 flex-wrap">
@@ -110,7 +110,7 @@ const CampaignDetails = () => {
 
           {/* Booking Info */}
           <div className="bg-[#1A1A1A] border border-white/5 rounded-2xl p-6">
-            <h3 className="text-xs font-orbitron font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-xs font-inter font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
               <Tag size={14} className="text-[#AC6CFF]" />
               Booking Info
             </h3>
@@ -136,7 +136,7 @@ const CampaignDetails = () => {
 
           {/* Timeline */}
           <div className="bg-[#1A1A1A] border border-white/5 rounded-2xl p-6">
-            <h3 className="text-xs font-orbitron font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-xs font-inter font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
               <CalendarDays size={14} className="text-[#AC6CFF]" />
               Timeline
             </h3>
@@ -160,7 +160,7 @@ const CampaignDetails = () => {
         {/* ── Campaign Details (dynamic key/value) ── */}
         {campaignDetails && Object.keys(campaignDetails).length > 0 && (
           <div className="bg-[#1A1A1A] border border-white/5 rounded-2xl p-6">
-            <h3 className="text-xs font-orbitron font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-xs font-inter font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
               <CreditCard size={14} className="text-[#AC6CFF]" />
               Campaign Details
             </h3>
@@ -179,7 +179,7 @@ const CampaignDetails = () => {
         {/* ── What's Included (from plan/service) ── */}
         {features.length > 0 && (
           <div className="bg-[#1A1A1A] border border-white/5 rounded-2xl p-6">
-            <h3 className="text-xs font-orbitron font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-xs font-inter font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
               <Layers size={14} className="text-[#AC6CFF]" />
               What's Included
             </h3>
